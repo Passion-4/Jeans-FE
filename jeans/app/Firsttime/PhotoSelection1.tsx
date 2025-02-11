@@ -8,7 +8,7 @@ export default function PhotoSelectionIntroScreen() {
   return (
       <View style={styles.container}>
         <Text style={styles.title}>선호하는 사진 선택</Text>
-        <Text style={styles.description}>선호하는 사진을 골라주세요요.</Text>
+        <Text style={styles.description}>선호하는 사진을 골라주세요.</Text>
   
         {/* 빈 사각형 영역 */}
         <View style={styles.emptyBox}></View>
@@ -16,7 +16,7 @@ export default function PhotoSelectionIntroScreen() {
         {/* 다음 버튼 - 사진 선택 완료 화면으로 이동 */}
         <TouchableOpacity 
           style={styles.nextButton} 
-          onPress={() => router.push('/Firsttime/PhotoSelection3')}>
+          onPress={() => router.push('/Firsttime/PhotoSelection2')}>
           <Text style={styles.nextText}>다음</Text>
         </TouchableOpacity>
       </View>
