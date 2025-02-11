@@ -13,7 +13,7 @@ export default function PhotoSelectionCompleteScreen() {
       {/* 완료 버튼 - 홈 화면 또는 다음 단계로 이동 */}
       <TouchableOpacity 
         style={styles.completeButton} 
-        onPress={() => router.push('/(tabs)/explore')}>
+        onPress={() => router.push('/Home/Mainpage')}>
         <Text style={styles.completeText}>완료</Text>
       </TouchableOpacity>
     </View>
