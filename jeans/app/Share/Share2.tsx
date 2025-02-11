@@ -3,11 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-
 export default function HomeUILayout() {
   const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
   const router = useRouter();
-
+  
   const toggleFriendSelection = (friendId: number) => {
     setSelectedFriends((prev: number[]) =>
       prev.includes(friendId)
@@ -32,23 +31,12 @@ export default function HomeUILayout() {
         <Text style={styles.title}>친구들에게 공유하기</Text>
       </View>
 
-      {/* 친구 버튼 목록 컨테이너 */}
-      <View style={styles.friendsWrapper}>
-        <View style={styles.friendsContainer}>
-          {[1, 2, 3, 4, 5, 6].map((friend: number) => (
-            <TouchableOpacity
-              key={friend}
-              style={[styles.friendButton, selectedFriends.includes(friend) && styles.selectedFriend]}
-              onPress={() => toggleFriendSelection(friend)}
-            >
-              <Text style={styles.friendText}>친구</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+      {/* 친구 목록 빈 공간 */}
+      <View style={styles.emptySpace}>
+            <Text style={styles.emptySpaceText}>사진</Text></View>
 
       {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Share/Share1')}>
+      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/(tabs)/explore')}>
         <Text style={styles.confirmText}>확인</Text>
       </TouchableOpacity>
 
@@ -99,35 +87,17 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
   },
-  friendsWrapper: {
-    alignItems: 'center',
-    backgroundColor: '#E0E0E0',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  friendsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  friendButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
+  emptySpace: {
+    flex: 1,
+    backgroundColor: '#DDDDDD',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 20,
+    marginBottom: 10,
   },
-  selectedFriend: {
-    borderWidth: 3,
-    borderColor: '#008DBF',
-  },
-  friendText: {
-    fontSize: 18,
+  emptySpaceText: {
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#333',
   },
   confirmButton: {
     width: '100%',
