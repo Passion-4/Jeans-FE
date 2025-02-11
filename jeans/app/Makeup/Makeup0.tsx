@@ -19,50 +19,43 @@ export default function PhotoSelectionScreen() {
       <Text style={styles.title}>보정하고 싶은 사진을 선택해주세요.</Text>
 
       {/* 버튼 컨테이너 */}
-      {/* 베스트컷 예정정 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-          style={styles.optionButton} 
-          
-        >
+        <TouchableOpacity style={styles.optionButton}>
           <Text style={styles.buttonText}>베스트 컷</Text>
         </TouchableOpacity>
-        {/* 보정 예정*/}
-        <TouchableOpacity 
-          style={styles.optionButton} 
-
-        >
+        <TouchableOpacity style={styles.optionButton}>
           <Text style={styles.buttonText}>보 정</Text>
         </TouchableOpacity>
       </View>
-    
-    {/* 하단 네비게이션 바 */}
-        <View style={styles.bottomNav}>
+
+      {/* 빈 공간 추가 (하단 네비게이션을 아래로 밀기 위함) */}
+      <View style={{ flex: 1 }} />
+
+      {/* 하단 네비게이션 바 */}
+      <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navText}>홈</Text>
+          <Text style={styles.navText}>홈</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.centerButton}>
-            <Ionicons name="mic" size={60} color="white" />
+          <Ionicons name="mic" size={60} color="white" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Makeup/Makeup0')}>
-            <Text style={styles.navText}>보정</Text>
+          <Text style={styles.navText}>보정</Text>
         </TouchableOpacity>
-        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, // 전체 화면을 채우도록 설정
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    justifyContent: 'center',
   },
   banner: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
+    marginTop: 50,
+    marginBottom: 20,
   },
   title: {
     fontSize: 25,
