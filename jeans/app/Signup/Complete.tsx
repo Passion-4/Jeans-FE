@@ -13,7 +13,7 @@ export default function CompleteSignupScreen() {
       {/* 홈 화면 또는 로그인 화면으로 이동 */}
       <TouchableOpacity 
         style={styles.signupButton} 
-        onPress={() => console.log('다음 버튼 클릭됨')}> {/* 홈 화면으로 이동 */}
+        onPress={() => router.push('/(tabs)/explore')}> {/* 홈 화면으로 이동 */}
         <Text style={styles.signupText}>홈으로</Text>
       </TouchableOpacity>
     </View>
