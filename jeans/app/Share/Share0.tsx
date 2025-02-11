@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function PhotoSelectionScreen() {
   const [selectedTab, setSelectedTab] = useState<'photo' | 'album'>('photo');
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -37,10 +39,10 @@ export default function PhotoSelectionScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* 사진 목록 공간 */}
-      <View style={styles.photoList}>
+      {/* 사진 목록 공간 (클릭 시 페이지 이동) */}
+      <TouchableOpacity style={styles.photoList} onPress={() => router.push('/Share/Share1')}>
         <Text style={styles.photoListText}>사진 목록</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -107,4 +109,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
