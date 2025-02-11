@@ -46,7 +46,7 @@ export default function HomeUILayout() {
         <TouchableOpacity style={styles.centerButton}>
           <Ionicons name="mic" size={60} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Makeup/Makeup0')}>
           <Text style={styles.navText}>보정</Text>
         </TouchableOpacity>
       </View>
