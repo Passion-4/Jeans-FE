@@ -23,7 +23,7 @@ export default function HomeUILayout() {
           <Text style={styles.title}>친구들 소식 확인</Text>
           <Text style={styles.description}>나의 최근 추억을 둘러보세요.</Text>
         </View>
-        <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share1')}>
+        <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
           <Text style={styles.shareText}>공유</Text>
         </TouchableOpacity>
       </View>
