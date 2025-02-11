@@ -28,7 +28,7 @@ export default function LoginScreen() {
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/Firsttime/PhotoSelection0')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/Set/PhotoSelection0')}>
         <Text style={styles.loginText}>로그인</Text>
       </TouchableOpacity>
 
