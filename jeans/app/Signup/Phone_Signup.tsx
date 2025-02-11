@@ -13,7 +13,7 @@ export default function PhoneInputScreen() {
       <TextInput 
         style={styles.input} 
         placeholder="010-0000-0000" 
-        keyboardType="phone-pad"
+        keyboardType="numeric"
       />
 
       {/* 다음 버튼 - ID 입력 화면으로 이동 */}
