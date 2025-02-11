@@ -21,10 +21,6 @@ export default function HomeUILayout() {
       {/* 상단 배너 */}
       <View style={styles.banner}>
         <Ionicons name="arrow-back" size={40} color="black" />
-        <View style={styles.headerIcons}>
-          <Ionicons name="search" size={40} color="black" style={styles.icon} />
-          <Ionicons name="settings-outline" size={40} color="black" style={styles.icon} />
-        </View>
       </View>
 
       {/* 타이틀 */}
