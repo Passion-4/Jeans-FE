@@ -25,11 +25,15 @@ export default function HomeUILayout() {
         </TouchableOpacity>
       </View>
       
-      {/* 빈 공간 */}
-      <View style={styles.emptySpace1}></View>
-
-      {/* 빈 공간 */}
-      <View style={styles.emptySpace2}></View>
+      {/* 친구 목록 빈 공간 */}
+      <View style={styles.emptySpace1}>
+        <Text style={styles.emptySpaceText}>친구 목록</Text>
+      </View>
+      
+      {/* 공유된 사진 빈 공간 */}
+      <View style={styles.emptySpace2}>
+        <Text style={styles.emptySpaceText}>공유된 사진</Text>
+      </View>
       
       {/* 하단 네비게이션 바 */}
       <View style={styles.bottomNav}>
@@ -96,10 +100,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   emptySpace1: {
-    flex: 1,
+    flex: 0.2,
+    backgroundColor: '#DDDDDD',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   emptySpace2: {
     flex: 1,
+    backgroundColor: '#DDDDDD',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  emptySpaceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
   bottomNav: {
     flexDirection: 'row',
@@ -120,7 +137,7 @@ const styles = StyleSheet.create({
   },
   centerButton: {
     width: 100,
-    height: 100,
+    height: 80,
     backgroundColor: '#008DBF',
     borderRadius: 50,
     justifyContent: 'center',
