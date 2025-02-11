@@ -14,7 +14,7 @@ export default function PhotoSelectionIntroScreen() {
       {/* 다음 버튼 - 첫 번째 사진 선택 화면으로 이동 */}
       <TouchableOpacity 
         style={styles.nextButton} 
-        onPress={() => router.push('/Firsttime/PhotoSelection1')}>
+        onPress={() => router.push('/Set/PhotoSelection1')}>
         <Text style={styles.nextText}>다음</Text>
       </TouchableOpacity>
     </View>

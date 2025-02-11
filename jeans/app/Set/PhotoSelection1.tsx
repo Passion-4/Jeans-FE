@@ -12,7 +12,7 @@ export default function PhotoSelectionIntroScreen() {
 
   const handleConfirmSelection = () => {
     if (selectedBox !== null) {
-      router.push('/Firsttime/PhotoSelection3');
+      router.push('/Set/PhotoSelection2');
     }
   };
 
