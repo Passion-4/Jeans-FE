@@ -28,7 +28,7 @@ export default function HomeUILayout() {
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>친구들에게 공유하기</Text>
+        <Text style={styles.title}>사진과 함께 첨부할 메세지를 녹음하세요</Text>
       </View>
 
       {/* 친구 목록 빈 공간 */}
