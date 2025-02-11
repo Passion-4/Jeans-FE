@@ -13,6 +13,9 @@ export default function PhotoSelection2Screen() {
       {/* 빈 사각형 영역 */}
       <View style={styles.emptyBox}></View>
 
+      {/* 빈 사각형 영역 */}
+      <View style={styles.emptyBox}></View>
+
       {/* 다음 버튼 - 사진 선택 완료 화면으로 이동 */}
       <TouchableOpacity 
         style={styles.nextButton} 
