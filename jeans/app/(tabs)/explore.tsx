@@ -1,109 +1,112 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+export default function LoginScreen() {
+  const router = useRouter();
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
+    <View style={styles.container}>
+      {/* Title */}
+      <Text style={styles.title}>환영합니다!</Text>
+
+      {/* Input Fields */}
+      <Text style={styles.label}>아이디</Text>
+      <TextInput style={styles.input} placeholder="아이디를 입력하세요." />
+
+      <Text style={styles.label}>비밀번호</Text>
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="비밀번호를 입력하세요."
+          secureTextEntry={!passwordVisible}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
+          <Text>{passwordVisible ? '👁️' : '🙈'}</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Login Button */}
+      <TouchableOpacity style={styles.loginButton}>
+        <Text style={styles.loginText}>로그인</Text>
+      </TouchableOpacity>
+
+      {/* Links */}
+      <Text style={styles.forgotPassword}>아이디와 비밀번호를 잊으셨나요?</Text>
+
+      {/* 회원가입 버튼 (Start_Signup.tsx로 이동) */}
+      <TouchableOpacity onPress={() => router.push('/Signup/Start_Signup')}>
+        <Text style={styles.signup}>회원가입</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  titleContainer: {
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  label: {
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 7,
+  },
+  input: {
+    width: '100%',
+    height: 50,
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#F8F8F8',
+    marginTop: 5,
+  },
+  passwordContainer: {
+    width: '100%',
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+  },
+  loginButton: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#008DBF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  loginText: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  forgotPassword: {
+    color: '#888888',
+    fontSize: 17,
+    marginTop: 17,
+    marginBottom: 10,
+  },
+  signup: {
+    color: '#008DBF',
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginTop: 5,
   },
 });

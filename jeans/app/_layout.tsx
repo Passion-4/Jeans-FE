@@ -30,9 +30,17 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+  {/* 회원가입 페이지 추가 */}
+  <Stack.Screen name="Signup/Start_Signup" options={{ title: '회원가입', headerShown: true }} />
+
+  {/* 생년월일 입력 화면 추가 */}
+  <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: true }} />
+
+  <Stack.Screen name="+not-found" />
+</Stack>
+
       <StatusBar style="auto" />
     </ThemeProvider>
   );
