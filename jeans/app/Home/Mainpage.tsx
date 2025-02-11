@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+
 
 export default function HomeUILayout() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       {/* 상단 배너 */}
@@ -20,7 +23,7 @@ export default function HomeUILayout() {
           <Text style={styles.title}>친구들 소식 확인</Text>
           <Text style={styles.description}>나의 최근 추억을 둘러보세요.</Text>
         </View>
-        <TouchableOpacity style={styles.shareButton}>
+        <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share1')}>
           <Text style={styles.shareText}>공유</Text>
         </TouchableOpacity>
       </View>
