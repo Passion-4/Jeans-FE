@@ -36,7 +36,7 @@ export default function HomeUILayout() {
             <Text style={styles.emptySpaceText}>사진</Text></View>
 
       {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/(tabs)/explore')}>
+      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Home/Mainpage')}>
         <Text style={styles.confirmText}>확인</Text>
       </TouchableOpacity>
 
