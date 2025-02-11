@@ -7,10 +7,8 @@ export default function PhotoSelectionIntroScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>사진 선택 안내</Text>
       <Text style={styles.description}>
-        지금부터 화면에 보이는 두 개의 사진 중
-        마음에 드는 사진을 클릭하세요.
+        <Text style={styles.strongText}>지금부터 화면에 보이는 두 개의 사진 중 마음에 드는 사진을 골라주세요.</Text>
       </Text>
 
       {/* 다음 버튼 - 첫 번째 사진 선택 화면으로 이동 */}
@@ -31,15 +29,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   description: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
     marginBottom: 40,
+    lineHeight: 30,
+  },
+  strongText: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   nextButton: {
     width: '100%',
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
   },
   nextText: {
     color: '#FFFFFF',
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
