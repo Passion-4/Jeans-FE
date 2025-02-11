@@ -38,6 +38,21 @@ export default function RootLayout() {
   {/* 생년월일 입력 화면 추가 */}
   <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: true }} />
 
+  {/* 전화번호호 입력 화면 추가 */}
+  <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: true }} />
+
+  {/* 아이디 입력 화면 추가 */}
+  <Stack.Screen name="Signup/ID_Signup" options={{ title: '회원가입 - 아이디', headerShown: true }} />
+
+  {/* 비밀번호 입력 화면 추가 */}
+  <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: true }} />
+
+  {/* 개인정보 확인 화면 추가 */}
+  <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: true }} />
+
+  {/* 생년월일 입력 화면 추가 */}
+  <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: true }} />
+  
   <Stack.Screen name="+not-found" />
 </Stack>
 

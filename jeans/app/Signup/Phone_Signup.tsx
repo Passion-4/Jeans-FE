@@ -19,7 +19,7 @@ export default function PhoneInputScreen() {
       {/* 다음 버튼 - ID 입력 화면으로 이동 */}
       <TouchableOpacity 
         style={styles.signupButton} 
-        onPress={() => router.push('/Signup/need')}>
+        onPress={() => router.push('/Signup/ID_Signup')}>
         <Text style={styles.signupText}>다음</Text>
       </TouchableOpacity>
     </View>
