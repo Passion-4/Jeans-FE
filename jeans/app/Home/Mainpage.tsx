@@ -1,60 +1,47 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import { useRouter } from 'expo-router';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function HomeScreen() {
-  const router = useRouter();
-
-  const friends = [
-    { id: '1', image: 'https://via.placeholder.com/60' },
-    { id: '2', image: 'https://via.placeholder.com/60' },
-    { id: '3', image: 'https://via.placeholder.com/60' },
-    { id: '4', image: 'https://via.placeholder.com/60' },
-    { id: '5', image: 'https://via.placeholder.com/60' },
-  ];
-
+export default function HomeUILayout() {
   return (
     <View style={styles.container}>
-      {/* 상단 바 */}
-      <View style={styles.header}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-        <Text style={styles.title}>친구들 소식 확인</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.shareButton}>
-            <Text style={styles.shareText}>공유</Text>
-          </TouchableOpacity>
-          <Ionicons name="settings-outline" size={24} color="black" />
+      {/* 상단 배너 */}
+      <View style={styles.banner}>
+        <Ionicons name="arrow-back" size={40} color="black" />
+        <View style={styles.headerIcons}>
+          <Ionicons name="search" size={40} color="black" style={styles.icon} />
+          <Ionicons name="settings-outline" size={40} color="black" style={styles.icon} />
         </View>
       </View>
-
-      {/* 서브 텍스트 */}
-      <Text style={styles.subtitle}>나의 최근 추억을 둘러보세요.</Text>
-
-      {/* 친구들 프로필 스크롤 */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.friendsList}>
-        {friends.map(friend => (
-          <Image key={friend.id} source={{ uri: friend.image }} style={styles.friendImage} />
-        ))}
-      </ScrollView>
-
-      {/* 이미지 격자 레이아웃 */}
-      <View style={styles.imageGrid}>
-        <Image source={{ uri: 'https://via.placeholder.com/200' }} style={styles.mainImage} />
-        <View style={styles.sideImages}>
-          <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.sideImage} />
-          <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.sideImage} />
+      
+      {/* 타이틀 및 공유 버튼 컨테이너 */}
+      <View style={styles.titleContainer}>
+        <View>
+          <Text style={styles.title}>친구들 소식 확인</Text>
+          <Text style={styles.description}>나의 최근 추억을 둘러보세요.</Text>
         </View>
-        <Image source={{ uri: 'https://via.placeholder.com/200' }} style={styles.largeImage} />
+        <TouchableOpacity style={styles.shareButton}>
+          <Text style={styles.shareText}>공유</Text>
+        </TouchableOpacity>
       </View>
+      
+      {/* 빈 공간 */}
+      <View style={styles.emptySpace1}></View>
 
+      {/* 빈 공간 */}
+      <View style={styles.emptySpace2}></View>
+      
       {/* 하단 네비게이션 바 */}
       <View style={styles.bottomNav}>
-        <Text style={styles.navText}>홈</Text>
-        <TouchableOpacity style={styles.centerButton}>
-          <Ionicons name="add" size={30} color="white" />
+        <TouchableOpacity style={styles.navButton}>
+          <Text style={styles.navText}>홈</Text>
         </TouchableOpacity>
-        <Text style={styles.navText}>보정</Text>
+        <TouchableOpacity style={styles.centerButton}>
+          <Ionicons name="mic" size={60} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Text style={styles.navText}>보정</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -64,73 +51,55 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: 0,
+    paddingHorizontal: 15,
+    justifyContent: 'space-between',
   },
-  header: {
+  banner: {
+    width: '100%',
+    height: 100,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 15,
+  },
+  headerIcons: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: 20,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
   },
   title: {
-    fontSize: 22,
+    fontSize: 30,
     fontWeight: 'bold',
   },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  description: {
+    fontSize: 20,
+    color: '#555',
+    marginTop: 5,
   },
   shareButton: {
     backgroundColor: '#008DBF',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 50,
     borderRadius: 5,
-    marginRight: 10,
   },
   shareText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 20,
   },
-  subtitle: {
-    fontSize: 16,
-    marginTop: 10,
-    marginBottom: 20,
+  emptySpace1: {
+    flex: 1,
   },
-  friendsList: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  friendImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 10,
-  },
-  imageGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  mainImage: {
-    width: '65%',
-    height: 150,
-    borderRadius: 10,
-  },
-  sideImages: {
-    width: '30%',
-    justifyContent: 'space-between',
-  },
-  sideImage: {
-    width: '100%',
-    height: 70,
-    borderRadius: 10,
-  },
-  largeImage: {
-    width: '100%',
-    height: 150,
-    borderRadius: 10,
-    marginTop: 10,
+  emptySpace2: {
+    flex: 1,
   },
   bottomNav: {
     flexDirection: 'row',
@@ -140,15 +109,20 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#E0E0E0',
   },
+  navButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
   navText: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   centerButton: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     backgroundColor: '#008DBF',
-    borderRadius: 25,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },
