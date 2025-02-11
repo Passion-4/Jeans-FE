@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function BirthInputScreen() {
+export default function PhoneInputScreen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>회원가입</Text>
 
-      <Text style={styles.label}>생년월일</Text>
-      <TextInput style={styles.input} placeholder="YYYY-MM-DD 형식으로 입력하세요." keyboardType="numeric" />
+      <Text style={styles.label}>전화번호</Text>
+      <TextInput 
+        style={styles.input} 
+        placeholder="010-0000-0000" 
+        keyboardType="phone-pad"
+      />
 
-      {/* 다음 버튼 (추후 다음 단계로 이동 가능) */}
-      <TouchableOpacity style={styles.signupButton} onPress={() => console.log('/Signup/Phone_Signup')}>
+      {/* 다음 버튼 - ID 입력 화면으로 이동 */}
+      <TouchableOpacity 
+        style={styles.signupButton} 
+        onPress={() => router.push('/Signup/need')}>
         <Text style={styles.signupText}>다음</Text>
       </TouchableOpacity>
     </View>
