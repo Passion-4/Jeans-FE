@@ -33,7 +33,7 @@ export default function PhoneInputScreen() {
       <Text style={styles.label}>전화번호</Text>
       <TextInput
         style={styles.input}
-        placeholder="010-1234-5678 형태로 입력해주세요."
+        placeholder="01012345678 형태로 입력해주세요."
         keyboardType="numeric"
         value={phone}
         onChangeText={(text) => setPhone(formatPhoneNumber(text))}

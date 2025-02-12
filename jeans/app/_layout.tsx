@@ -45,17 +45,28 @@ export default function RootLayout() {
 {/* 아이디/비밀번호 찾기 화면 추가 */}
 <Stack.Screen name="FindAccount/Find_Account" options={{ title: '아이디/비밀번호 찾기', headerShown: false}} />
 
-  {/* 회원가입 관련련 페이지 */}
+  {/* 회원가입 관련 페이지 */}
   <Stack.Screen name="Signup/Start_Signup" options={{ title: '회원가입', headerShown: false }} />
   <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: false }} />
   <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
-  <Stack.Screen name="Signup/ID_Signup" options={{ title: '회원가입 - 아이디', headerShown: false }} />
   <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
   <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
   <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: true }} />
   
-  {/* not found */}
-  <Stack.Screen name="+not-found" />
+{/* 사진 선택 (기본 보정) 페이지 */}
+<Stack.Screen name="Set/PhotoSelection0" options={{ title: '사진 선택 - 0', headerShown: false}} />
+<Stack.Screen name="Set/PhotoSelection1" options={{ title: '사진 선택 - 1', headerShown: false}} />
+<Stack.Screen name="Set/PhotoSelection2" options={{ title: '사진 선택 - 2', headerShown: false}} />
+
+{/* 메인 페이지 */}
+<Stack.Screen name="Home/Mainpage" options={{ title: '메인 페이지', headerShown: false}} />
+
+{/* 마이 페이지*/}
+<Stack.Screen name="MyPage/MyPage" options={{ title: '마이 페이지 - 첫 화면', headerShown: false}} />
+
+
+{/* not found */}
+<Stack.Screen name="+not-found" />
 
 </Stack>
 

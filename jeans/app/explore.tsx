@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 20,
     fontFamily: 'Bold',
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#F8F8F8',
     marginTop: 5,
+    fontFamily:'Light'
   },
   passwordContainer: {
     width: '100%',

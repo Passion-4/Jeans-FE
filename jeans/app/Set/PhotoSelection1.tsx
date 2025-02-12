@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
 export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
   const [selectedBox, setSelectedBox] = useState<number | null>(null);
+
+  // 사진 경로 배열
+  const photoSources = [
+    require('../../assets/images/selec1.jpg'),
+    require('../../assets/images/selec2.jpg'),
+  ];
 
   const handlePhotoSelect = (boxNumber: number) => {
     setSelectedBox(boxNumber);
@@ -19,16 +25,17 @@ export default function PhotoSelectionIntroScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>선호하는 사진 선택</Text>
-      <Text style={styles.description}>선호하는 사진을 골라주세요.</Text>
+      <Text style={styles.description}>더 예뻐보이는 사진을 골라주세요.</Text>
 
-      {/* 빈 사각형 영역 */}
-      <TouchableOpacity onPress={() => handlePhotoSelect(1)}>
-        <View style={[styles.emptyBox, selectedBox === 1 && styles.selected]}></View>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => handlePhotoSelect(2)}>
-        <View style={[styles.emptyBox, selectedBox === 2 && styles.selected]}></View>
-      </TouchableOpacity>
+      {/* 사진 선택 영역 */}
+      {photoSources.map((source, index) => (
+        <TouchableOpacity key={index} onPress={() => handlePhotoSelect(index)}>
+          <Image
+            source={source}
+            style={[styles.photo, selectedBox === index && styles.selected]}
+          />
+        </TouchableOpacity>
+      ))}
 
       {/* 확인 버튼 - 사진 선택 시만 표시 */}
       {selectedBox !== null && (
@@ -49,26 +56,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 35,
     marginBottom: 20,
+    fontFamily: 'Bold',
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
     marginBottom: 20,
+    fontFamily: 'Medium',
   },
-  emptyBox: {
-    width: 200,
+  photo: {
+    width: 300,
     height: 200,
-    backgroundColor: '#DDDDDD',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 10,
     marginBottom: 20,
   },
   selected: {
-    borderWidth: 5,
-    borderColor: '#008DBF',
+    borderWidth: 8,
+    borderColor: 'rgba(255, 183, 6, 0.6)'
   },
   confirmButton: {
     width: '100%',
@@ -82,6 +88,6 @@ const styles = StyleSheet.create({
   confirmText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily: 'Medium',
   },
 });

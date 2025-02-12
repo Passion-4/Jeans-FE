@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
 
 export default function PhotoSelectionCompleteScreen() {
   const router = useRouter();
+  const [animationFinished, setAnimationFinished] = useState(false);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>사진 선택이 완료되었습니다!</Text>
-      <Text style={styles.checkmark}>✅</Text>
+      
+      {/* Lottie 애니메이션 - 크기 고정 및 사라지지 않도록 수정 */}
+      <LottieView 
+        source={require('../../assets/animations/Animation - 1739343498719.json')} 
+        autoPlay
+        loop={false} // 반복 X
+        style={styles.lottie}
+        onAnimationFinish={() => setAnimationFinished(true)} // 애니메이션 끝나도 유지
+      />
 
-      {/* 완료 버튼 - 홈 화면 또는 다음 단계로 이동 */}
+      {/* 완료 버튼 */}
       <TouchableOpacity 
         style={styles.completeButton} 
         onPress={() => router.push('/Home/Mainpage')}>
@@ -29,14 +39,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 30,
     marginBottom: 20,
     textAlign: 'center',
+    fontFamily: 'Bold',
   },
-  checkmark: {
-    fontSize: 50,
-    marginBottom: 40,
+  lottie: {
+    width: 90,  
+    height: 90, 
+    marginBottom: 20,
   },
   completeButton: {
     width: '100%',
@@ -50,6 +61,6 @@ const styles = StyleSheet.create({
   completeText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily: 'Medium',
   },
 });

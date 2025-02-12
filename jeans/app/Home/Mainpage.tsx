@@ -10,10 +10,12 @@ export default function HomeUILayout() {
     <View style={styles.container}>
       {/* 상단 배너 */}
       <View style={styles.banner}>
-        <Ionicons name="arrow-back" size={40} color="black" />
         <View style={styles.headerIcons}>
-          <Ionicons name="search" size={40} color="black" style={styles.icon} />
-          <Ionicons name="settings-outline" size={40} color="black" style={styles.icon} />
+          <Ionicons name="search" size={30} color="black" style={styles.icon} />
+          {/* ✅ 터치 가능한 설정 아이콘 추가 */}
+          <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+            <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
+          </TouchableOpacity>
         </View>
       </View>
       
@@ -54,6 +56,7 @@ export default function HomeUILayout() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -64,11 +67,12 @@ const styles = StyleSheet.create({
   },
   banner: {
     width: '100%',
-    height: 100,
+    height: 70,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingHorizontal: 15,
+    marginTop:30
   },
   headerIcons: {
     flexDirection: 'row',
@@ -84,7 +88,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontFamily:'Bold'
   },
   description: {
     fontSize: 20,
@@ -93,13 +97,13 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    paddingHorizontal: 50,
+    paddingVertical: 13,
+    paddingHorizontal: 30,
     borderRadius: 5,
   },
   shareText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     fontSize: 20,
   },
   emptySpace1: {
@@ -125,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 15,
+    paddingVertical: 10,
     borderTopWidth: 1,
     borderColor: '#E0E0E0',
   },
@@ -135,8 +139,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   navText: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 25,
+    fontFamily:'Bold'
   },
   centerButton: {
     width: 100,
