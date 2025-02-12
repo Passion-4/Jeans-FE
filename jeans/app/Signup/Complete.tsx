@@ -13,8 +13,8 @@ export default function CompleteSignupScreen() {
       {/* 홈 화면 또는 로그인 화면으로 이동 */}
       <TouchableOpacity 
         style={styles.signupButton} 
-        onPress={() => router.push('/(tabs)/explore')}> {/* 홈 화면으로 이동 */}
-        <Text style={styles.signupText}>홈으로</Text>
+        onPress={() => router.push('/explore')}> {/* 홈 화면으로 이동 */}
+        <Text style={styles.signupText}>로그인 하러 가기</Text>
       </TouchableOpacity>
     </View>
   );
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
 });

@@ -19,6 +19,10 @@ export default function PasswordSignupScreen() {
         value={password}
         onChangeText={setPassword}
       />
+      {/* 안내 문구 추가 */}
+            <Text style={styles.infoText}> * 비밀번호 생성 시 영어와 {'\n'} 숫자를 반드시 포함해주세요.</Text>
+            
+      
 
       <Text style={styles.label}>비밀번호 확인</Text>
       <TextInput 
@@ -47,18 +51,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+  infoText: {
+    fontSize: 17,
+    color: '#F18308',
+    fontFamily: 'Medium',
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+  },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
     marginBottom: 60,
+    fontFamily:'Bold'
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
-    fontWeight: 'bold',
+    fontSize: 20,
     marginTop: 10,
     marginBottom: 7,
+    fontFamily:'Medium'
   },
   input: {
     width: '100%',
@@ -69,6 +81,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#F8F8F8',
     marginTop: 5,
+    fontFamily:'Light',
+    fontSize:17
   },
   signupButton: {
     width: '100%',
@@ -84,5 +98,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 17,
     fontWeight: 'bold',
+    fontFamily:'Medium',
+
   },
 });

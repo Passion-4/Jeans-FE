@@ -47,16 +47,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
     marginBottom: 40,
+    fontFamily:'Bold'
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
-    fontWeight: 'bold',
+    fontSize: 20,
     marginBottom: 15,
+    fontFamily:'Medium'
   },
   switchContainer: {
     flexDirection: 'row',
@@ -78,6 +78,6 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
 });

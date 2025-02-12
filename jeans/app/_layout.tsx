@@ -14,7 +14,11 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Bold: require('../assets/fonts/Pretendard-Bold.ttf'),
+    ExtraLight: require('../assets/fonts/Pretendard-ExtraLight.ttf'),
+    ExtraBold: require('../assets/fonts/Pretendard-ExtraBold.ttf'),
+    Light: require('../assets/fonts/Pretendard-Light.ttf'),
+    Medium: require('../assets/fonts/Pretendard-Medium.ttf')
   });
 
   useEffect(() => {
@@ -30,30 +34,29 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+  {/*<Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
 
-  {/* 회원가입 페이지 추가 */}
-  <Stack.Screen name="Signup/Start_Signup" options={{ title: '회원가입', headerShown: true }} />
+  {/* 앱 시작 시 첫 화면 */}
+  <Stack.Screen name="index" options={{ headerShown: false }} />
 
-  {/* 생년월일 입력 화면 추가 */}
-  <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: true }} />
+{/* 로그인 화면 */}
+<Stack.Screen name="explore" options={{ headerShown: false }} />
 
-  {/* 전화번호호 입력 화면 추가 */}
-  <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: true }} />
+{/* 아이디/비밀번호 찾기 화면 추가 */}
+<Stack.Screen name="FindAccount/Find_Account" options={{ title: '아이디/비밀번호 찾기', headerShown: false}} />
 
-  {/* 아이디 입력 화면 추가 */}
-  <Stack.Screen name="Signup/ID_Signup" options={{ title: '회원가입 - 아이디', headerShown: true }} />
-
-  {/* 비밀번호 입력 화면 추가 */}
-  <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: true }} />
-
-  {/* 개인정보 확인 화면 추가 */}
-  <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: true }} />
-
-  {/* 생년월일 입력 화면 추가 */}
+  {/* 회원가입 관련련 페이지 */}
+  <Stack.Screen name="Signup/Start_Signup" options={{ title: '회원가입', headerShown: false }} />
+  <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: false }} />
+  <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
+  <Stack.Screen name="Signup/ID_Signup" options={{ title: '회원가입 - 아이디', headerShown: false }} />
+  <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
+  <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
   <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: true }} />
   
+  {/* not found */}
   <Stack.Screen name="+not-found" />
+
 </Stack>
 
       <StatusBar style="auto" />

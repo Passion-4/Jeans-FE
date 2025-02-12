@@ -10,7 +10,7 @@ export default function BirthInputScreen() {
       <Text style={styles.title}>회원가입</Text>
 
       <Text style={styles.label}>생년월일</Text>
-      <TextInput style={styles.input} placeholder="YYYY-MM-DD 형식으로 입력하세요." keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="주민 등록 번호 앞자리" keyboardType="numeric" />
 
       {/* 다음 버튼 (추후 다음 단계로 이동 가능) */}
       <TouchableOpacity style={styles.signupButton} onPress={() => router.push('/Signup/Phone_Signup')}>
@@ -29,17 +29,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
     marginBottom: 60,
+    fontFamily:'Bold'
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
-    fontWeight: 'bold',
+    fontSize: 20,
     marginTop: 10,
     marginBottom: 7,
+    fontFamily:'Medium'
   },
   input: {
     width: '100%',
@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#F8F8F8',
     marginTop: 5,
+    fontSize:17,
+    fontFamily:'Light'
   },
   signupButton: {
     width: '100%',
@@ -64,6 +66,6 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
 });

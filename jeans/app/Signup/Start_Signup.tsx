@@ -31,17 +31,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 60,
+    fontFamily :'Bold'
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
-    fontWeight: 'bold',
+    fontSize: 20,
     marginTop: 10,
     marginBottom: 7,
+    fontFamily:'Medium'
   },
   input: {
     width: '100%',
@@ -52,6 +53,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#F8F8F8',
     marginTop: 5,
+    fontFamily:'Light',
+    fontSize:17
   },
   signupButton: {
     width: '100%',
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#FFFFFF',
     fontSize: 17,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
   backToLogin: {
     color: '#888888',
