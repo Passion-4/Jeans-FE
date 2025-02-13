@@ -44,7 +44,7 @@ export default function HomeUILayout() {
       </View>
 
       {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Share/Share2')}>
+      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Share/Share1')}>
         <Text style={styles.confirmText}>확인</Text>
       </TouchableOpacity>
 
