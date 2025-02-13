@@ -29,13 +29,7 @@ export default function HomeUILayout() {
     if (selectedFriends.length === 1) {
       router.push('/Share/Share_complete');
     } else if (selectedFriends.length > 1) {
-      // 그룹이 있는지 확인하는 로직 추가 필요
-      const hasGroup = false; // 그룹 여부를 확인하는 가상의 로직
-      if (hasGroup) {
-        router.push('/Share/Share_checkgroup');
-      } else {
-        router.push('/Share/Share_makegroup');
-      }
+      router.push('/Share/Share2');
     }
   };
 
@@ -149,4 +143,3 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-
