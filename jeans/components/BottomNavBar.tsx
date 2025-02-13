@@ -8,7 +8,7 @@ export default function BottomNavBar() {
 
   return (
     <View style={styles.bottomNav}>
-      <TouchableOpacity style={styles.navButton}>
+      <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Home/Mainpage')}>
         <Text style={styles.navText}>친구 소식</Text>
       </TouchableOpacity>
 

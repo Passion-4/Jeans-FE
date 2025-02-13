@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 30,
-    marginTop:120
+    marginTop:140
   },
   title: {
     fontSize: 30,
