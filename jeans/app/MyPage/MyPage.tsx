@@ -15,7 +15,7 @@ export default function MyPageScreen() {
       {/* 프로필 섹션 */}
       <View style={styles.profileContainer}>
         <Image source={require('../../assets/images/icon.png')} style={styles.profileImage} />
-        <TouchableOpacity style={styles.editIcon}>
+        <TouchableOpacity style={styles.editIcon} onPress={() => router.push('/MyPage/Profile')}>
           <Ionicons name="pencil" size={18} color="white" />
         </TouchableOpacity>
         <Text style={styles.userName}>김덕배</Text>
@@ -24,7 +24,7 @@ export default function MyPageScreen() {
 
       {/* 설정 목록 */}
       <View style={styles.settingContainer}>
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Profile')}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/EditInfo')}>
           <Text style={styles.settingText}>내 정보 수정하기(마이페이지)</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
@@ -34,12 +34,12 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Profile')}>
           <Text style={styles.settingText}>글씨 크기 조정</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Manual')}>
           <Text style={styles.settingText}>자세한 사용 방법 보기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
@@ -49,7 +49,7 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Quit')}>
           <Text style={styles.settingText}>탈퇴하기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
