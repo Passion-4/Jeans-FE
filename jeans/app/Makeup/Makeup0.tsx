@@ -1,3 +1,8 @@
+
+
+
+
+
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,7 +22,7 @@ export default function PhotoSelectionScreen() {
 
       {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/BestCut0')}>
           <Text style={styles.buttonText}>나의 베스트 컷 찾기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
@@ -45,9 +50,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontFamily:'Bold',
-    textAlign: 'left',
+    textAlign: 'center',
     marginBottom: 50,
     marginTop:100
   },

@@ -12,7 +12,6 @@ export default function HomeUILayout() {
     <View style={styles.container}>
       <TopNavBar/>
       
-      
       {/* 타이틀 및 공유 버튼 컨테이너 */}
       <View style={styles.titleContainer}>
         <View>
