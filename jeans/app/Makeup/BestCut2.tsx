@@ -1,54 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
+
+// 네비게이션 바 가져오기
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
-export default function PhotoSelectionScreen() {
+export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
+  const [selectedBox, setSelectedBox] = useState<number | null>(null);
 
-  // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
-  const pickImages = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // 이미지 선택
-      allowsMultipleSelection: true, // 여러 개 선택 가능
-      selectionLimit: 5, // 최대 선택 개수
-      quality: 1, // 원본 화질 유지
-    });
+  // 사진 경로 배열
+  const photoSources = [
+    require('../../assets/images/image 16.png'),
+    require('../../assets/images/image 17.png'),
+    require('../../assets/images/image 18.png'),
+    require('../../assets/images/image 19.png'),
+  ];
 
-    if (!result.canceled && result.assets) {
-      const imageUris = result.assets.map((asset) => asset.uri);
+  const handlePhotoSelect = (boxNumber: number) => {
+    setSelectedBox(boxNumber);
+  };
 
-      // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
-      router.push({
-        pathname: '/Makeup/BestCut1',
-        params: { images: JSON.stringify(imageUris) },
-      });
+  const handleConfirmSelection = () => {
+    if (selectedBox !== null) {
+      router.push('/Set/PhotoSelection2');
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* 상단 네비게이션 바 */}
       <TopNavBar />
 
-      {/* 타이틀 */}
-      <Text style={styles.title}>단체 사진 여러 개를 {'\n'}선택해주세요.</Text>
+      <Text style={styles.title}>마음에 드는 얼굴을 {'\n'}하나만 선택해주세요.</Text>
 
-      {/* 로컬 이미지 추가 */}
-      <Image 
-        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
-        style={styles.image}
-        resizeMode="contain"
-      />
-
-      {/* 갤러리 열기 버튼 */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.optionButton} onPress={pickImages}>
-          <Text style={styles.buttonText}>갤러리에서 사진 선택</Text>
-        </TouchableOpacity>
+      {/* 2x2 사진 정렬 */}
+      <View style={styles.photoGrid}>
+        {photoSources.map((source, index) => (
+          <TouchableOpacity key={index} onPress={() => handlePhotoSelect(index)}>
+            <Image
+              source={source}
+              style={[styles.photo, selectedBox === index && styles.selected]}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
 
+      {/* 확인 버튼 - 사진 선택 시만 표시 */}
+      {selectedBox !== null && (
+        <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmSelection}>
+          <Text style={styles.confirmText}>확인</Text>
+        </TouchableOpacity>
+      )}
+
+      {/* 하단 네비게이션 바 */}
       <BottomNavBar />
     </View>
   );
@@ -58,38 +64,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가
-    marginTop: 100,
+    marginTop: 30,
   },
-  image: {
-    width: 200, // 이미지 크기 조정
-    height: 200,
-    marginBottom: 30, // 버튼과의 간격 추가
+  photoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', // 자동 줄 바꿈
+    justifyContent: 'center',
+    gap: 20, // 사진 간 간격 조정
   },
-  buttonContainer: {
-    alignItems: 'center',
-    marginBottom: 120,
-    width: 200,
-  },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 20,
-    backgroundColor: '#008DBF',
+  photo: {
+    width: 120,
+    height: 120,
     borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
   },
-  buttonText: {
-    fontSize: 20,
+  selected: {
+    borderWidth: 8,
+    borderColor: 'rgba(255, 183, 6, 0.6)',
+  },
+  confirmButton: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#008DBF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  confirmText: {
+    color: '#FFFFFF',
+    fontSize: 17,
     fontFamily: 'Medium',
-    color: 'white',
   },
 });
