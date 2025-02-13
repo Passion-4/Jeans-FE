@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 30,
+    marginTop: 80,
+    marginBottom: 50,
   },
   profileImage: {
     width: 90,
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
   },
   editIcon: {
     position: 'absolute',
-    bottom: 5,
-    right: 120,
+    bottom: 55,
+    right: 130,
     backgroundColor: '#008DBF',
     width: 25,
     height: 25,

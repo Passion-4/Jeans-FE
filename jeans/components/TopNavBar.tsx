@@ -9,10 +9,10 @@ export default function TopNavBar() {
   return (
     <View style={styles.banner}>
       <View style={styles.headerIcons}>
-        <Ionicons name="search" size={30} color="black" style={styles.icon} />
+        <Ionicons name="search" size={35} color="black" style={styles.icon} />
         {/* 마이 페이지 아이콘 */}
         <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
-          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
+          <Ionicons name="settings-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     top: 30, 
     left: 0,
     right: 0,
-    height: 70,
+    height: 80,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     alignItems: 'center',
@@ -40,5 +40,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 20,
+    marginTop: 20,
   },
 });

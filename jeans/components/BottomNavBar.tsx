@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 80,
+    height: 90,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -43,14 +43,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingVertical: 15,
+    marginBottom: 15
   },
   navText: {
     fontSize: 20,
     fontFamily: 'Bold',
   },
   centerButton: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     backgroundColor: '#008DBF',
     borderRadius: 50,
     justifyContent: 'center',
@@ -60,5 +61,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
+    marginBottom:40
   },
 });
