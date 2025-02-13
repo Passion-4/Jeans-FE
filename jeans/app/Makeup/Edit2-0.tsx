@@ -35,7 +35,7 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => router.push('/Makeup/Edit0')}>
+        <TouchableOpacity style={styles.cancelButton} onPress={() => router.push('/Makeup/Edit1')}>
           <Text style={styles.buttonText}>취소</Text>
         </TouchableOpacity>
 
