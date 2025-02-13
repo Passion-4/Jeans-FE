@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
+import TopNavBar from '../../components/TopNavBar';
+import BottomNavBar from '../../components/BottomNavBar';
 
+const dummyFriends = [
+  { id: 1, name: '김춘자', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
+  { id: 2, name: '이순복', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
+  { id: 3, name: '박영남', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
+  { id: 4, name: '박보석', relation: '아들', profileImage: require('../../assets/images/selec1.jpg') },
+  { id: 5, name: '박준용', relation: '손자', profileImage: require('../../assets/images/selec1.jpg') },
+  { id: 6, name: '유삼복', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
+];
 
 export default function HomeUILayout() {
   const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
@@ -16,75 +25,67 @@ export default function HomeUILayout() {
     );
   };
 
+  const handleConfirm = () => {
+    if (selectedFriends.length === 1) {
+      router.push('/Share/Share_complete');
+    } else if (selectedFriends.length > 1) {
+      // 그룹이 있는지 확인하는 로직 추가 필요
+      const hasGroup = false; // 그룹 여부를 확인하는 가상의 로직
+      if (hasGroup) {
+        router.push('/Share/Share_checkgroup');
+      } else {
+        router.push('/Share/Share_makegroup');
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
-      {/* 상단 배너 */}
-      <View style={styles.banner}>
-        <Ionicons name="arrow-back" size={40} color="black" />
-      </View>
+      <TopNavBar />
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>친구들에게 공유하기</Text>
       </View>
 
-      {/* 친구 버튼 목록 컨테이너 */}
-      <View style={styles.friendsWrapper}>
-        <View style={styles.friendsContainer}>
-          {[1, 2, 3, 4, 5, 6].map((friend: number) => (
-            <TouchableOpacity
-              key={friend}
-              style={[styles.friendButton, selectedFriends.includes(friend) && styles.selectedFriend]}
-              onPress={() => toggleFriendSelection(friend)}
-            >
-              <Text style={styles.friendText}>친구</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+      {/* 친구 목록 컨테이너 */}
+      <FlatList
+        data={dummyFriends}
+        numColumns={3}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={[styles.friendButton, selectedFriends.includes(item.id) && styles.selectedFriend]}
+            onPress={() => toggleFriendSelection(item.id)}
+          >
+            <Image source={item.profileImage} style={styles.friendImage} />
+            <Text style={styles.friendName}>{item.name}</Text>
+            <Text style={styles.friendRelation}>{item.relation}</Text>
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
+      />
 
       {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Share/Share1')}>
-        <Text style={styles.confirmText}>확인</Text>
+      <TouchableOpacity
+        style={[styles.confirmButton, selectedFriends.length === 0 && styles.disabledButton]}
+        onPress={handleConfirm}
+        disabled={selectedFriends.length === 0}
+      >
+        <Text style={styles.confirmText}>다 음</Text>
       </TouchableOpacity>
 
-      {/* 하단 네비게이션 바 */}
-        <View style={styles.bottomNav}>
-            <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navText}>홈</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.centerButton}>
-            <Ionicons name="mic" size={60} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navText}>보정</Text>
-            </TouchableOpacity>
-        </View>
-        </View>
-        );
+      <BottomNavBar />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 0,
+    paddingTop: 20,
     paddingHorizontal: 15,
-    justifyContent: 'space-between',
-  },
-  banner: {
-    width: '100%',
-    height: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-  },
-  headerIcons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 20,
   },
   titleContainer: {
     alignItems: 'flex-start',
@@ -94,36 +95,40 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: 'bold',
-  },
-  friendsWrapper: {
-    alignItems: 'center',
-    backgroundColor: '#E0E0E0',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
+    marginTop: 120,
   },
   friendsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
+    paddingVertical: 10,
   },
   friendButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
+    width: 100,
+    height: 130,
     alignItems: 'center',
-    margin: 20,
+    justifyContent: 'center',
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
   },
   selectedFriend: {
     borderWidth: 3,
     borderColor: '#008DBF',
   },
-  friendText: {
-    fontSize: 18,
+  friendImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    marginBottom: 5,
+  },
+  friendName: {
+    fontSize: 14,
     fontWeight: 'bold',
+  },
+  friendRelation: {
+    fontSize: 12,
+    color: '#777',
   },
   confirmButton: {
     width: '100%',
@@ -132,47 +137,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    marginTop: 20,
+    marginVertical: 20,
+    marginBottom: 150,
+  },
+  disabledButton: {
+    backgroundColor: '#B0BEC5',
   },
   confirmText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  navButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  navText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  middleContainer: {
-    alignItems: 'center',
-    position: 'relative',
-  },
-  line: {
-    width: 2,
-    height: 50,
-    backgroundColor: '#008DBF',
-    position: 'absolute',
-    top: -55,
-  },
-  centerButton: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#008DBF',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
+

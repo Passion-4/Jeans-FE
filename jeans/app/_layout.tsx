@@ -70,6 +70,12 @@ export default function RootLayout() {
 <Stack.Screen name="Makeup/BestCut1" options={{ title: '보정 페이지 - 베스트 컷 사진 선택', headerShown: false}} />
 <Stack.Screen name="Makeup/BestCut2" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
 
+{/* 공유 페이지 */}
+<Stack.Screen name="Share/Share_complete" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+<Stack.Screen name="Share/Share0" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+<Stack.Screen name="Share/Share1" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+<Stack.Screen name="Share/Share2" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+
 
 
 {/* not found */}
