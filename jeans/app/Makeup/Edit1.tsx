@@ -17,17 +17,17 @@ export default function PhotoSelectionScreen() {
 
       {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/BestCut0')}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-0')}>
           <Text style={styles.buttonText}>동 안</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-1')}>
           <Text style={styles.buttonText}>새 치</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-2')}>
           <Text style={styles.buttonText}>몸 매</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.buttonText}>추가 보정 적용하지 않고 사진 저장하기</Text>
+        <TouchableOpacity style={styles.optionButton2}onPress={() => router.push('/Makeup/MakeUp_Finish')}>
+          <Text style={styles.buttonText}>추가 보정 하지 않고 사진 저장하기</Text>
         </TouchableOpacity>
       </View>
 
@@ -70,4 +70,13 @@ const styles = StyleSheet.create({
     fontFamily:'Medium',
     color: 'white',
   },
+  optionButton2: {
+    width: '100%',
+    paddingVertical: 20,
+    backgroundColor: '#3DB2FF',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  
 });

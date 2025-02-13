@@ -37,7 +37,7 @@ export default function PhotoSelectionScreen() {
 
       {/* 로컬 이미지 추가 */}
       <Image 
-        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
+        source={require('../../assets/images/photo1.png')} // assets 폴더의 이미지
         style={styles.image}
         resizeMode="contain"
       />

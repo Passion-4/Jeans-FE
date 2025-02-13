@@ -9,9 +9,10 @@ export default function BestShotScreen() {
 
   return (
     <View style={styles.container}>
-        <TopNavBar/>
+      <TopNavBar />
+
       {/* 텍스트 설명 */}
-      <Text style={styles.title}>베스트샷이 완성되었습니다.{'\n'}기본 보정을 해보시겠어요?</Text>
+      <Text style={styles.title}>완성된 사진입니다.{'\n'}다운로드하거나 공유해볼까요?</Text>
 
       {/* 이미지 컨테이너 */}
       <View style={styles.imageContainer}>
@@ -21,14 +22,15 @@ export default function BestShotScreen() {
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
-          <Text style={styles.buttonText}>아니오</Text>
+          <Text style={styles.buttonText}>사진 받기</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit0')}>
-          <Text style={styles.buttonText}>예</Text>
+        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit1')}>
+          <Text style={styles.buttonText}>공유하기</Text>
         </TouchableOpacity>
       </View>
-      <BottomNavBar/>
+
+      <BottomNavBar />
     </View>
   );
 }
@@ -45,11 +47,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20, // 이미지와 간격 추가
+    marginBottom: 20,
     marginTop: 30,
   },
   imageContainer: {
-    position: 'relative', // 아이콘을 이미지 위에 배치하기 위해 사용
+    position: 'relative',
     borderRadius: 10,
     overflow: 'hidden',
   },
@@ -57,14 +59,6 @@ const styles = StyleSheet.create({
     width: 330,
     height: 300,
     borderRadius: 10,
-  },
-  icon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -92,6 +86,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Medium',
   },
 });

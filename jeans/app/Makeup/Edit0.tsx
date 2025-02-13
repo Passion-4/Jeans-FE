@@ -37,7 +37,9 @@ export default function BestShotScreen() {
       <TopNavBar />
 
       {/* 텍스트 설명 */}
-      <Text style={styles.title}>기본 보정이 완료되었습니다.{'\n'}추가 보정을 해보시겠어요?</Text>
+      <Text style={styles.title1}>기본 보정이 완료되었습니다.{'\n'}</Text>
+      <Text style={styles.title2}>추가 보정을 해보시겠어요?</Text>
+
 
       {/* 이미지 컨테이너 */}
       <View style={styles.imageContainer}>
@@ -46,8 +48,8 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/BestCut2')}>
-          <Text style={styles.buttonText}>아니오</Text>
+        <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
+          <Text style={styles.buttonText}>아니오{'\n'}사진 저장</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit1')}>
@@ -64,8 +66,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center', // 전체 중앙 정렬 (위아래)
+    alignItems: 'center', // 좌우 중앙 정렬
     paddingHorizontal: 20,
   },
   processingContainer: {
@@ -76,24 +78,33 @@ const styles = StyleSheet.create({
   },
   processingText: {
     fontSize: 30,
-    fontFamily:'Bold',
+    fontFamily: 'Bold',
     marginTop: 20,
+    textAlign: 'center',
   },
   animation: {
     width: 150,
     height: 150,
   },
-  title: {
+  title1: {
+    fontSize: 25,
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    marginBottom:-10,
+    marginTop: 30,
+  },
+  title2: {
     fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 30,
+    marginBottom: 30,
+    marginTop: 0,
   },
   imageContainer: {
     position: 'relative',
     borderRadius: 10,
     overflow: 'hidden',
+    marginBottom: 30, // 버튼과의 간격 추가
   },
   image: {
     width: 330,
@@ -101,31 +112,37 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+    flexDirection: 'row', // 가로 배치
+    justifyContent: 'center', // 중앙 정렬
+    alignItems: 'center', // 위아래 중앙 정렬
+    marginTop: 10,
+    marginBottom:20,
     width: '100%',
-    paddingHorizontal: 40,
   },
   noButton: {
-    flex: 1,
     backgroundColor: '#008DBF',
-    paddingVertical: 15,
+    paddingVertical: 20,
     marginRight: 10,
     borderRadius: 10,
     alignItems: 'center',
+    justifyContent: 'center', // 텍스트 중앙 정렬
+    width:100,
+    height:85
   },
   yesButton: {
-    flex: 1,
+    width:100,
+    height:85,
     backgroundColor: '#008DBF',
-    paddingVertical: 15,
+    paddingVertical: 20,
     marginLeft: 10,
     borderRadius: 10,
     alignItems: 'center',
+    justifyContent: 'center', // 텍스트 중앙 정렬
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Medium',
+    textAlign: 'center', // 버튼 내 텍스트 중앙 정렬
   },
 });
