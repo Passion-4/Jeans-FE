@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 20,
     paddingHorizontal: 15,
+    marginTop: 120,
   },
   title: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginTop: 120,
   },
   friendsContainer: {
     alignItems: 'center',
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginVertical: 20,
-    marginBottom: 150,
+    marginBottom: 120,
   },
   disabledButton: {
     backgroundColor: '#B0BEC5',
