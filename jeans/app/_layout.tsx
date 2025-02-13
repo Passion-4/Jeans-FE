@@ -51,7 +51,7 @@ export default function RootLayout() {
   <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
   <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
   <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
-  <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: true }} />
+  <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: false }} />
   
 {/* 사진 선택 (기본 보정) 페이지 */}
 <Stack.Screen name="Set/PhotoSelection0" options={{ title: '사진 선택 - 0', headerShown: false}} />
@@ -61,8 +61,11 @@ export default function RootLayout() {
 {/* 메인 페이지 */}
 <Stack.Screen name="Home/Mainpage" options={{ title: '메인 페이지', headerShown: false}} />
 
-{/* 마이 페이지*/}
+{/* 마이 페이지 */}
 <Stack.Screen name="MyPage/MyPage" options={{ title: '마이 페이지 - 첫 화면', headerShown: false}} />
+
+{/* 보정 페이지 */}
+<Stack.Screen name="Makeup/Makeup0" options={{ title: '보정정 페이지 - 첫 화면', headerShown: false}} />
 
 
 {/* not found */}

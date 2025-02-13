@@ -2,22 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import TopNavBar from '../../components/TopNavBar';
+import BottomNavBar from '../../components/BottomNavBar'
 
 
 export default function HomeUILayout() {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      {/* 상단 배너 */}
-      <View style={styles.banner}>
-        <View style={styles.headerIcons}>
-          <Ionicons name="search" size={30} color="black" style={styles.icon} />
-          {/* ✅ 터치 가능한 설정 아이콘 추가 */}
-          <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
-            <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TopNavBar/>
+      
       
       {/* 타이틀 및 공유 버튼 컨테이너 */}
       <View style={styles.titleContainer}>
@@ -39,19 +33,10 @@ export default function HomeUILayout() {
       <View style={styles.emptySpace2}>
         <Text style={styles.emptySpaceText}>공유된 사진</Text>
       </View>
+
+      <BottomNavBar/>
       
-      {/* 하단 네비게이션 바 */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton}>
-          <Text style={styles.navText}>홈</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.centerButton}>
-          <Ionicons name="mic" size={60} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Makeup/Makeup0')}>
-          <Text style={styles.navText}>보정</Text>
-        </TouchableOpacity>
-      </View>
+      
     </View>
   );
 }
@@ -143,7 +128,7 @@ const styles = StyleSheet.create({
     fontFamily:'Bold'
   },
   centerButton: {
-    width: 100,
+    width: 80,
     height: 80,
     backgroundColor: '#008DBF',
     borderRadius: 50,
