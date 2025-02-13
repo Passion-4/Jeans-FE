@@ -34,7 +34,7 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Profile')}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/WordSize')}>
           <Text style={styles.settingText}>글씨 크기 조정</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
