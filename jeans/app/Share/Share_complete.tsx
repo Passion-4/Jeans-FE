@@ -1,14 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
 export default function HomeUILayout() {
   const router = useRouter();
-  const { images } = useLocalSearchParams(); // 이전 페이지에서 받은 이미지 데이터
-
-  // 선택된 이미지 목록 (JSON 형태로 넘어오기 때문에 파싱 필요)
+  const { images } = useLocalSearchParams();
   const selectedImages = images ? JSON.parse(images as string) : [];
 
   return (
@@ -20,14 +18,16 @@ export default function HomeUILayout() {
         <Text style={styles.title}>사진과 함께 첨부할 메세지를 녹음하세요</Text>
       </View>
 
-      {/* 사진 표시 공간 */}
-      <View style={styles.imageContainer}>
+      {/* 선택한 이미지 표시 공간 */}
+      <ScrollView contentContainerStyle={styles.imageContainer}>
         {selectedImages.length > 0 ? (
-          <Image source={{ uri: selectedImages[0] }} style={styles.image} />
+          selectedImages.map((uri: string, index: number) => (
+            <Image key={index} source={{ uri }} style={styles.image} />
+          ))
         ) : (
           <Text style={styles.emptySpaceText}>사진</Text>
         )}
-      </View>
+      </ScrollView>
 
       {/* 확인 버튼 */}
       <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Home/Mainpage')}>
@@ -50,25 +50,21 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 20,
     paddingHorizontal: 15,
-    marginTop: 120
+    marginTop: 120,
   },
   title: {
     fontSize: 35,
     fontWeight: 'bold',
   },
   imageContainer: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
     marginBottom: 10,
-    borderRadius: 10,
-    overflow: 'hidden',
   },
   image: {
-    width: '90%',
-    height: '90%',
-    resizeMode: 'contain',
+    width: 300,  // 선택한 이미지 크기 조정
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 15,
   },
   emptySpaceText: {
     fontSize: 20,
