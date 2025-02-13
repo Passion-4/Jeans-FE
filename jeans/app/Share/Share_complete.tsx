@@ -1,38 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useImageContext } from '../../app/Context/ImageContext'
+import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
-export default function HomeUILayout() {
+export default function CompleteSignupScreen() {
   const router = useRouter();
-  const { selectedImages } = useImageContext(); // Context에서 이미지 가져오기
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>사진과 함께 첨부할 메시지를 녹음하세요</Text>
+      <View style={styles.content}>
+        <Text style={styles.title}>공유가 완료되었습니다!</Text>
+
+        {/* 애니메이션 */}
+        <LottieView 
+          source={require('../../assets/animations/Animation - 1739343498719.json')} 
+          autoPlay
+          loop={false} 
+          style={styles.lottie}
+        />
+
+        {/* 확인 버튼 */}
+        <TouchableOpacity 
+          style={styles.confirmButton} 
+          onPress={() => router.push('/Home/Mainpage')}
+        >
+          <Text style={styles.confirmText}>확인</Text>
+        </TouchableOpacity>
       </View>
-
-      {/* 선택한 이미지 표시 공간 */}
-      <ScrollView contentContainerStyle={styles.imageContainer}>
-        {selectedImages.length > 0 ? (
-          selectedImages.map((uri: string, index: number) => (
-            <Image key={index} source={{ uri }} style={styles.image} />
-          ))
-        ) : (
-          <Text style={styles.emptySpaceText}>사진</Text>
-        )}
-      </ScrollView>
-
-      {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Home/Mainpage')}>
-        <Text style={styles.confirmText}>확인</Text>
-      </TouchableOpacity>
 
       <BottomNavBar />
     </View>
@@ -43,33 +41,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 15,
-    justifyContent: 'space-between',
   },
-  titleContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    marginTop: 120,
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 35,
+    fontSize: 26,
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
   },
-  imageContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  image: {
-    width: 300, // 선택한 이미지 크기 조정
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  emptySpaceText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+  lottie: {
+    width: 120,  
+    height: 120, 
+    marginBottom: 30,
   },
   confirmButton: {
     width: '100%',
@@ -78,12 +66,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    marginVertical: 20,
-    marginBottom: 120,
+    marginTop: 20,
   },
   confirmText: {
-    color: 'white',
+    color: '#FFFFFF',
+    fontSize: 18,
     fontWeight: 'bold',
-    fontSize: 20,
   },
 });

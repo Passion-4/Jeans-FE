@@ -87,6 +87,7 @@ export default function RootLayout() {
           <Stack.Screen name="Share/Share_makegroup0" options={{ title: '그룹 만들기', headerShown: false}} />
           <Stack.Screen name="Share/Share_makegroup1" options={{ title: '그룹 만들기 완료', headerShown: false}} />
           <Stack.Screen name="Share/Share_checkgroup" options={{ title: '그룹 확인', headerShown: false}} />
+          <Stack.Screen name="Share/Share_voice" options={{ title: '그룹 확인', headerShown: false}} />
 
           {/* 마이페이지지 */}
           <Stack.Screen name="MyPage/MyPage" options={{ title: '내 정보', headerShown: false}} />

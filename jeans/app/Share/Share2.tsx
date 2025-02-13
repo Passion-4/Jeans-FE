@@ -27,7 +27,8 @@ export default function Share2Screen() {
     if (checkGroupExists()) {
       router.push('/Share/Share_checkgroup'); // 기존 그룹이 있을 때
     } else {
-      router.push('/Share/Share_makegroup0'); // 그룹이 없을 때
+      //router.push('/Share/Share_makegroup0'); // 그룹이 없을 때
+      router.push('/Share/Share_checkgroup');
     }
   };
 
@@ -42,7 +43,7 @@ export default function Share2Screen() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.optionButton}
-          onPress={() => router.push('/Share/Share_complete')}
+          onPress={() => router.push('/Share/Share_voice')}
         >
           <Text style={styles.buttonText}>각자 보내실래요?</Text>
         </TouchableOpacity>
@@ -53,8 +54,8 @@ export default function Share2Screen() {
       </View>
 
       {/* 그만하기 버튼 */}
-      <TouchableOpacity style={styles.quitButton} onPress={() => router.push('/Home/Mainpage')}>
-        <Text style={styles.quitText}>그만하기</Text>
+      <TouchableOpacity style={styles.quitButton} onPress={() => router.push('/Share/Share1')}>
+        <Text style={styles.quitText}>뒤로가기기</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
