@@ -1,178 +1,95 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import TopNavBar from '../../components/TopNavBar';
+import BottomNavBar from '../../components/BottomNavBar';
 
-
-export default function HomeUILayout() {
-  const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
+export default function PhotoSelectionScreen() {
   const router = useRouter();
 
-  const toggleFriendSelection = (friendId: number) => {
-    setSelectedFriends((prev: number[]) =>
-      prev.includes(friendId)
-        ? prev.filter((id: number) => id !== friendId)
-        : [...prev, friendId]
-    );
+  // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
+  const pickImages = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // 이미지 선택
+      allowsMultipleSelection: true, // 여러 개 선택 가능
+      selectionLimit: 5, // 최대 선택 개수
+      quality: 1, // 원본 화질 유지
+    });
+
+    if (!result.canceled && result.assets) {
+      const imageUris = result.assets.map((asset) => asset.uri);
+
+      // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
+      router.push({
+        pathname: '/Share/Share1',
+        params: { images: JSON.stringify(imageUris) },
+      });
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* 상단 배너 */}
-      <View style={styles.banner}>
-        <Ionicons name="arrow-back" size={40} color="black" />
-      </View>
+      <TopNavBar />
 
       {/* 타이틀 */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>친구들에게 공유하기</Text>
+      <Text style={styles.title}>공유할 사진을을 {'\n'}선택해주세요.</Text>
+
+      {/* 로컬 이미지 추가 */}
+      <Image 
+        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
+        style={styles.image}
+        resizeMode="contain"
+      />
+
+      {/* 갤러리 열기 버튼 */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.optionButton} onPress={pickImages}>
+          <Text style={styles.buttonText}>갤러리에서 사진 선택</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* 친구 버튼 목록 컨테이너 */}
-      <View style={styles.friendsWrapper}>
-        <View style={styles.friendsContainer}>
-          {[1, 2, 3, 4, 5, 6].map((friend: number) => (
-            <TouchableOpacity
-              key={friend}
-              style={[styles.friendButton, selectedFriends.includes(friend) && styles.selectedFriend]}
-              onPress={() => toggleFriendSelection(friend)}
-            >
-              <Text style={styles.friendText}>친구</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      {/* 확인 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Share/Share1')}>
-        <Text style={styles.confirmText}>확인</Text>
-      </TouchableOpacity>
-
-      {/* 하단 네비게이션 바 */}
-        <View style={styles.bottomNav}>
-            <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navText}>홈</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.centerButton}>
-            <Ionicons name="mic" size={60} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navButton}>
-            <Text style={styles.navText}>보정</Text>
-            </TouchableOpacity>
-        </View>
-        </View>
-        );
+      <BottomNavBar />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 0,
-    paddingHorizontal: 15,
-    justifyContent: 'space-between',
-  },
-  banner: {
-    width: '100%',
-    height: 100,
-    flexDirection: 'row',
+    paddingHorizontal: 20,
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-  },
-  headerIcons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 20,
-  },
-  titleContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 20,
-    paddingHorizontal: 15,
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    marginBottom: 20, // 이미지와 간격 추가
+    marginTop: 100,
   },
-  friendsWrapper: {
+  image: {
+    width: 200, // 이미지 크기 조정
+    height: 200,
+    marginBottom: 30, // 버튼과의 간격 추가
+  },
+  buttonContainer: {
     alignItems: 'center',
-    backgroundColor: '#E0E0E0',
-    padding: 20,
+    marginBottom: 120,
+    width: 200,
+  },
+  optionButton: {
+    width: '100%',
+    paddingVertical: 20,
+    backgroundColor: '#008DBF',
     borderRadius: 10,
+    alignItems: 'center',
     marginBottom: 20,
   },
-  friendsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  friendButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 20,
-  },
-  selectedFriend: {
-    borderWidth: 3,
-    borderColor: '#008DBF',
-  },
-  friendText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  confirmText: {
-    color: 'white',
-    fontWeight: 'bold',
+  buttonText: {
     fontSize: 20,
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  navButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  navText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  middleContainer: {
-    alignItems: 'center',
-    position: 'relative',
-  },
-  line: {
-    width: 2,
-    height: 50,
-    backgroundColor: '#008DBF',
-    position: 'absolute',
-    top: -55,
-  },
-  centerButton: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#008DBF',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    fontFamily: 'Medium',
+    color: 'white',
   },
 });
