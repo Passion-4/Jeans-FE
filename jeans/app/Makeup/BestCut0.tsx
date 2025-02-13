@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
@@ -31,8 +31,16 @@ export default function PhotoSelectionScreen() {
   return (
     <View style={styles.container}>
       <TopNavBar />
+
       {/* 타이틀 */}
       <Text style={styles.title}>단체 사진 여러 개를 {'\n'}선택해주세요.</Text>
+
+      {/* 로컬 이미지 추가 */}
+      <Image 
+        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
+        style={styles.image}
+        resizeMode="contain"
+      />
 
       {/* 갤러리 열기 버튼 */}
       <View style={styles.buttonContainer}>
@@ -55,16 +63,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 50,
-    marginTop:100
+    marginBottom: 20, // 이미지와 간격 추가
+    marginTop: 100,
+  },
+  image: {
+    width: 200, // 이미지 크기 조정
+    height: 200,
+    marginBottom: 30, // 버튼과의 간격 추가
   },
   buttonContainer: {
     alignItems: 'center',
     marginBottom: 120,
-    width:200
+    width: 200,
   },
   optionButton: {
     width: '100%',

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 50,
-    marginTop:100
+    marginTop:200
   },
   buttonContainer: {
     alignItems: 'center',

@@ -1,67 +1,44 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function NavBar() {
+export default function TopNavBar() {
   const router = useRouter();
 
   return (
-    <>
-      {/* 상단 네비게이션 바 */}
-      <View style={styles.banner}>
-        <View style={styles.headerIcons}>
-          <Ionicons name="search" size={30} color="black" style={styles.icon} />
-          {/* 마이 페이지 아이콘 */}
-          <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
-            <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
-          </TouchableOpacity>
-        </View>
+    <View style={styles.banner}>
+      <View style={styles.headerIcons}>
+        <Ionicons name="search" size={30} color="black" style={styles.icon} />
+        {/* 마이 페이지 아이콘 */}
+        <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+          <Ionicons name="settings-outline" size={30} color="black" style={styles.icon} />
+        </TouchableOpacity>
       </View>
-
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   banner: {
-    width: '100%',
+    position: 'absolute', // 화면 상단에 고정
+    top: 30, 
+    left: 0,
+    right: 0,
     height: 70,
+    backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingHorizontal: 15,
-    marginTop: 30,
+    zIndex: 1000, // 다른 요소들 위에 배치
+    borderBottomWidth: 1,
+    borderColor: '#E0E0E0',
   },
   headerIcons: {
     flexDirection: 'row',
   },
   icon: {
     marginLeft: 20,
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  navButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  navText: {
-    fontSize: 25,
-    fontFamily: 'Bold',
-  },
-  centerButton: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#008DBF',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
