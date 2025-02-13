@@ -25,7 +25,7 @@ export default function BestShotScreen() {
           <Text style={styles.buttonText}>사진 받기</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit1')}>
+        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Share/Share1')}>
           <Text style={styles.buttonText}>공유하기</Text>
         </TouchableOpacity>
       </View>

@@ -39,7 +39,7 @@ export default function BestShotScreen() {
           <Text style={styles.buttonText}>취소</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
+        <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Makeup/Edit1')}>
           <Text style={styles.buttonText}>완료</Text>
         </TouchableOpacity>
       </View>
