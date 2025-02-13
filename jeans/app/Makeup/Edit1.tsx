@@ -13,18 +13,21 @@ export default function PhotoSelectionScreen() {
     <TopNavBar/>
 
     {/* 타이틀 */}
-    <Text style={styles.title}>원하는 사진 편집 기능을 {'\n'}선택해주세요. </Text>
+    <Text style={styles.title}>하고 싶은 추가 보정을 {'\n'}선택해주세요. </Text>
 
       {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/BestCut0')}>
-          <Text style={styles.buttonText}>나의 베스트 컷 찾기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}onPress={() => router.push('/Makeup/Edit_PhotoSelec')}>
-          <Text style={styles.buttonText}>사진 보정</Text>
+          <Text style={styles.buttonText}>동 안</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.buttonText}>콜라주 만들기</Text>
+          <Text style={styles.buttonText}>새 치</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionButton}>
+          <Text style={styles.buttonText}>몸 매</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionButton}>
+          <Text style={styles.buttonText}>추가 보정 적용하지 않고 사진 저장하기</Text>
         </TouchableOpacity>
       </View>
 
