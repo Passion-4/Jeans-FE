@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
+import { useImageContext } from '../../app/Context/ImageContext'
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
 export default function HomeUILayout() {
   const router = useRouter();
-  const { images } = useLocalSearchParams();
-  const selectedImages = images ? JSON.parse(images as string) : [];
+  const { selectedImages } = useImageContext(); // Context에서 이미지 가져오기
 
   return (
     <View style={styles.container}>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 300,  // 선택한 이미지 크기 조정
+    width: 300, // 선택한 이미지 크기 조정
     height: 200,
     borderRadius: 10,
     marginBottom: 15,

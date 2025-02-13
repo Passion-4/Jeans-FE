@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import { useImageContext } from '../../app/Context/ImageContext'; // ✅ 추가
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
+  const { setSelectedImages } = useImageContext(); // ✅ 이미지 저장을 위한 context 사용
 
   // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
-  const pickImages = async () => {
+  const pickImages = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // 이미지 선택
       allowsMultipleSelection: true, // 여러 개 선택 가능
@@ -20,24 +22,23 @@ export default function PhotoSelectionScreen() {
     if (!result.canceled && result.assets) {
       const imageUris = result.assets.map((asset) => asset.uri);
 
+      setSelectedImages(imageUris); // ✅ 선택한 이미지를 글로벌 상태에 저장
+
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
-      router.push({
-        pathname: '/Share/Share1',
-        params: { images: JSON.stringify(imageUris) },
-      });
+      router.push('/Share/Share1');
     }
-  };
+  }, [router, setSelectedImages]);
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
       {/* 타이틀 */}
-      <Text style={styles.title}>공유할 사진을을 {'\n'}선택해주세요.</Text>
+      <Text style={styles.title}>공유할 사진을{'\n'}선택해주세요.</Text>
 
-      {/* 로컬 이미지 추가 */}
+      {/* 로컬 이미지 */}
       <Image 
-        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
+        source={require('../../assets/images/people.png')} 
         style={styles.image}
         resizeMode="contain"
       />
@@ -66,13 +67,13 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20, // 이미지와 간격 추가
+    marginBottom: 20,
     marginTop: 100,
   },
   image: {
-    width: 200, // 이미지 크기 조정
+    width: 200,
     height: 200,
-    marginBottom: 30, // 버튼과의 간격 추가
+    marginBottom: 30,
   },
   buttonContainer: {
     alignItems: 'center',
