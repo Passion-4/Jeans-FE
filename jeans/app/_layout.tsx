@@ -88,6 +88,15 @@ export default function RootLayout() {
           <Stack.Screen name="Share/Share_makegroup1" options={{ title: '그룹 만들기 완료', headerShown: false}} />
           <Stack.Screen name="Share/Share_checkgroup" options={{ title: '그룹 확인', headerShown: false}} />
 
+          {/* 마이페이지지 */}
+          <Stack.Screen name="MyPage/MyPage" options={{ title: '내 정보', headerShown: false}} />
+          <Stack.Screen name="MyPage/Profile" options={{ title: '프로필', headerShown: false}} />
+          <Stack.Screen name="MyPage/EditInfo" options={{ title: '정보 수정', headerShown: false}} />
+          <Stack.Screen name="MyPage/Connect" options={{ title: '친구 추가', headerShown: false}} />
+          <Stack.Screen name="MyPage/WordSize" options={{ title: '글자 크기기', headerShown: false}} />
+          <Stack.Screen name="MyPage/Manual" options={{ title: '사용법', headerShown: false}} />
+          <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />          
+
           {/* not found */}
           <Stack.Screen name="+not-found" />
 
