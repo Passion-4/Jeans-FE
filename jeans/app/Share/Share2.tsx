@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import CustomButton from '../../components/FullButton'; 
 
 // 샘플 그룹 데이터 (DB 연결 시 대체 가능)
 const dummyGroups = [
@@ -39,20 +40,12 @@ export default function Share2Screen() {
       {/* 타이틀 */}
       <Text style={styles.title}>공유 방법을{'\n'}선택해 주세요.</Text>
 
-      {/* 옵션 버튼 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.optionButton}
-          onPress={() => router.push('/Share/Share_voice')}
-        >
-          <Text style={styles.buttonText}>각자 보내실래요?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.optionButton} onPress={handleGroupSend}>
-          <Text style={styles.buttonText}>그룹에 보내실래요?</Text>
-        </TouchableOpacity>
+        <CustomButton title="각자 보내실래요?" color="#3DB2FF" onPress={() => router.push('/Share/Share_voice')} />
+        <CustomButton title="그룹에 보내실래요?" onPress={handleGroupSend} />
       </View>
-
+      
+     
       <BottomNavBar />
     </View>
   );
@@ -70,10 +63,11 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily:'Bold',
     textAlign: 'center',
-    marginBottom: 80,
+    marginBottom: 60,
   },
   buttonContainer: {
     alignItems: 'center',
+    width: '100%',
   },
   optionButton: {
     width: 300,

@@ -47,7 +47,6 @@ export default function BestShotScreen() {
       </View>
 
       {/* 버튼 컨테이너 */}
-      {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
         <HalfButton title="아니오" color="#3DB2FF"onPress={() => router.push('/Makeup/MakeUp_Finish')} />
         <HalfButton title="예" onPress={() => router.push('/Makeup/Edit1')} />
@@ -89,20 +88,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가
     marginTop: 30,
-  },
-  title1: {
-    fontSize: 25,
-    fontFamily: 'Bold',
-    textAlign: 'center',
-    marginBottom:-10,
-    marginTop: 30,
-  },
-  title2: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-    textAlign: 'center',
-    marginBottom: 30,
-    marginTop: 0,
   },
   imageContainer: {
     position: 'relative',

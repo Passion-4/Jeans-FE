@@ -8,6 +8,7 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +19,7 @@ export default function PhotoDetailScreen() {
   const router = useRouter();
   const { photoId } = useLocalSearchParams(); // 📌 선택된 사진 ID 가져오기
   const [isRecording, setIsRecording] = useState(false); // 녹음 중 여부
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // 📌 더미 데이터
   const photoData = {
@@ -46,7 +48,9 @@ export default function PhotoDetailScreen() {
 
       {/* 📌 사진 & 설명 */}
       <View style={styles.photoContainer}>
-        <Image source={photoData.imageUrl} style={styles.photo} />
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}> 
+          <Image source={photoData.imageUrl} style={styles.photo} />
+        </TouchableOpacity>
         <View style={styles.descriptionBox}>
           <Text style={styles.descriptionText}>{photoData.description}</Text>
         </View>
@@ -80,6 +84,21 @@ export default function PhotoDetailScreen() {
       </TouchableOpacity>
 
       <BottomNavBar />
+
+      {/* ✅ 사진 확대 모달 */}
+      <Modal visible={isModalVisible} transparent animationType="fade">
+        <BlurView intensity={30} style={styles.modalBackground}>
+          <TouchableOpacity style={styles.modalCloseArea} onPress={() => setIsModalVisible(false)} />
+          <View style={styles.modalContent}>
+            <Image source={photoData.imageUrl} style={styles.modalImage} />
+            <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
+              <Ionicons name="close-circle" size={40} color="white" />
+            </TouchableOpacity>
+          </View>
+        </BlurView>
+      </Modal>
+
+      
 
       {/* 📌 녹음 중 UI */}
       <Modal visible={isRecording} transparent animationType="fade">
@@ -174,7 +193,7 @@ const styles = StyleSheet.create({
 
   chatBubbleRight: {
     alignSelf: 'flex-end',
-    backgroundColor: '#008DBF',
+    backgroundColor: '#3DB2FF',
     padding: 10,
     borderRadius: 10,
     maxWidth: '100%',
@@ -238,5 +257,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Medium',
     color: 'white',
+  },
+
+  /** ✅ 사진 확대 모달 */
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // ✅ 블러 효과와 함께 배경 어둡게 설정
+  },
+  modalCloseArea: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  modalContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)', // ✅ 투명한 배경 추가
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalImage: {
+    width: '60%', // ✅ 화면의 80%를 차지하도록 설정
+    aspectRatio: 1, // ✅ 정방형 유지
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
   },
 });
