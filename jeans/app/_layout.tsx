@@ -98,12 +98,12 @@ export default function RootLayout() {
           <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />    
 
           {/* 친구 */}
-          <Stack.Screen name="Friens/list" options={{ title: '친구 목록', headerShown: false}} />
-          <Stack.Screen name="Friens/send" options={{ title: '친구 요청 보내기', headerShown: false}} />
-          <Stack.Screen name="Friens/send_searchresult" options={{ title: '친구 찾기', headerShown: false}} />
-          <Stack.Screen name="Friens/send_complete" options={{ title: '요청 완료', headerShown: false}} />
-          <Stack.Screen name="Friens/receive" options={{ title: '친구 요청 받기', headerShown: false}} />
-          <Stack.Screen name="Friens/delete" options={{ title: '친구 삭제', headerShown: false}} />
+          <Stack.Screen name="Friend/list" options={{ title: '친구 목록', headerShown: false}} />
+          <Stack.Screen name="Friend/send" options={{ title: '친구 요청 보내기', headerShown: false}} />
+          <Stack.Screen name="Friend/send_searchresult" options={{ title: '친구 찾기', headerShown: false}} />
+          <Stack.Screen name="Friend/send_complete" options={{ title: '요청 완료', headerShown: false}} />
+          <Stack.Screen name="Friend/receive" options={{ title: '친구 요청 받기', headerShown: false}} />
+          <Stack.Screen name="Friend/delete" options={{ title: '친구 삭제', headerShown: false}} />
 
           {/* 프로필 */}
           <Stack.Screen name="Profile/name" options={{ title: '이름 바꾸기', headerShown: false}} />
