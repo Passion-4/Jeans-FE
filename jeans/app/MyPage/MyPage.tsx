@@ -15,9 +15,6 @@ export default function MyPageScreen() {
       {/* 프로필 섹션 */}
       <View style={styles.profileContainer}>
         <Image source={require('../../assets/images/icon.png')} style={styles.profileImage} />
-        <TouchableOpacity style={styles.editIcon} onPress={() => router.push('/MyPage/Profile')}>
-          <Ionicons name="pencil" size={18} color="white" />
-        </TouchableOpacity>
         <Text style={styles.userName}>김덕배</Text>
         <Text style={styles.userHandle}>@김덕배</Text>
       </View>
@@ -30,7 +27,7 @@ export default function MyPageScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Connect')}>
-          <Text style={styles.settingText}>친구 연결하기</Text>
+          <Text style={styles.settingText}>친구</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
@@ -77,18 +74,6 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 45,
     marginTop: 80
-  },
-  editIcon: {
-    position: 'absolute',
-    bottom: 55,
-    right: 130,
-    backgroundColor: '#008DBF',
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    
   },
   userName: {
     fontSize: 22,

@@ -27,8 +27,8 @@ export default function Share2Screen() {
     if (checkGroupExists()) {
       router.push('/Share/Share_checkgroup'); // 기존 그룹이 있을 때
     } else {
-      //router.push('/Share/Share_makegroup0'); // 그룹이 없을 때
-      router.push('/Share/Share_checkgroup');
+      router.push('/Share/Share_makegroup0'); // 그룹이 없을 때
+
     }
   };
 
