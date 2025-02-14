@@ -86,17 +86,18 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   friendImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    marginBottom: 5,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 7,
   },
   friendName: {
-    fontSize: 14,
+    fontSize: 22,
     fontWeight: 'bold',
+    marginBottom: 5
   },
   friendRelation: {
-    fontSize: 12,
+    fontSize: 18,
     color: '#777',
   },
   confirmButton: {
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginVertical: 20,
-    marginBottom: 120,
+    marginBottom: 200,
   },
   confirmText: {
     color: 'white',

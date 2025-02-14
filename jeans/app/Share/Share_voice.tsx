@@ -15,7 +15,7 @@ export default function HomeUILayout() {
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>사진과 함께 첨부할 메시지를 녹음하세요</Text>
+        <Text style={styles.title}>사진과 함께 첨부할 {'\n'}메시지를 녹음하세요</Text>
       </View>
 
       {/* 선택한 이미지 표시 공간 */}

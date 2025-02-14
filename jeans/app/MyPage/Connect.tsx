@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 50
   },
   settingText: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#333',
   },
 });

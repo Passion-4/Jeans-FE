@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   titleContainer: {
-    marginTop: 120,
+    marginTop: 200,
     marginBottom: 30,
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
+    fontFamily:'Bold',
     textAlign: 'center',
   },
   friendContainer: {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   friendName: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
   },
   buttonContainer: {
     width: '100%',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     color: 'black',
   },
 });

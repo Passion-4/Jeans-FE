@@ -76,12 +76,12 @@ export default function FriendDeleteScreen() {
         onPress={confirmDelete}
         disabled={selectedFriends.length === 0}
       >
-        <Text style={styles.confirmText}>삭제하기</Text>
+        <Text style={styles.confirmText}>삭제 하기</Text>
       </TouchableOpacity>
 
       {/* 뒤로가기 버튼 */}
       <TouchableOpacity style={styles.confirmButton} onPress={() => router.back()}>
-        <Text style={styles.confirmText}>뒤로가기</Text>
+        <Text style={styles.confirmText}>뒤로 가기</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
+    fontFamily:'Bold'
   },
   friendsContainer: {
     alignItems: 'center',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     width: '100%',
     height: 50,
-    backgroundColor: '#FF4C4C',
+    backgroundColor: '#87CEEB',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

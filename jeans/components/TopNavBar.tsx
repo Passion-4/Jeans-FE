@@ -9,9 +9,20 @@ export default function TopNavBar() {
   return (
     <View style={styles.banner}>
       <View style={styles.headerIcons}>
-        {/* 사용법 아이콘 */}
+        {/* 🔍 검색 아이콘 */}
+        <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+          <Ionicons name="search" size={35} color="black" style={styles.icon} />
+        </TouchableOpacity>
+
+        {/* 👥 사람 여러 명 아이콘 */}
+        <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+          <Ionicons name="people-outline" size={35} color="black" style={styles.icon} />
+        </TouchableOpacity>
+
+        {/* 📖 사용법 아이콘 */}
         <Ionicons name="reader" size={35} color="black" style={styles.icon} />
-        {/* 마이 페이지 아이콘 */}
+
+        {/* ⚙️ 마이 페이지 아이콘 */}
         <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
           <Ionicons name="settings-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
@@ -38,9 +49,10 @@ const styles = StyleSheet.create({
   },
   headerIcons: {
     flexDirection: 'row',
+    alignItems: 'center', // 세로 중앙 정렬
   },
   icon: {
-    marginLeft: 20,
+    marginLeft: 15, // 아이콘 간격 조절
     marginTop: 20,
   },
 });

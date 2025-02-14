@@ -30,7 +30,7 @@ export default function MyPageScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/Profile/password')}>
-          <Text style={styles.settingText}>비밀번호 바꾸기</Text>
+          <Text style={styles.settingText}>비밀 번호 바꾸기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
       </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 50
   },
   settingText: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#333',
   },
 });

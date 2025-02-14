@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginTop: 80,
-    marginBottom: 50,
+    marginTop: 70,
+    marginBottom: 20,
   },
   profileImage: {
     width: 90,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E0E0E0',
   },
   settingText: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#333',
   },
 });
