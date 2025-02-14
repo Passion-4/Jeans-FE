@@ -47,7 +47,7 @@ export default function HomeUILayout() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 고정된 타이틀 & 버튼 */}
+      {/* 📌 고정된 타이틀 & 버튼 */}
       <View style={styles.fixedHeader}>
         <View>
           <Text style={styles.title}>친구들 소식 확인</Text>
@@ -57,12 +57,14 @@ export default function HomeUILayout() {
               : `${selectedFriend.name}과의 최근 추억을 둘러보세요.`}
           </Text>
         </View>
-        <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
-          <Text style={styles.shareText}>사진 공유</Text>
-        </TouchableOpacity>
       </View>
 
-      {/* 친구 목록 */}
+      {/* 📌 고정된 사진 공유 버튼 */}
+      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
+        <Text style={styles.shareText}>공유</Text>
+      </TouchableOpacity>
+
+      {/* 📌 친구 목록 */}
       <View style={styles.friendsContainer}>
         <View style={styles.friendsScrollWrapper}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -87,14 +89,14 @@ export default function HomeUILayout() {
         </View>
       </View>
 
-      {/* 그룹 선택 시 프로필 수정 버튼 표시 */}
+      {/* 📌 그룹 선택 시 프로필 수정 버튼 표시 */}
       {selectedFriend.isGroup && (
         <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Share/Share_makegroup0')}>
           <Text style={styles.editProfileText}>그룹 프로필 수정</Text>
         </TouchableOpacity>
       )}
 
-      {/* 공유된 사진 */}
+      {/* 📌 공유된 사진 */}
       <View style={styles.photosContainer}>
         <View style={styles.photosScrollWrapper}>
           <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 130,
+    top: 130, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
@@ -136,13 +138,17 @@ const styles = StyleSheet.create({
     color: '#555',
     fontFamily: 'Medium',
   },
+
+  /** 📌 고정된 사진 공유 버튼 */
   shareButton: {
+    position: 'absolute', // 고정 위치
+    top: 130, // TopNavBar 아래 + 약간의 여백
+    right: 15, // 오른쪽 끝에 배치
     backgroundColor: '#008DBF',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 30,
-    marginBottom:20,
-    
+    zIndex: 20, // 최상위 레이어 유지
   },
   shareText: {
     color: 'white',
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
 
   /** 📌 친구 목록 */
   friendsContainer: {
-    marginTop: 220,
+    marginTop: 220, // 고정된 타이틀 아래 배치
     marginBottom: 20,
   },
   friendsScrollWrapper: {

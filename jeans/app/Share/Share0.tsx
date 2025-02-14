@@ -38,7 +38,7 @@ export default function PhotoSelectionScreen() {
 
       {/* 로컬 이미지 */}
       <Image 
-        source={require('../../assets/images/single_img.png')} 
+        source={require('../../assets/images/photo1.png')} 
         style={styles.image}
         resizeMode="contain"
       />
