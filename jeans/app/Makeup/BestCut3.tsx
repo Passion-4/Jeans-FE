@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
 
 export default function BestShotScreen() {
   const router = useRouter();
@@ -19,15 +20,12 @@ export default function BestShotScreen() {
       </View>
 
       {/* 버튼 컨테이너 */}
+      {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
-          <Text style={styles.buttonText}>아니오</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit0')}>
-          <Text style={styles.buttonText}>예</Text>
-        </TouchableOpacity>
+        <HalfButton title="아니오" color="#3DB2FF"onPress={() => router.push('/Makeup/MakeUp_Finish')} />
+        <HalfButton title="예" onPress={() => router.push('/Makeup/Edit0')} />
       </View>
+    
       <BottomNavBar/>
     </View>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import CustomButton from '../../components/HalfButton'; // ✅ 재사용 버튼 추가
 
 export default function BestShotScreen() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function BestShotScreen() {
       <TopNavBar />
 
       {/* 텍스트 설명 */}
-      <Text style={styles.title}>완성된 사진입니다.{'\n'}다운로드하거나 공유해볼까요?</Text>
+      <Text style={styles.title}>완성된 사진입니다.{'\n'}저장하거나 공유해볼까요?</Text>
 
       {/* 이미지 컨테이너 */}
       <View style={styles.imageContainer}>
@@ -21,13 +22,8 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
-          <Text style={styles.buttonText}>사진 받기</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Share/Share1')}>
-          <Text style={styles.buttonText}>공유하기</Text>
-        </TouchableOpacity>
+        <CustomButton title="사진 받기" color="#3DB2FF" onPress={() => router.push('/Makeup/MakeUp_Finish')} />
+        <CustomButton title="공유하기" onPress={() => router.push('/Share/Share1')} />
       </View>
 
       <BottomNavBar />
@@ -67,25 +63,5 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 40,
   },
-  noButton: {
-    flex: 1,
-    backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    marginRight: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  yesButton: {
-    flex: 1,
-    backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    marginLeft: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Medium',
-  },
 });
+
