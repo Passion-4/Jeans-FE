@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function HomeUILayout() {
   const router = useRouter();
 
-  // 더미 데이터 (프사: friend1.jpg)
+  // 프로필 사진 데이터
   const friends = [
     { id: 1, name: '김덕배(나)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 2, name: '이순복', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
@@ -17,7 +17,7 @@ export default function HomeUILayout() {
     { id: 5, name: '가족 그룹', profileImage: require('../../assets/images/friend1.jpg'), isGroup: true }, // 그룹
   ];
 
-  // 공유된 사진 (공통 이미지: photo2.png)
+  // 공유된 사진 
   const sharedPhotos: Record<string, { id: number; imageUrl: any }[]> = {
     '김덕배(나)': [
       { id: 1, imageUrl: require('../../assets/images/photo2.png') },
@@ -91,7 +91,7 @@ export default function HomeUILayout() {
 
       {/* 📌 그룹 선택 시 프로필 수정 버튼 표시 */}
       {selectedFriend.isGroup && (
-        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Share/Share_makegroup0')}>
+        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Home/GroupImgEdit')}>
           <Text style={styles.editProfileText}>그룹 프로필 수정</Text>
         </TouchableOpacity>
       )}
