@@ -89,14 +89,28 @@ export default function RootLayout() {
           <Stack.Screen name="Share/Share_checkgroup" options={{ title: '그룹 확인', headerShown: false}} />
           <Stack.Screen name="Share/Share_voice" options={{ title: '그룹 확인', headerShown: false}} />
 
-          {/* 마이페이지지 */}
+          {/* 마이페이지 */}
           <Stack.Screen name="MyPage/MyPage" options={{ title: '내 정보', headerShown: false}} />
-          <Stack.Screen name="MyPage/Profile" options={{ title: '프로필', headerShown: false}} />
           <Stack.Screen name="MyPage/EditInfo" options={{ title: '정보 수정', headerShown: false}} />
           <Stack.Screen name="MyPage/Connect" options={{ title: '친구 추가', headerShown: false}} />
           <Stack.Screen name="MyPage/WordSize" options={{ title: '글자 크기기', headerShown: false}} />
           <Stack.Screen name="MyPage/Manual" options={{ title: '사용법', headerShown: false}} />
-          <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />          
+          <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />    
+
+          {/* 친구 */}
+          <Stack.Screen name="Friens/list" options={{ title: '친구 목록', headerShown: false}} />
+          <Stack.Screen name="Friens/send" options={{ title: '친구 요청 보내기', headerShown: false}} />
+          <Stack.Screen name="Friens/send_searchresult" options={{ title: '친구 찾기', headerShown: false}} />
+          <Stack.Screen name="Friens/send_complete" options={{ title: '요청 완료', headerShown: false}} />
+          <Stack.Screen name="Friens/receive" options={{ title: '친구 요청 받기', headerShown: false}} />
+          <Stack.Screen name="Friens/delete" options={{ title: '친구 삭제', headerShown: false}} />
+
+          {/* 프로필 */}
+          <Stack.Screen name="Profile/name" options={{ title: '이름 바꾸기', headerShown: false}} />
+          <Stack.Screen name="Profile/phonenum" options={{ title: '전화번호 바꾸기', headerShown: false}} />
+          <Stack.Screen name="Profile/image" options={{ title: '이미지 바꾸기', headerShown: false}} />
+          <Stack.Screen name="Profile/password" options={{ title: '비밀번호 바꾸기', headerShown: false}} />
+
 
           {/* not found */}
           <Stack.Screen name="+not-found" />
