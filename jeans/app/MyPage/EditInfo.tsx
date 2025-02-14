@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
@@ -8,17 +9,47 @@ import BottomNavBar from '../../components/BottomNavBar';
 export default function EditProfileScreen() {
   const router = useRouter();
 
-  // 백엔드에서 불러온 사용자 데이터 (예제)
+  // 사용자 정보
   const [userInfo, setUserInfo] = useState({
     name: '이준용',
     birthdate: '1999-09-27',
     phoneNumber: '+82 10-1234-5678',
   });
 
-  useEffect(() => {
-    // 실제 백엔드 API 호출 시 이곳에서 데이터를 불러오면 됨
-    // 예: axios.get('/api/userinfo').then(response => setUserInfo(response.data))
-  }, []);
+  // 이미지 상태 관리
+  const [profileImage, setProfileImage] = useState(require('../../assets/images/icon.png')); // 기본 이미지
+  const [tempImage, setTempImage] = useState<string | null>(null); // 임시 저장된 이미지
+  const [isEditing, setIsEditing] = useState(false); // "확인" & "취소" 버튼 표시 여부
+
+  // 갤러리에서 이미지 선택
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      setTempImage(result.assets[0].uri); // 임시 이미지 저장
+      setIsEditing(true); // 확인/취소 버튼 보이기
+    }
+  };
+
+  // 이미지 변경 확정
+  const confirmImageChange = () => {
+    if (tempImage) {
+      setProfileImage({ uri: tempImage }); // 프로필 이미지 변경
+      setIsEditing(false); // 버튼 숨김
+      setTempImage(null); // 임시 이미지 초기화
+    }
+  };
+
+  // 이미지 변경 취소
+  const cancelImageChange = () => {
+    setTempImage(null); // 임시 이미지 초기화
+    setIsEditing(false); // 버튼 숨김
+  };
 
   return (
     <View style={styles.container}>
@@ -27,15 +58,28 @@ export default function EditProfileScreen() {
       {/* 내 계정 섹션 */}
       <Text style={styles.sectionTitle}>내 계정</Text>
 
-      {/* 프로필 이미지 섹션 */}
+      {/* 프로필 이미지 */}
       <View style={styles.profileContainer}>
         <Image 
-          source={require('../../assets/images/icon.png')} 
+          source={tempImage ? { uri: tempImage } : profileImage} 
           style={styles.profileImage} 
         />
-        <TouchableOpacity style={styles.changeImageButton} onPress={() => router.push('/Profile/image')}>
-          <Text style={styles.buttonText}>사진 바꾸기</Text>
-        </TouchableOpacity>
+
+        {/* 이미지 변경 버튼 */}
+        {!isEditing ? (
+          <TouchableOpacity style={styles.changeImageButton} onPress={pickImage}>
+            <Text style={styles.buttonText}>사진 바꾸기</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.editButtons}>
+            <TouchableOpacity style={styles.confirmButton} onPress={confirmImageChange}>
+              <Text style={styles.buttonText}>확인</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelButton} onPress={cancelImageChange}>
+              <Text style={styles.buttonText}>취소</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* 사용자 정보 표시 */}
@@ -81,13 +125,13 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginBottom:30,
+    marginBottom: 30,
     marginTop: 30
   },
   profileImage: {
     width: 150,
     height: 150,
-    borderRadius: 60,
+    borderRadius: 75,
     marginBottom: 10,
   },
   changeImageButton: {
@@ -101,6 +145,23 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  editButtons: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  confirmButton: {
+    backgroundColor: '#008DBF',
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#FF4C4C',
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   infoContainer: {
     marginBottom: 20,
