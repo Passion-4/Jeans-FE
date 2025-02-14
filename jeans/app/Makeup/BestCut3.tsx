@@ -1,18 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
 
 export default function BestShotScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const firstImage = params.firstImage; 
 
   return (
     <View style={styles.container}>
         <TopNavBar/>
       {/* 텍스트 설명 */}
-      <Text style={styles.title}>베스트샷이 완성되었습니다.{'\n'}기본 보정을 해보시겠어요?</Text>
+      <Text style={styles.title}>베스트샷입니다.{'\n'}기본 보정을 해보시겠어요?</Text>
 
       {/* 이미지 컨테이너 */}
       <View style={styles.imageContainer}>
@@ -86,10 +89,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 10,
     alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });

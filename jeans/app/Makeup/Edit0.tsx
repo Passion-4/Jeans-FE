@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
 
 export default function BestShotScreen() {
   const router = useRouter();
@@ -37,8 +38,7 @@ export default function BestShotScreen() {
       <TopNavBar />
 
       {/* 텍스트 설명 */}
-      <Text style={styles.title1}>기본 보정이 완료되었습니다.{'\n'}</Text>
-      <Text style={styles.title2}>추가 보정을 해보시겠어요?</Text>
+      <Text style={styles.title}>기본 보정이 완료되었습니다.{'\n'}추가 보정을 해보시겠어요?</Text>
 
 
       {/* 이미지 컨테이너 */}
@@ -47,15 +47,12 @@ export default function BestShotScreen() {
       </View>
 
       {/* 버튼 컨테이너 */}
+      {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.noButton} onPress={() => router.push('/Makeup/MakeUp_Finish')}>
-          <Text style={styles.buttonText}>아니오{'\n'}사진 저장</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.yesButton} onPress={() => router.push('/Makeup/Edit1')}>
-          <Text style={styles.buttonText}>예</Text>
-        </TouchableOpacity>
+        <HalfButton title="아니오" color="#3DB2FF"onPress={() => router.push('/Makeup/MakeUp_Finish')} />
+        <HalfButton title="예" onPress={() => router.push('/Makeup/Edit1')} />
       </View>
+    
 
       <BottomNavBar />
     </View>
@@ -86,6 +83,13 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
+  title: {
+    fontSize: 30,
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    marginBottom: 20, // 이미지와 간격 추가
+    marginTop: 30,
+  },
   title1: {
     fontSize: 25,
     fontFamily: 'Bold',
@@ -112,37 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
-    flexDirection: 'row', // 가로 배치
-    justifyContent: 'center', // 중앙 정렬
-    alignItems: 'center', // 위아래 중앙 정렬
-    marginTop: 10,
-    marginBottom:20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
     width: '100%',
-  },
-  noButton: {
-    backgroundColor: '#008DBF',
-    paddingVertical: 20,
-    marginRight: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center', // 텍스트 중앙 정렬
-    width:100,
-    height:85
-  },
-  yesButton: {
-    width:100,
-    height:85,
-    backgroundColor: '#008DBF',
-    paddingVertical: 20,
-    marginLeft: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center', // 텍스트 중앙 정렬
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Medium',
-    textAlign: 'center', // 버튼 내 텍스트 중앙 정렬
+    paddingHorizontal: 40,
   },
 });

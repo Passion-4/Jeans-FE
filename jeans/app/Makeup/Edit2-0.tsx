@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
 
 export default function BestShotScreen() {
   const router = useRouter();
@@ -35,14 +36,10 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => router.push('/Makeup/Edit1')}>
-          <Text style={styles.buttonText}>취소</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.confirmButton} onPress={() => router.push('/Makeup/Edit1')}>
-          <Text style={styles.buttonText}>완료</Text>
-        </TouchableOpacity>
+        <HalfButton title="그만두기" color="#3DB2FF"onPress={() => router.push('/Makeup/Edit1')} />
+        <HalfButton title="완료" onPress={() => router.push('/Makeup/Edit1')} />
       </View>
+      
 
       <BottomNavBar />
     </View>
@@ -108,26 +105,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 40,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: '#3DB2FF',
-    paddingVertical: 15,
-    marginRight: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  confirmButton: {
-    flex: 1,
-    backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    marginLeft: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Medium',
   },
 });

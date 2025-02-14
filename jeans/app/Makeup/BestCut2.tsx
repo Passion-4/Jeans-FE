@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-
-// 네비게이션 바 가져오기
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '../../components/FullButton';
 
 export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
@@ -49,9 +48,7 @@ export default function PhotoSelectionIntroScreen() {
 
       {/* 확인 버튼 - 사진 선택 시만 표시 */}
       {selectedBox !== null && (
-        <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmSelection}>
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
+        <FullButton title='확 인' onPress={handleConfirmSelection}></FullButton>
       )}
 
       {/* 하단 네비게이션 바 */}
@@ -80,6 +77,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap', // 자동 줄 바꿈
     justifyContent: 'center',
     gap: 20, // 사진 간 간격 조정
+    marginBottom:50
   },
   photo: {
     width: 120,
@@ -89,19 +87,5 @@ const styles = StyleSheet.create({
   selected: {
     borderWidth: 8,
     borderColor: 'rgba(255, 183, 6, 0.6)',
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily: 'Medium',
   },
 });

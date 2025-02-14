@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '../../components/FullButton';
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
@@ -13,13 +14,19 @@ export default function PhotoSelectionScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // 이미지 선택
       allowsMultipleSelection: true, // 여러 개 선택 가능
-      selectionLimit: 5, // 최대 선택 개수
+      selectionLimit: 6, // 최대 선택 개수
       quality: 1, // 원본 화질 유지
     });
 
     if (!result.canceled && result.assets) {
       const imageUris = result.assets.map((asset) => asset.uri);
+      const firstImage = imageUris[0]; 
 
+      router.push({
+        pathname: '/Makeup/BestCut1',
+        params: { images: JSON.stringify(imageUris), firstImage: imageUris[0] },
+      });
+      
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
       router.push({
         pathname: '/Makeup/BestCut1',
@@ -43,11 +50,7 @@ export default function PhotoSelectionScreen() {
       />
 
       {/* 갤러리 열기 버튼 */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.optionButton} onPress={pickImages}>
-          <Text style={styles.buttonText}>갤러리에서 사진 선택</Text>
-        </TouchableOpacity>
-      </View>
+      <FullButton title='갤러리에서 사진 선택' onPress={pickImages}></FullButton>
 
       <BottomNavBar />
     </View>
@@ -67,29 +70,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가
-    marginTop: 100,
+    marginTop: 50,
   },
   image: {
     width: 200, // 이미지 크기 조정
     height: 200,
     marginBottom: 30, // 버튼과의 간격 추가
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    marginBottom: 120,
-    width: 200,
-  },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 20,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: 'Medium',
-    color: 'white',
   },
 });

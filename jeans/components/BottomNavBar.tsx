@@ -9,7 +9,8 @@ export default function BottomNavBar() {
   const [isRecording, setIsRecording] = useState(false); // 🔹 녹음 모달 상태 관리
 
   return (
-    <View>
+    <>
+      {/* ✅ 하단 네비게이션 바 고정 */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Home/Mainpage')}>
           <Text style={styles.navText}>친구 소식</Text>
@@ -40,13 +41,13 @@ export default function BottomNavBar() {
           </TouchableOpacity>
         </View>
       </Modal>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   bottomNav: {
-    position: 'absolute',
+    position: 'absolute', // 📌 항상 하단 고정
     bottom: 0,
     left: 0,
     right: 0,
@@ -58,17 +59,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderColor: '#E0E0E0',
-    zIndex: 1000,
+    zIndex: 1000, // ✅ 다른 요소들보다 위로 배치
   },
   navButton: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 15,
-    marginBottom: 15,
   },
   navText: {
     fontSize: 20,
     fontFamily: 'Bold',
+    marginBottom:20
   },
   centerButton: {
     width: 90,
@@ -77,12 +78,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 20,
+    elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    marginBottom: 40,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    marginBottom: 40, // ✅ 버튼이 네비게이션 바와 자연스럽게 정렬됨
   },
 
   /** 🔹 녹음 모달 스타일 */
