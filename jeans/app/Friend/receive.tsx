@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
@@ -19,13 +19,15 @@ export default function FriendRequestsScreen() {
   }, []);
 
   // 친구 요청 수락
-  const acceptRequest = (id: number) => {
+  const acceptRequest = (id: number, name: string) => {
+    Alert.alert("친구 요청 수락", `${name}님이랑 친구가 되었습니다.`);
     setFriendRequests((prev) => prev.filter((request) => request.id !== id));
     // TODO: 백엔드에 친구 요청 수락 API 요청 보내기
   };
 
   // 친구 요청 거절
-  const declineRequest = (id: number) => {
+  const declineRequest = (id: number, name: string) => {
+    Alert.alert("친구 요청 거절", `${name}님의 친구 요청을 거절하였습니다.`);
     setFriendRequests((prev) => prev.filter((request) => request.id !== id));
     // TODO: 백엔드에 친구 요청 거절 API 요청 보내기
   };
@@ -47,10 +49,16 @@ export default function FriendRequestsScreen() {
               <Image source={item.profileImage} style={styles.profileImage} />
               <Text style={styles.name}>{item.name}</Text>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.acceptButton} onPress={() => acceptRequest(item.id)}>
+                <TouchableOpacity 
+                  style={styles.acceptButton} 
+                  onPress={() => acceptRequest(item.id, item.name)}
+                >
                   <Text style={styles.buttonText}>수락</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.declineButton} onPress={() => declineRequest(item.id)}>
+                <TouchableOpacity 
+                  style={styles.declineButton} 
+                  onPress={() => declineRequest(item.id, item.name)}
+                >
                   <Text style={styles.buttonText}>거절</Text>
                 </TouchableOpacity>
               </View>
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     textAlign: 'center',
     marginTop: 150,
-    marginBottom: 100
+    marginBottom: 50,
   },
   noRequestsText: {
     fontSize: 18,

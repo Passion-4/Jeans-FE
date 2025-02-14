@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
@@ -15,6 +15,12 @@ const dummyFriends = [
 
 export default function FriendListScreen() {
   const router = useRouter();
+  const [selectedFriend, setSelectedFriend] = useState<number | null>(null);
+
+  // 친구 선택 시 실행되는 함수
+  const selectFriend = (friendId: number) => {
+    setSelectedFriend(friendId === selectedFriend ? null : friendId);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,21 +37,25 @@ export default function FriendListScreen() {
         numColumns={3}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.friendCard}>
+          <TouchableOpacity
+            style={[styles.friendCard, selectedFriend === item.id && styles.selectedFriend]}
+            onPress={() => selectFriend(item.id)}
+          >
             <Image source={item.profileImage} style={styles.friendImage} />
             <Text style={styles.friendName}>{item.name}</Text>
             <Text style={styles.friendRelation}>{item.relation}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
       />
 
-      {/* 확인 버튼 */}
+      {/* 별명 만들기 버튼 - 친구 선택 시만 활성화 */}
       <TouchableOpacity
-        style={[styles.confirmButton]}
-        onPress={() => router.back()}
+        style={[styles.confirmButton, selectedFriend === null && styles.disabledButton]}
+        onPress={() => router.push('/Friend/relation')}
+        disabled={selectedFriend === null}
       >
-        <Text style={styles.confirmText}>뒤로 가기</Text>
+        <Text style={styles.confirmText}>별명 만들기</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
@@ -85,6 +95,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     elevation: 3,
   },
+  selectedFriend: {
+    backgroundColor: '#D6EAF8', // 선택된 친구의 배경색 변경
+    borderWidth: 2,
+    borderColor: '#008DBF',
+  },
   friendImage: {
     width: 80,
     height: 80,
@@ -94,7 +109,7 @@ const styles = StyleSheet.create({
   friendName: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5
+    marginBottom: 5,
   },
   friendRelation: {
     fontSize: 18,
@@ -110,11 +125,12 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginBottom: 200,
   },
+  disabledButton: {
+    backgroundColor: '#B0BEC5', // 선택되지 않았을 때 비활성화 색상
+  },
   confirmText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
   },
 });
-
-
