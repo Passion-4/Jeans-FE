@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '../../components/FullButton';
 
 export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
@@ -8,15 +9,10 @@ export default function PhotoSelectionIntroScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.description}>
-        <Text style={styles.strongText}>지금부터 화면에 보이는{'\n'}  두 개의 사진 중 마음에 드는 {'\n'} 사진을 골라주세요.</Text>
+        <Text style={styles.strongText}>지금부터 화면에 보이는{'\n'}두 개의 사진 중 마음에 드는 {'\n'} 사진을 골라주세요.</Text>
       </Text>
 
-      {/* 다음 버튼 - 첫 번째 사진 선택 화면으로 이동 */}
-      <TouchableOpacity 
-        style={styles.nextButton} 
-        onPress={() => router.push('/Set/PhotoSelection1')}>
-        <Text style={styles.nextText}>다음</Text>
-      </TouchableOpacity>
+    <FullButton title='다 음' onPress={() => router.push('/Set/PhotoSelection1')}></FullButton>
     </View>
   );
 }
@@ -30,28 +26,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   description: {
-    fontSize: 19,
+    fontSize: 20,
     textAlign: 'center',
     marginBottom: 40,
     lineHeight: 50,
-
   },
   strongText: {
-    fontSize: 28,
-        fontFamily:'Bold'
-  },
-  nextButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  nextText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily:'Medium'
+    fontSize: 30,
+        fontFamily:'Bold' 
   },
 });

@@ -37,7 +37,7 @@ export default function Share2Screen() {
       <TopNavBar />
 
       {/* 타이틀 */}
-      <Text style={styles.title}>어떻게 보낼지 선택해 주세요</Text>
+      <Text style={styles.title}>공유 방법을{'\n'}선택해 주세요.</Text>
 
       {/* 옵션 버튼 */}
       <View style={styles.buttonContainer}>
@@ -53,11 +53,6 @@ export default function Share2Screen() {
         </TouchableOpacity>
       </View>
 
-      {/* 그만하기 버튼 */}
-      <TouchableOpacity style={styles.quitButton} onPress={() => router.push('/Share/Share1')}>
-        <Text style={styles.quitText}>뒤로가기기</Text>
-      </TouchableOpacity>
-
       <BottomNavBar />
     </View>
   );
@@ -72,8 +67,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 35,
+    fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 80,
   },
@@ -92,18 +87,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-  },
-  quitButton: {
-    width: '100%',
-    paddingVertical: 20,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  quitText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-  },
+  }
 });

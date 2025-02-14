@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '../components/FullButton';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -25,14 +26,10 @@ export default function LoginScreen() {
           placeholderTextColor="#5E6365" 
           secureTextEntry={!passwordVisible}
         />
-        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
-          <Text>{passwordVisible ? '👁️' : '🙈'}</Text>
-        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/Set/PhotoSelection0')}>
-        <Text style={styles.loginText}>로그인</Text>
-      </TouchableOpacity>
+      {/* ✅ FullButton과 동일한 크기로 설정 */}
+      <FullButton title="로그인" onPress={() => router.push('/Set/PhotoSelection0')} />
 
       <TouchableOpacity onPress={() => router.push('/FindAccount/Find_Account')}>
         <Text style={styles.forgotPassword}>아이디와 비밀번호를 잊으셨나요?</Text>
@@ -55,65 +52,51 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30, 
     fontFamily: 'Bold',
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
-    marginTop: 10,
-    marginBottom: 7,
-    fontFamily: 'Medium'
+    fontSize: 20,
+    marginBottom: 8, 
+    fontFamily: 'Medium',
   },
   input: {
-    width: '100%',
-    height: 50,
+    width: '100%', // ✅ FullButton과 크기 맞추기
+    height: 55, // ✅ FullButton과 동일한 높이로 설정
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10, // ✅ FullButton의 borderRadius와 동일하게 설정
+    paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginTop: 5,
-    fontFamily:'Light'
+    marginBottom: 20, // ✅ 간격 동일하게 설정
+    fontFamily: 'Light',
+    fontSize:15
   },
   passwordContainer: {
-    width: '100%',
+    width: '100%', // ✅ FullButton과 동일한 너비 설정
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 20, // ✅ 간격 동일하게 설정
   },
   eyeIcon: {
     position: 'absolute',
-    right: 10,
-  },
-  loginButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  loginText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily: 'Medium',
+    right: 15,
   },
   forgotPassword: {
     color: '#888888',
-    fontSize: 17,
-    marginTop: 17,
-    marginBottom: 10,
+    fontSize: 20,
+    marginTop: 5,
+    marginBottom: 20, // ✅ 간격 동일하게 설정
     fontFamily: 'Medium',
-    textDecorationLine: 'underline', // 밑줄 추가
+    textDecorationLine: 'underline',
   },
   signup: {
     color: '#008DBF',
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: 'bold',
     marginTop: 5,
-    fontFamily: 'Bold'
+    fontFamily: 'Bold',
   },
 });

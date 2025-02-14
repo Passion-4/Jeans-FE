@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '../../components/FullButton';
 
 export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
   const [selectedBox, setSelectedBox] = useState<number | null>(null);
-
-  // 사진 경로 배열
   const photoSources = [
     require('../../assets/images/selec1.jpg'),
     require('../../assets/images/selec2.jpg'),
@@ -39,10 +38,7 @@ export default function PhotoSelectionIntroScreen() {
 
       {/* 확인 버튼 - 사진 선택 시만 표시 */}
       {selectedBox !== null && (
-        <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmSelection}>
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
-      )}
+        <FullButton title='확 인' onPress={handleConfirmSelection}></FullButton>)}
     </View>
   );
 }
@@ -75,19 +71,5 @@ const styles = StyleSheet.create({
   selected: {
     borderWidth: 8,
     borderColor: 'rgba(255, 183, 6, 0.6)'
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily: 'Medium',
   },
 });

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
+import FullButton from '../../components/FullButton';
 
 export default function PhotoSelectionCompleteScreen() {
   const router = useRouter();
@@ -9,9 +10,9 @@ export default function PhotoSelectionCompleteScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>사진 선택이 완료되었습니다!</Text>
+      <Text style={styles.title}>사진 선택이 {'\n'}완료되었습니다!</Text>
       
-      {/* Lottie 애니메이션 - 크기 고정 및 사라지지 않도록 수정 */}
+      {/* 애니메이션 */}
       <LottieView 
         source={require('../../assets/animations/Animation - 1739343498719.json')} 
         autoPlay
@@ -21,11 +22,7 @@ export default function PhotoSelectionCompleteScreen() {
       />
 
       {/* 완료 버튼 */}
-      <TouchableOpacity 
-        style={styles.completeButton} 
-        onPress={() => router.push('/Home/Mainpage')}>
-        <Text style={styles.completeText}>완료</Text>
-      </TouchableOpacity>
+      <FullButton title='완 료' onPress={() => router.push('/Home/Mainpage')}></FullButton>
     </View>
   );
 }
@@ -39,7 +36,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     marginBottom: 20,
     textAlign: 'center',
     fontFamily: 'Bold',
@@ -48,19 +45,5 @@ const styles = StyleSheet.create({
     width: 90,  
     height: 90, 
     marginBottom: 20,
-  },
-  completeButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  completeText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily: 'Medium',
   },
 });

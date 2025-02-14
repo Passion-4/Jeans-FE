@@ -39,7 +39,7 @@ export default function HomeUILayout() {
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>친구들에게 공유하기</Text>
+        <Text style={styles.title}>공유할 친구 선택하기</Text>
       </View>
 
       {/* 친구 목록 컨테이너 */}
@@ -49,7 +49,7 @@ export default function HomeUILayout() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[styles.friendButton, selectedFriends.includes(item.id) && styles.selectedFriend]}
+            style={[styles.friendCard, selectedFriends.includes(item.id) && styles.selectedFriend]}
             onPress={() => toggleFriendSelection(item.id)}
           >
             <Image source={item.profileImage} style={styles.friendImage} />
@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   titleContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 20,
     paddingHorizontal: 15,
-    marginTop: 120,
+    marginTop: 150,
   },
   title: {
     fontSize: 35,
@@ -96,33 +96,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 10,
   },
-  friendButton: {
+  friendCard: {
     width: 100,
-    height: 130,
+    height: 150,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
     elevation: 3,
+    padding: 10,
   },
   selectedFriend: {
-    borderWidth: 3,
+    borderWidth: 5,
     borderColor: '#008DBF',
   },
   friendImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    marginBottom: 5,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 7,
   },
   friendName: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily:'Medium',
+    marginBottom: 5,
   },
   friendRelation: {
-    fontSize: 12,
+    fontSize: 18,
     color: '#777',
+    fontFamily:'Medium'
   },
   confirmButton: {
     width: '100%',
