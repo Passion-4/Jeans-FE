@@ -1,43 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
-import BottomNavBar from '../../components/BottomNavBar'
+import BottomNavBar from '../../components/BottomNavBar';
+import CustomButton from '../../components/FullButton'; // ✅ 재사용 버튼 가져오기
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-    <TopNavBar/>
+      <TopNavBar />
 
-    {/* 타이틀 */}
-    <Text style={styles.title}>하고 싶은 추가 보정을 {'\n'}선택해주세요. </Text>
+      {/* 타이틀 */}
+      <Text style={styles.title}>하고 싶은 추가 보정을 {'\n'}선택해주세요.</Text>
 
-      {/* 편집 기능 3가지 */}
+      {/* 편집 기능 3가지 (재사용 버튼 적용) */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-0')}>
-          <Text style={styles.buttonText}>동 안</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-1')}>
-          <Text style={styles.buttonText}>새 치</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/Makeup/Edit2-2')}>
-          <Text style={styles.buttonText}>몸 매</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton2}onPress={() => router.push('/Makeup/MakeUp_Finish')}>
-          <Text style={styles.buttonText}>추가 보정 하지 않고 사진 저장하기</Text>
-        </TouchableOpacity>
+        <CustomButton title="동안" onPress={() => router.push('/Makeup/Edit2-0')} />
+        <CustomButton title="새치" onPress={() => router.push('/Makeup/Edit2-1')} />
+        <CustomButton title="몸매" onPress={() => router.push('/Makeup/Edit2-2')} />
+        <CustomButton 
+          title="추가 보정 하지 않고 사진 저장하기" 
+          onPress={() => router.push('/Makeup/MakeUp_Finish')} 
+          color="#3DB2FF" 
+        />
       </View>
-
-      {/* 빈 공간 추가 (하단 네비게이션을 아래로 밀기 위함) */}
-      <View style={{ flex: 1 }} />
-
-      <BottomNavBar/>
-
-    
-          </View>
+      
+      <BottomNavBar />
+    </View>
   );
 }
 
@@ -49,34 +40,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontFamily:'Bold',
+    fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 50,
-    marginTop:200
+    marginTop: 200,
   },
   buttonContainer: {
     alignItems: 'center',
   },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 20,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily:'Medium',
-    color: 'white',
-  },
-  optionButton2: {
-    width: '100%',
-    paddingVertical: 20,
-    backgroundColor: '#3DB2FF',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  
 });
