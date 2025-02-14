@@ -22,7 +22,6 @@ export default function BottomNavBar() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   bottomNav: {
     position: 'absolute', // 하단에 고정
@@ -56,11 +55,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5, // Android 그림자 효과
-    shadowColor: '#000', // iOS 그림자 효과
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    marginBottom:40
+
+    /** 🔹 강한 그림자 효과 */
+    elevation: 20, // Android에서 그림자 강도 높이기
+    shadowColor: '#000', // iOS 그림자 색상
+    shadowOffset: { width: 0, height: 6 }, // 그림자의 방향 및 크기
+    shadowOpacity: 0.5, // 그림자의 투명도 증가 (기존 0.3 -> 0.5)
+    shadowRadius: 20, // 그림자의 흐림 효과 증가 (기존 5 -> 8)
+
+    marginBottom: 40,
   },
 });

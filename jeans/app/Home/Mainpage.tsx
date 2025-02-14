@@ -10,7 +10,7 @@ export default function HomeUILayout() {
 
   // 더미 데이터 (프사: friend1.jpg)
   const friends = [
-    { id: 1, name: '김춘자(나)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
+    { id: 1, name: '김덕배(나)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 2, name: '이순복', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 3, name: '박영남', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 4, name: '박보석(아들)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
@@ -19,7 +19,7 @@ export default function HomeUILayout() {
 
   // 공유된 사진 (공통 이미지: photo2.png)
   const sharedPhotos: Record<string, { id: number; imageUrl: any }[]> = {
-    '김춘자(나)': [
+    '김덕배(나)': [
       { id: 1, imageUrl: require('../../assets/images/photo2.png') },
       { id: 2, imageUrl: require('../../assets/images/photo2.png') },
     ],
