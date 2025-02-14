@@ -98,14 +98,17 @@ export default function HomeUILayout() {
 
       {/* 📌 공유된 사진 */}
       <View style={styles.photosContainer}>
-        <View style={styles.photosScrollWrapper}>
-          <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
-            {sharedPhotos[selectedFriend.name]?.map((photo) => (
-              <Image key={photo.id} source={photo.imageUrl} style={styles.sharedPhoto} />
-            ))}
-          </ScrollView>
-        </View>
-      </View>
+  <View style={styles.photosScrollWrapper}>
+    <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
+      {sharedPhotos[selectedFriend.name]?.map((photo) => (
+        <TouchableOpacity key={photo.id} onPress={() => router.push({ pathname: '/Home/PhotoDetail', params: { photoId: photo.id } })}>
+          <Image source={photo.imageUrl} style={styles.sharedPhoto} />
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  </View>
+</View>
+
 
       <BottomNavBar />
     </View>
@@ -223,5 +226,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginBottom: 5,
     borderRadius: 10,
+
   },
 });

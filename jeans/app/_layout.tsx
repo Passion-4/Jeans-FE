@@ -62,6 +62,7 @@ export default function RootLayout() {
           {/* 메인 페이지 */}
           <Stack.Screen name="Home/Mainpage" options={{ title: '메인 페이지', headerShown: false}} />
           <Stack.Screen name="Home/GroupImgEdit" options={{ title: '메인 페이지 - 그룹 프로필 사진 수정', headerShown: false}} />
+          <Stack.Screen name="Home/PhotoDetail" options={{ title: '메인 페이지 - 사진 상세 정보 및 대화', headerShown: false}} />
 
           {/* 마이 페이지 */}
           <Stack.Screen name="MyPage/MyPage0" options={{ title: '마이 페이지 - 첫 화면', headerShown: false}} />
