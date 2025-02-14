@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   titleContainer: {
-    marginTop: 100,
+    marginTop: 120,
     marginBottom: 30,
   },
   title: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   friendContainer: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 50,
   },
   friendImage: {
     width: 120,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 180,
   },
   optionButton: {
     width: '100%',
