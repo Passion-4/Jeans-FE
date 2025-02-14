@@ -53,8 +53,8 @@ export default function HomeUILayout() {
           <Text style={styles.title}>친구들 소식 확인</Text>
           <Text style={styles.description}>
             {selectedFriend.isGroup
-              ? `[${selectedFriend.name}] 과의 최근 추억을 둘러보세요.`
-              : `${selectedFriend.name}과의 최근 추억을 둘러보세요.`}
+              ? `[${selectedFriend.name}] 과 나눈 추억을 둘러보세요.`
+              : `${selectedFriend.name}과 나눈 추억을 둘러보세요.`}
           </Text>
         </View>
       </View>
@@ -222,10 +222,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sharedPhoto: {
-    width: '49%',
+    width: 170,
+    height:170,
     aspectRatio: 1,
     marginBottom: 5,
     borderRadius: 10,
-
   },
 });

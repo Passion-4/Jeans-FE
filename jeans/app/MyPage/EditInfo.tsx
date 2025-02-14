@@ -1,109 +1,112 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Keyboard,
+} from 'react-native';
 import { useRouter } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
-export default function EditProfileScreen() {
+export default function GroupEditScreen() {
   const router = useRouter();
+  const [groupName, setGroupName] = useState('가족 그룹'); // 기존 그룹 이름
+  const [groupImage, setGroupImage] = useState(require('../../assets/images/friend1.jpg')); // 기본 이미지
+  const [keyboardVisible, setKeyboardVisible] = useState(false); // 키보드 상태 감지
+  const inputRef = useRef<TextInput | null>(null); // 입력 필드 참조
 
-  // 사용자 정보
-  const [userInfo, setUserInfo] = useState({
-    name: '이준용',
-    birthdate: '1999-09-27',
-    phoneNumber: '+82 10-1234-5678',
-  });
+  // ✅ 키보드 상태 감지 이벤트 등록
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
 
-  // 이미지 상태 관리
-  const [profileImage, setProfileImage] = useState(require('../../assets/images/icon.png')); // 기본 이미지
-  const [tempImage, setTempImage] = useState<string | null>(null); // 임시 저장된 이미지
-  const [isEditing, setIsEditing] = useState(false); // "확인" & "취소" 버튼 표시 여부
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
 
-  // 갤러리에서 이미지 선택
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  // ✅ 갤러리에서 이미지 선택
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: true, // 정방형 크롭 가능
       aspect: [1, 1],
       quality: 1,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      setTempImage(result.assets[0].uri); // 임시 이미지 저장
-      setIsEditing(true); // 확인/취소 버튼 보이기
+      setGroupImage({ uri: result.assets[0].uri });
     }
   };
 
-  // 이미지 변경 확정
-  const confirmImageChange = () => {
-    if (tempImage) {
-      setProfileImage({ uri: tempImage }); // 프로필 이미지 변경
-      setIsEditing(false); // 버튼 숨김
-      setTempImage(null); // 임시 이미지 초기화
-    }
-  };
-
-  // 이미지 변경 취소
-  const cancelImageChange = () => {
-    setTempImage(null); // 임시 이미지 초기화
-    setIsEditing(false); // 버튼 숨김
+  // ✅ 저장 버튼 클릭 시 홈 화면 이동
+  const handleSave = () => {
+    Keyboard.dismiss(); // 키보드 내리기
+    router.push('/Home/Mainpage'); // 홈 화면으로 이동
   };
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 내 계정 섹션 */}
-      <Text style={styles.sectionTitle}>내 계정</Text>
+      {/* 타이틀 */}
+      <Text style={styles.title}>내 계정</Text>
 
       {/* 프로필 이미지 */}
-      <View style={styles.profileContainer}>
-        <Image 
-          source={tempImage ? { uri: tempImage } : profileImage} 
-          style={styles.profileImage} 
-        />
+      <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+        <Image source={groupImage} style={styles.image} />
+      </TouchableOpacity>
 
-        {/* 이미지 변경 버튼 */}
-        {!isEditing ? (
-          <TouchableOpacity style={styles.changeImageButton} onPress={pickImage}>
-            <Text style={styles.buttonText}>사진 바꾸기</Text>
+      {/* 프로필 사진 수정 버튼 */}
+      <TouchableOpacity style={styles.imageEditButton} onPress={pickImage}>
+        <Text style={styles.imageEditText}>프로필 사진 수정</Text>
+      </TouchableOpacity>
+
+      {/* 그룹 이름 입력 필드 */}
+      <View style={styles.inputContainer}>
+        {/* ✏️ 작은 연필 아이콘 (이름 수정) */}
+        <TouchableOpacity onPress={() => inputRef.current?.focus()} style={styles.editIcon}>
+          <Ionicons name="pencil-outline" size={24} color="#008DBF" />
+        </TouchableOpacity>
+
+        <TextInput
+          ref={inputRef}
+          style={styles.input}
+          placeholder="그룹 이름"
+          placeholderTextColor="#999"
+          value={groupName}
+          onChangeText={setGroupName}
+        />
+        
+
+        {/* ✅ 키보드가 올라와 있을 때만 확인 버튼 표시 */}
+        {keyboardVisible && (
+          <TouchableOpacity style={styles.confirmButton} onPress={Keyboard.dismiss}>
+            <Text style={styles.confirmButtonText}>확인</Text>
           </TouchableOpacity>
-        ) : (
-          <View style={styles.editButtons}>
-            <TouchableOpacity style={styles.confirmButton} onPress={confirmImageChange}>
-              <Text style={styles.buttonText}>확인</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButton} onPress={cancelImageChange}>
-              <Text style={styles.buttonText}>취소</Text>
-            </TouchableOpacity>
-          </View>
         )}
       </View>
 
-      {/* 사용자 정보 표시 */}
-      <View style={styles.infoContainer}>
-        <View style={styles.infoRow}>
-          <Text style={styles.label}>이름:</Text>
-          <Text style={styles.value}>{userInfo.name}</Text>
-        </View>
-
-        <View style={styles.infoRow}>
-          <Text style={styles.label}>생년월일:</Text>
-          <Text style={styles.value}>{userInfo.birthdate}</Text>
-        </View>
-
-        <View style={styles.infoRow}>
-          <Text style={styles.label}>전화번호:</Text>
-          <Text style={styles.value}>{userInfo.phoneNumber}</Text>
-        </View>
-      </View>
+      {/* 저장 버튼 */}
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveText}>저장하기</Text>
+      </TouchableOpacity>
 
       {/* 비밀번호 변경 버튼 */}
-      <TouchableOpacity style={styles.passwordButton} onPress={() => router.push('/Profile/password')}>
-        <Text style={styles.passwordText}>비밀번호 바꾸기</Text>
-        <Ionicons name="chevron-forward" size={24} color="#777" />
+      <TouchableOpacity style={styles.saveButton} onPress={() => router.push('/Profile/password')}>
+        <Text style={styles.saveText}>비밀번호 바꾸기</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
@@ -116,70 +119,84 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginTop: 150,
-    marginBottom: 10,
-  },
-  profileContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
-    marginTop: 30
   },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+  title: {
+    fontSize: 35,
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    marginBottom: 30,
+  },
+  imageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60, // 동그랗게
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#008DBF',
     marginBottom: 10,
   },
-  changeImageButton: {
-    backgroundColor: '#008DBF',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 10
+  image: {
+    width: '100%',
+    height: '100%',
   },
-  buttonText: {
-    color: '#FFFFFF',
+  imageEditButton: {
+    backgroundColor: '#E0E0E0',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  imageEditText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Medium',
+    color: '#333',
   },
-  editButtons: {
+  inputContainer: {
     flexDirection: 'row',
-    marginTop: 10,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+    width: '100%',
+    marginBottom: 30,
+    paddingVertical: 5,
+  },
+  editIcon: {
+    padding: 5,
+    marginRight: 5,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    fontSize: 20,
+    textAlign: 'left',
+    paddingHorizontal: 5,
   },
   confirmButton: {
     backgroundColor: '#008DBF',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 5,
-    marginRight: 10,
+    marginLeft: 10,
   },
-  cancelButton: {
-    backgroundColor: '#FF4C4C',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+  confirmButtonText: {
+    color: 'white',
+    fontFamily: 'Medium',
+    fontSize: 16,
   },
-  infoContainer: {
-    marginBottom: 20,
+  saveButton: {
+    width: '100%',
+    paddingVertical: 15,
+    backgroundColor: '#008DBF',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom:10
   },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  value: {
-    fontSize: 18,
-    color: '#333',
+  saveText: {
+    fontSize: 20,
+    fontFamily: 'Medium',
+    color: 'white',
   },
   passwordButton: {
     flexDirection: 'row',
@@ -196,3 +213,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
