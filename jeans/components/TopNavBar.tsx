@@ -15,7 +15,7 @@ export default function TopNavBar() {
         </TouchableOpacity>
 
         {/* 👥 사람 여러 명 아이콘 */}
-        <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+        <TouchableOpacity onPress={() => router.push('/MyPage/Connect')}>
           <Ionicons name="people-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
 
