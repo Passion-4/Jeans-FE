@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
@@ -22,6 +22,18 @@ export default function FriendDeleteScreen() {
   const toggleFriendSelection = (friendId: number) => {
     setSelectedFriends((prev) =>
       prev.includes(friendId) ? prev.filter((id) => id !== friendId) : [...prev, friendId]
+    );
+  };
+
+  // 삭제 확인 경고창
+  const confirmDelete = () => {
+    Alert.alert(
+      "친구 삭제",
+      "정말 삭제하시겠습니까?",
+      [
+        { text: "취소", style: "cancel" },
+        { text: "삭제", style: "destructive", onPress: deleteSelectedFriends }
+      ]
     );
   };
 
@@ -61,7 +73,7 @@ export default function FriendDeleteScreen() {
       {/* 삭제 버튼 */}
       <TouchableOpacity
         style={[styles.deleteButton, selectedFriends.length === 0 && styles.disabledButton]}
-        onPress={deleteSelectedFriends}
+        onPress={confirmDelete}
         disabled={selectedFriends.length === 0}
       >
         <Text style={styles.confirmText}>삭제하기</Text>
