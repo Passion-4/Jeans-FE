@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -10,7 +11,6 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>비밀번호 바꾸기</Text>
 
-
       <Text style={styles.label}>기존 비밀번호</Text>
       <View style={styles.passwordContainer}>
         <TextInput
@@ -19,14 +19,9 @@ export default function LoginScreen() {
           placeholderTextColor="#5E6365" 
           secureTextEntry={!passwordVisible}
         />
-        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
-          <Text>{passwordVisible ? '👁️' : '🙈'}</Text>
-        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/Profile/password_new')}>
-        <Text style={styles.loginText}>확 인</Text>
-      </TouchableOpacity>
+      <FullButton title='확 인' onPress={() => router.push('/Profile/password_new')}></FullButton>
 
       <TouchableOpacity onPress={() => router.push('/FindAccount/Find_Account')}>
         <Text style={styles.forgotPassword}>아이디와 비밀번호를 잊으셨나요?</Text>
@@ -46,28 +41,28 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
     fontFamily: 'Bold',
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
-    fontSize: 17,
+    fontSize: 20,
     marginTop: 10,
-    marginBottom: 7,
+    marginBottom: 15,
     fontFamily: 'Medium'
   },
   input: {
-    width: '100%',
-    height: 50,
+    width: '100%', // FullButton과 크기 맞추기
+    height: 55, // FullButton과 동일한 높이로 설정
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10, // FullButton의 borderRadius와 동일하게 설정
+    paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginTop: 5,
-    fontFamily:'Light'
+    marginBottom: 15, // 간격 동일하게 설정
+    fontFamily: 'Light',
+    fontSize:15
   },
   passwordContainer: {
     width: '100%',
