@@ -39,6 +39,7 @@ export default function SignupScreen() {
         value={phone}
         onChangeText={(text) => setPhone(formatPhoneNumber(text))}
         maxLength={13} // 13자리 (하이픈 포함)
+        placeholderTextColor="#5E6365"  
       />
 
       {/* 안내 문구 추가 */}
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     marginBottom: 15, 
     fontFamily: 'Medium',
-    fontSize:18
+    fontSize:18,
   },
   backToLogin: {
     color: '#888888',
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 17,
-    color: '#F18308',
+    color: '#3DB2FF',
     fontFamily: 'Medium',
     marginTop: 10,
     marginBottom: 20,

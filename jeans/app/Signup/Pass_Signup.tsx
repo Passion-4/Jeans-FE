@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
 export default function PasswordSignupScreen() {
   const router = useRouter();
@@ -18,11 +19,13 @@ export default function PasswordSignupScreen() {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        placeholderTextColor="#5E6365"  
       />
+
       {/* 안내 문구 추가 */}
-            <Text style={styles.infoText}> * 비밀번호 생성 시 영어와 {'\n'} 숫자를 반드시 포함해주세요.</Text>
-            
-      
+      <Text style={styles.infoText}>
+        * 영어와 숫자를 반드시 포함해서 만들어주세요.
+      </Text>
 
       <Text style={styles.label}>비밀번호 확인</Text>
       <TextInput 
@@ -31,14 +34,14 @@ export default function PasswordSignupScreen() {
         secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
+        placeholderTextColor="#5E6365"  
       />
 
       {/* 다음 버튼 - 개인정보 동의 화면으로 이동 */}
-      <TouchableOpacity 
-        style={styles.signupButton} 
-        onPress={() => router.push('/Signup/Privacy_Signup')}>
-        <Text style={styles.signupText}>다음</Text>
-      </TouchableOpacity>
+      <FullButton 
+        title='다 음' 
+        onPress={() => router.push('/Signup/Privacy_Signup')}
+      />
     </View>
   );
 }
@@ -51,54 +54,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  infoText: {
-    fontSize: 17,
-    color: '#F18308',
-    fontFamily: 'Medium',
-    marginTop: 10,
-    marginBottom: 10,
-    alignSelf: 'flex-start',
-  },
   title: {
     fontSize: 35,
-    marginBottom: 60,
-    fontFamily:'Bold'
+    fontFamily: 'Bold',
+    marginBottom: 40,
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
     fontSize: 20,
-    marginTop: 10,
-    marginBottom: 7,
-    fontFamily:'Medium'
+    marginBottom: 15, // 동일한 간격 적용
+    fontFamily: 'Medium',
   },
   input: {
     width: '100%',
-    height: 50,
+    height: 55, // 동일한 높이
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginTop: 5,
-    fontFamily:'Light',
-    fontSize:17
+    marginBottom: 15, // 동일한 간격
+    fontFamily: 'Medium',
+    fontSize: 18,
   },
-  signupButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 170,
-  },
-  signupText: {
-    color: '#FFFFFF',
+  infoText: {
     fontSize: 17,
-    fontWeight: 'bold',
-    fontFamily:'Medium',
-
+    color: '#3DB2FF',
+    fontFamily: 'Medium',
+    marginBottom: 15,
+    alignSelf: 'flex-start',
   },
 });

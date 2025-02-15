@@ -91,16 +91,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
   },
   input: {
-    width: '100%',
-    height: 55,
+    width: '100%', 
+    height: 55, 
     borderColor: '#CCCCCC',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginBottom: 20,
-    fontFamily: 'Light',
-    fontSize: 15,
+    marginBottom: 15, 
+    fontFamily: 'Medium',
+    fontSize:18,
   },
 
   /** ✅ 모달 스타일 */
@@ -118,21 +118,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalTitle: {
-    fontSize: 22,
+    fontSize: 25,
     fontFamily: 'Bold',
     marginBottom: 10,
   },
   modalText: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'Medium',
     color: '#555',
-    marginBottom: 5,
+    marginBottom: 20,
   },
   passwordText: {
     fontSize: 24,
     fontFamily: 'Bold',
     color: '#008DBF',
-    marginBottom: 20,
+    marginBottom: 25,
   },
   closeButton: {
     backgroundColor: '#008DBF',

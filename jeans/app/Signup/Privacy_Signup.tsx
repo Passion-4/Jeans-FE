@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
 export default function PrivacySignupScreen() {
   const router = useRouter();
@@ -14,26 +15,21 @@ export default function PrivacySignupScreen() {
       <Text style={styles.label}>개인정보 수집·이용 동의</Text>
 
       <View style={styles.switchContainer}>
-        <Text>동의항목 1</Text>
+        <Text style={styles.context}>갤러리(사진, 미디어 접근 권한)</Text>
         <Switch value={isAgreed1} onValueChange={setIsAgreed1} />
       </View>
 
       <View style={styles.switchContainer}>
-        <Text>동의항목 2</Text>
+        <Text style={styles.context}>마이크(음성 녹음 권한)</Text>
         <Switch value={isAgreed2} onValueChange={setIsAgreed2} />
       </View>
 
       <View style={styles.switchContainer}>
-        <Text>동의항목 3</Text>
+      <Text style={styles.context}>위치 정보</Text>
         <Switch value={isAgreed3} onValueChange={setIsAgreed3} />
       </View>
 
-      {/* 다음 버튼 - 회원가입 완료 화면으로 이동 */}
-      <TouchableOpacity 
-        style={styles.signupButton} 
-        onPress={() => router.push('/Signup/Complete')}>
-        <Text style={styles.signupText}>다음</Text>
-      </TouchableOpacity>
+      <FullButton title='다 음' onPress={() => router.push('/Signup/Complete')}></FullButton>
     </View>
   );
 }
@@ -53,10 +49,11 @@ const styles = StyleSheet.create({
   },
   label: {
     alignSelf: 'flex-start',
-    marginLeft: 5,
+    marginLeft: 0,
     fontSize: 20,
-    marginBottom: 15,
-    fontFamily:'Medium'
+    marginTop: 10,
+    marginBottom: 40,
+    fontFamily:'Medium',
   },
   switchContainer: {
     flexDirection: 'row',
@@ -65,19 +62,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#DDDDDD',
+    marginBottom:20
   },
-  signupButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 40,
-  },
-  signupText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily:'Medium'
+  context: {
+    fontSize: 18,
+    marginBottom: 0,
+    fontFamily:'Medium',
+    color:"#5E6365"
   },
 });
