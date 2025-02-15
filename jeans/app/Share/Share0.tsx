@@ -9,7 +9,7 @@ import FullButton from '../../components/FullButton'; // ✅ FullButton 불러�
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
-  const { setSelectedImages } = useImageContext(); // ✅ 이미지 저장을 위한 context 사용
+  const {setSelectedImages} = useImageContext(); // ✅ 이미지 저장을 위한 context 사용
 
   // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
   const pickImages = useCallback(async () => {

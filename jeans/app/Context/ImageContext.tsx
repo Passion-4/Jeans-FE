@@ -26,5 +26,5 @@ export const useImageContext = () => {
   if (!context) {
     throw new Error('useImageContext must be used within an ImageProvider');
   }
-  return context;
+  return context ?? { selectedImages: [], setSelectedImages: () => {} };
 };

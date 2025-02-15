@@ -21,7 +21,7 @@ export default function CompleteSignupScreen() {
           source={require('../../assets/animations/Animation - 1739343498719.json')} 
           autoPlay
           loop={false} 
-          style={styles.lottie}
+          style={{ width: 200, height: 200 }}
         />
 
         <FullButton title='확 인' onPress={() => router.push('/Home/Mainpage')}></FullButton>
