@@ -21,7 +21,7 @@ export default function PhotoDetailScreen() {
   const [isRecording, setIsRecording] = useState(false); // 녹음 중 여부
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // 📌 더미 데이터
+  // 임의 데이터
   const photoData = {
     title: '맛있는 칼국수',
     imageUrl: require('../../assets/images/photo2.png'),
@@ -190,7 +190,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Medium',
   },
-
   chatBubbleRight: {
     alignSelf: 'flex-end',
     backgroundColor: '#3DB2FF',
@@ -259,12 +258,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 
-  /** ✅ 사진 확대 모달 */
+  /** 사진 확대  */
   modalBackground: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // ✅ 블러 효과와 함께 배경 어둡게 설정
+    backgroundColor: 'rgba(0, 0, 0, 0.9)', // ✅ 블러 효과와 함께 배경 어둡게 설정
   },
   modalCloseArea: {
     position: 'absolute',
@@ -279,8 +278,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   modalImage: {
-    width: '60%', // ✅ 화면의 80%를 차지하도록 설정
-    aspectRatio: 1, // ✅ 정방형 유지
+    width:250,
+    height:250,
+    aspectRatio: 1, // 정방형 유지
     borderRadius: 10,
   },
   closeButton: {
