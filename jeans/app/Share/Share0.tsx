@@ -43,8 +43,7 @@ export default function PhotoSelectionScreen() {
         style={styles.image}
         resizeMode="contain"
       />
-
-      {/* ✅ FullButton 적용 */}
+      
       <FullButton title="갤러리에서 사진 선택" onPress={pickImages} />
 
       <BottomNavBar />
@@ -69,7 +68,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 200,
-    height: 200,
+    height: 190,
     marginBottom: 30,
+    marginTop:20
   },
 });

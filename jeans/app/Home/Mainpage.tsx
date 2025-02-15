@@ -14,7 +14,7 @@ export default function HomeUILayout() {
     { id: 2, name: '이순복', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 3, name: '박영남', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
     { id: 4, name: '박보석(아들)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 5, name: '가족 그룹', profileImage: require('../../assets/images/friend1.jpg'), isGroup: true }, // 그룹
+    { id: 5, name: '가족', profileImage: require('../../assets/images/friend1.jpg'), isGroup: true }, // 그룹
   ];
 
   // 공유된 사진 
@@ -53,8 +53,8 @@ export default function HomeUILayout() {
           <Text style={styles.title}>친구들 소식 확인</Text>
           <Text style={styles.description}>
             {selectedFriend.isGroup
-              ? `[${selectedFriend.name}] 과 나눈 추억을 둘러보세요.`
-              : `${selectedFriend.name}과 나눈 추억을 둘러보세요.`}
+              ? `[${selectedFriend.name}] 그룹과 나눈 추억을 둘러보세요.`
+              : `${selectedFriend.name}님과 나눈 추억을 둘러보세요.`}
           </Text>
         </View>
       </View>
