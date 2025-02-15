@@ -32,7 +32,7 @@ export default function HelpOverlay({ onClose }: { onClose: () => void }) {
               y={currentStep.y}
               width={currentStep.width}
               height={currentStep.height}
-              fill="black"
+              fill="blacks"
               rx={15} ry={15} // 모서리 둥글게
             />
           </Mask>
@@ -63,16 +63,16 @@ export default function HelpOverlay({ onClose }: { onClose: () => void }) {
 
       {/* 설명 박스 */}
       <View
-        style={[
-          styles.tooltip,
-          {
-            top:
-              currentStep.y + currentStep.height + 50 > screenHeight
-                ? currentStep.y - 80
-                : currentStep.y + currentStep.height + 10,
-            left: currentStep.x > screenWidth - 250 ? screenWidth - 270 : currentStep.x,
-          },
-        ]}
+      style={[
+        styles.tooltip,
+        {
+          top:
+            currentStep.y + currentStep.height + 50 > screenHeight || currentStep.y > 400
+              ? currentStep.y - 130 // 🔹 y값이 400 초과하면 위로 표시
+              : currentStep.y + currentStep.height + 10,
+          left: currentStep.x > screenWidth - 250 ? screenWidth - 270 : currentStep.x,
+        },
+      ]}
       >
         <Text style={styles.tooltipText}>{currentStep.text}</Text>
         <TouchableOpacity style={styles.nextButton} onPress={() => setStep(step + 1)}>
