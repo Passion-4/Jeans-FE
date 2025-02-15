@@ -5,9 +5,12 @@ import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import FullButton from '../../components/FullButton';
+import { useImageContext } from '../Context/ImageContext';
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
+  const { setSelectedImages } = useImageContext(); // ✅ 이미지 저장을 위한 context 사용
+  
 
   // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
   const pickImages = async () => {
@@ -18,15 +21,13 @@ export default function PhotoSelectionScreen() {
       quality: 1, // 원본 화질 유지
     });
 
+    
+
     if (!result.canceled && result.assets) {
       const imageUris = result.assets.map((asset) => asset.uri);
-      const firstImage = imageUris[0]; 
+      setSelectedImages(imageUris); // ✅ 선택한 이미지를 글로벌 상태에 저장
 
-      router.push({
-        pathname: '/Makeup/BestCut1',
-        params: { images: JSON.stringify(imageUris), firstImage: imageUris[0] },
-      });
-      
+
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
       router.push({
         pathname: '/Makeup/BestCut1',
@@ -77,4 +78,5 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 30, // 버튼과의 간격 추가
   },
+
 });

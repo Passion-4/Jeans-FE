@@ -5,11 +5,13 @@ import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
+import { useImageContext } from '../Context/ImageContext';
 
 export default function BestShotScreen() {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(true);
-
+  const { selectedImages } = useImageContext(); 
+  
   useEffect(() => {
     // 3초 후 애니메이션 종료 -> 실제 화면 표시
     const timer = setTimeout(() => {
@@ -41,10 +43,14 @@ export default function BestShotScreen() {
       <Text style={styles.title}>기본 보정이 완료되었습니다.{'\n'}추가 보정을 해보시겠어요?</Text>
 
 
-      {/* 이미지 컨테이너 */}
-      <View style={styles.imageContainer}>
-        <Image source={require('../../assets/images/people.png')} style={styles.image} />
-      </View>
+      {/* 일단 임의로 첫 번째 사진 표시 */}
+            <View style={styles.imageContainer}>
+              {selectedImages && selectedImages.length > 0 ? (
+                <Image source={{ uri: selectedImages[0] }} style={styles.image} />
+              ) : (
+                <Text style={styles.emptySpaceText}>사진 없음</Text>
+              )}
+            </View>
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
@@ -96,8 +102,8 @@ const styles = StyleSheet.create({
     marginBottom: 30, // 버튼과의 간격 추가
   },
   image: {
-    width: 330,
-    height: 300,
+    width: 250,
+    height: 250,
     borderRadius: 10,
   },
   buttonContainer: {
@@ -106,5 +112,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 40,
+  },
+  emptySpaceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });

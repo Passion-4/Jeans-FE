@@ -4,10 +4,12 @@ import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
+import { useImageContext } from '../Context/ImageContext';
 
 export default function BestShotScreen() {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<string>("원본"); // 기본값을 "원본"으로 설정
+  const { selectedImages } = useImageContext(); 
 
   return (
     <View style={styles.container}>
@@ -16,10 +18,14 @@ export default function BestShotScreen() {
       {/* 텍스트 설명 */}
       <Text style={styles.title}>새치 보정을 선택하세요.</Text>
 
-      {/* 이미지 컨테이너 */}
-      <View style={styles.imageContainer}>
-        <Image source={require('../../assets/images/people.png')} style={styles.image} />
-
+      {/* 일단 임의로 첫 번째 사진 표시 */}
+                  <View style={styles.imageContainer}>
+                    {selectedImages && selectedImages.length > 0 ? (
+                      <Image source={{ uri: selectedImages[0] }} style={styles.image} />
+                    ) : (
+                      <Text style={styles.emptySpaceText}>사진 없음</Text>
+                    )}
+                  </View>
         {/* 보정 옵션 버튼 */}
         <View style={styles.filterContainer}>
           {["원본", "조금", "많이"].map((label, index) => (
@@ -32,7 +38,7 @@ export default function BestShotScreen() {
             </TouchableOpacity>
           ))}
         </View>
-      </View>
+
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
@@ -40,7 +46,6 @@ export default function BestShotScreen() {
         <HalfButton title="완료" onPress={() => router.push('/Makeup/Edit1')} />
       </View>
       
-
       <BottomNavBar />
     </View>
   );
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 30,
+    marginTop: 40,
   },
   imageContainer: {
     position: 'relative',
@@ -68,8 +73,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 330,
-    height: 300,
+    width: 250,
+    height: 250,
     borderRadius: 10,
   },
   filterContainer: {
@@ -105,5 +110,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 40,
+  },
+  emptySpaceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });

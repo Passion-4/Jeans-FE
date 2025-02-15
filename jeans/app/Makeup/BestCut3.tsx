@@ -1,34 +1,47 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
+import { useImageContext } from '../Context/ImageContext';
 
 export default function BestShotScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const firstImage = params.firstImage; 
+  const { selectedImages } = useImageContext(); 
 
   return (
     <View style={styles.container}>
-        <TopNavBar/>
-      {/* 텍스트 설명 */}
-      <Text style={styles.title}>베스트샷입니다.{'\n'}기본 보정을 해보시겠어요?</Text>
+      <TopNavBar/>
 
-      {/* 이미지 컨테이너 */}
+      {/* 텍스트 설명 */}
+      <Text style={styles.title}>
+        베스트샷입니다.{'\n'}기본 보정을 하시겠어요?
+      </Text>
+
+      {/* 일단 임의로 첫 번째 사진 표시 */}
       <View style={styles.imageContainer}>
-        <Image source={require('../../assets/images/people.png')} style={styles.image} />
+        {selectedImages && selectedImages.length > 0 ? (
+          <Image source={{ uri: selectedImages[0] }} style={styles.image} />
+        ) : (
+          <Text style={styles.emptySpaceText}>사진 없음</Text>
+        )}
       </View>
 
       {/* 버튼 컨테이너 */}
-      {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="아니오" color="#3DB2FF"onPress={() => router.push('/Makeup/MakeUp_Finish')} />
-        <HalfButton title="예" onPress={() => router.push('/Makeup/Edit0')} />
+        <HalfButton 
+          title="아니오" 
+          color="#3DB2FF"
+          onPress={() => router.push('/Makeup/MakeUp_Finish')} 
+        />
+        <HalfButton 
+          title="예" 
+          onPress={() => router.push('/Makeup/Edit0')} 
+        />
       </View>
-    
+
       <BottomNavBar/>
     </View>
   );
@@ -38,56 +51,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 20,
+
   },
   title: {
     fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20, // 이미지와 간격 추가
-    marginTop: 30,
+    marginBottom: 15,
+    marginTop:150
   },
   imageContainer: {
-    position: 'relative', // 아이콘을 이미지 위에 배치하기 위해 사용
-    borderRadius: 10,
-    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
   },
   image: {
-    width: 330,
-    height: 300,
-    borderRadius: 10,
+    width: 250,
+    height: 250,
+    borderRadius: 15,
+    marginBottom:30
   },
-  icon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  emptySpaceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    width: '100%',
-    paddingHorizontal: 40,
-  },
-  noButton: {
-    flex: 1,
-    backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    marginRight: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  yesButton: {
-    flex: 1,
-    backgroundColor: '#008DBF',
-    paddingVertical: 15,
-    marginLeft: 10,
-    borderRadius: 10,
-    alignItems: 'center',
+    paddingHorizontal: 30,
   },
 });

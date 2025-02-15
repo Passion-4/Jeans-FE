@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Modal,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal} from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,12 +14,12 @@ export default function PhotoDetailScreen() {
   const { photoId } = useLocalSearchParams(); // 📌 선택된 사진 ID 가져오기
   const [isRecording, setIsRecording] = useState(false); // 녹음 중 여부
 
-  // ✅ 녹음 시작 (모달 띄우기)
+  // 녹음 시작 (모달 띄우기)
   const startRecording = () => {
     setIsRecording(true);
   };
 
-  // ✅ 녹음 종료 (모달 닫기)
+  // 녹음 종료 (모달 닫기)
   const stopRecording = () => {
     setIsRecording(false);
   };
@@ -56,10 +48,9 @@ export default function PhotoDetailScreen() {
         {/* 📌 녹음 버튼 */}
         <TouchableOpacity style={styles.recordButton} onPress={startRecording}>
           <Ionicons name="mic" size={30} color="white" />
-          <Text style={styles.recordButtonText}>메시지를 녹음하세요</Text>
+          <Text style={styles.recordButtonText}>메시지 녹음하기</Text>
         </TouchableOpacity>
 
-        {/* 📌 확인 버튼 */}
         <View style={styles.confirmButtonContainer}>
           <CustomButton title="보내기" onPress={() => router.push('/Share/Share_complete')} />
         </View>
