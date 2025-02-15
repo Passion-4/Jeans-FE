@@ -8,7 +8,7 @@ export default function HelpButton() {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => setShowHelp(true)} style={{ marginRight: 150 , marginTop: 20, paddingHorizontal: 5,}}>
+      <TouchableOpacity onPress={() => setShowHelp(true)} style={{ marginRight: 183 , marginTop: 20, paddingHorizontal: 5,}}>
         <Ionicons name="book-outline" size={35} color="black" />
       </TouchableOpacity>
 
