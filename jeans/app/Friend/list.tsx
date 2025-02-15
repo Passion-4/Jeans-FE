@@ -28,7 +28,7 @@ export default function FriendListScreen() {
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>친구 목록</Text>
+        <Text style={styles.title}>친구 목록 및 별명 생성하기</Text>
       </View>
 
       {/* 친구 목록 컨테이너 */}
