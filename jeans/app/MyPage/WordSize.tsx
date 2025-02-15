@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import HalfButton from '@/components/HalfButton';
 
 export default function FontSizeAdjustmentScreen() {
   const [fontSize, setFontSize] = useState(16); // 기본 글씨 크기
@@ -23,17 +24,13 @@ export default function FontSizeAdjustmentScreen() {
         <Text style={[styles.previewText, { fontSize }]}>이것은 미리보기 글씨입니다.</Text>
       </View>
 
-      {/* 버튼 컨테이너 */}
+      {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={decreaseFontSize}>
-          <Text style={styles.buttonText}>- 작게</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={increaseFontSize}>
-          <Text style={styles.buttonText}>+ 크게</Text>
-        </TouchableOpacity>
+        <HalfButton title="- 작게" color="#3DB2FF" onPress={decreaseFontSize} />
+        <HalfButton title="+ 크게" onPress={increaseFontSize}/>
       </View>
 
+    
       <BottomNavBar />
     </View>
   );
@@ -48,8 +45,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 35,
+    fontFamily:'Bold',
     marginBottom: 30,
   },
   previewContainer: {
@@ -66,11 +63,7 @@ const styles = StyleSheet.create({
   previewText: {
     fontWeight: 'bold',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
+
   button: {
     flex: 1,
     paddingVertical: 15,
@@ -83,6 +76,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold',
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    width: '100%',
+    paddingHorizontal: 40,
   },
 });
 

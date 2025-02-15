@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingBottom: 20,
-    marginTop: 120
+    marginTop: 100
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontFamily:'Bold',
     marginTop: 30,
     marginBottom: 15,
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     height: 200, // 동영상 높이 조정
     borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   video: {
     flex: 1,
