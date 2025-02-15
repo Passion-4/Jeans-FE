@@ -79,11 +79,6 @@ export default function FriendDeleteScreen() {
         <Text style={styles.confirmText}>삭제 하기</Text>
       </TouchableOpacity>
 
-      {/* 뒤로가기 버튼 */}
-      <TouchableOpacity style={styles.confirmButton} onPress={() => router.back()}>
-        <Text style={styles.confirmText}>뒤로 가기</Text>
-      </TouchableOpacity>
-
       <BottomNavBar />
     </View>
   );
@@ -147,15 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginVertical: 10,
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginBottom: 120,
+    marginBottom:200
   },
   disabledButton: {
     backgroundColor: '#B0BEC5',
