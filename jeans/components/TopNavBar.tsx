@@ -2,13 +2,18 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import HelpButton from './HelpButton'; // 설명 버튼 추가
 
 export default function TopNavBar() {
   const router = useRouter();
 
   return (
     <View style={styles.banner}>
+        {/* 📖 사용법 아이콘 (설명 버튼으로 대체) */}
+        <HelpButton />
       <View style={styles.headerIcons}>
+
+
         {/* 🔍 검색 아이콘 */}
         <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
           <Ionicons name="search" size={35} color="black" style={styles.icon} />
@@ -19,8 +24,7 @@ export default function TopNavBar() {
           <Ionicons name="people-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
 
-        {/* 📖 사용법 아이콘 */}
-        <Ionicons name="reader" size={35} color="black" style={styles.icon} />
+
 
         {/* ⚙️ 마이 페이지 아이콘 */}
         <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
