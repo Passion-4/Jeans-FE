@@ -107,6 +107,8 @@ export default function RootLayout() {
           <Stack.Screen name="Friend/send_complete" options={{ title: '요청 완료', headerShown: false}} />
           <Stack.Screen name="Friend/receive" options={{ title: '친구 요청 받기', headerShown: false}} />
           <Stack.Screen name="Friend/delete" options={{ title: '친구 삭제', headerShown: false}} />
+          <Stack.Screen name="Friend/relation" options={{ title: '친구 삭제', headerShown: false}} />
+          <Stack.Screen name="Friend/relation_complete" options={{ title: '친구 삭제', headerShown: false}} />
 
           {/* 프로필 */}
           <Stack.Screen name="Profile/name" options={{ title: '이름 바꾸기', headerShown: false}} />

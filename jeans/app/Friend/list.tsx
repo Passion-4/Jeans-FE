@@ -28,7 +28,7 @@ export default function FriendListScreen() {
 
       {/* 타이틀 */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>친구 목록 및 별명 생성하기</Text>
+        <Text style={styles.title}>친구 목록 및 {'\n'}별명 생성하기</Text>
       </View>
 
       {/* 친구 목록 컨테이너 */}
@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   titleContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 20,
     paddingHorizontal: 15,
     marginTop: 120,
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
+    fontFamily:'Bold'
   },
   friendsContainer: {
     alignItems: 'center',
@@ -96,9 +96,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   selectedFriend: {
-    backgroundColor: '#D6EAF8', // 선택된 친구의 배경색 변경
-    borderWidth: 2,
-    borderColor: '#008DBF',
+   // 선택된 친구의 배경색 변경
+    borderWidth: 5,
+    borderColor: 'rgba(255, 183, 6, 0.6)',
   },
   friendImage: {
     width: 80,

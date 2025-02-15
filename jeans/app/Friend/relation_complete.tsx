@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '@/components/FullButton';
 
 export default function FriendNicknameCompleteScreen() {
   const router = useRouter();
@@ -23,13 +24,7 @@ export default function FriendNicknameCompleteScreen() {
           style={styles.lottie}
         />
 
-        {/* 확인 버튼 */}
-        <TouchableOpacity 
-          style={styles.confirmButton} 
-          onPress={() => router.push('/Friend/list')}
-        >
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
+        <FullButton title='확 인' onPress={() => router.push('/Friend/list')}></FullButton>
       </View>
 
       <BottomNavBar />
@@ -58,19 +53,5 @@ const styles = StyleSheet.create({
     width: 150,  
     height: 150, 
     marginBottom: 30,
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginTop: 30,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
