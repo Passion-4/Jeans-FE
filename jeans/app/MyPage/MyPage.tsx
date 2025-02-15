@@ -16,7 +16,6 @@ export default function MyPageScreen() {
       <View style={styles.profileContainer}>
         <Image source={require('../../assets/images/icon.png')} style={styles.profileImage} />
         <Text style={styles.userName}>김덕배</Text>
-        <Text style={styles.userHandle}>@김덕배</Text>
       </View>
 
       {/* 설정 목록 */}
@@ -78,19 +77,15 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     borderRadius: 45,
-    marginTop: 80
+    marginTop: 60
   },
   userName: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-  userHandle: {
-    fontSize: 16,
-    color: '#777',
+    fontSize: 30,
+    fontFamily:'Bold',
+    marginTop: 8,
   },
   settingContainer: {
-    marginTop: 10,
+    marginTop: -10,
   },
   settingItem: {
     flexDirection: 'row',
@@ -103,6 +98,7 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 22,
     color: '#333',
+    fontFamily:'Medium'
   },
 });
 
