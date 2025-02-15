@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
-export default function PhoneInputScreen() {
+export default function SignupScreen() {
   const router = useRouter();
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [phone, setPhone] = useState('');
-
   // 전화번호 자동 하이픈 추가 함수
   const formatPhoneNumber = (text: string) => {
     // 숫자만 남기기
@@ -43,10 +44,9 @@ export default function PhoneInputScreen() {
       {/* 안내 문구 추가 */}
       <Text style={styles.infoText}> * 입력하신 전화번호는 아이디로 사용됩니다.</Text>
 
-      {/* 다음 버튼 - ID 입력 화면으로 이동 */}
-      <TouchableOpacity style={styles.signupButton} onPress={() => router.push('/Signup/Pass_Signup')}>
-        <Text style={styles.signupText}>다음</Text>
-      </TouchableOpacity>
+      <FullButton title='다 음' onPress={() => router.push('/Signup/Pass_Signup')}></FullButton>
+
+
     </View>
   );
 }
@@ -62,50 +62,41 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 60,
-    fontFamily: 'Bold',
+    marginBottom: 40,
+    fontFamily :'Bold'
   },
   label: {
     alignSelf: 'flex-start',
     marginLeft: 5,
     fontSize: 20,
     marginTop: 10,
-    marginBottom: 7,
-    fontFamily: 'Medium',
+    marginBottom: 20,
+    fontFamily:'Medium'
   },
   input: {
-    width: '100%',
-    height: 50,
+    width: '100%', 
+    height: 55, 
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginTop: 5,
-    fontFamily: 'Light',
+    marginBottom: 15, 
+    fontFamily: 'Medium',
+    fontSize:18
+  },
+  backToLogin: {
+    color: '#888888',
     fontSize: 17,
+    marginTop: 17,
   },
   infoText: {
     fontSize: 17,
     color: '#F18308',
     fontFamily: 'Medium',
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     alignSelf: 'flex-start',
   },
-  signupButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 170,
-  },
-  signupText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontFamily: 'Medium',
-  },
 });
+

@@ -63,16 +63,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
   },
   input: {
-    width: '100%', // ✅ FullButton과 크기 맞추기
-    height: 55, // ✅ FullButton과 동일한 높이로 설정
+    width: '100%', 
+    height: 55, 
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 10, // ✅ FullButton의 borderRadius와 동일하게 설정
+    borderRadius: 10,
     paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginBottom: 20, // ✅ 간격 동일하게 설정
-    fontFamily: 'Light',
-    fontSize:15
+    marginBottom: 15, 
+    fontFamily: 'Medium',
+    fontSize:18
   },
   passwordContainer: {
     width: '100%', // ✅ FullButton과 동일한 너비 설정

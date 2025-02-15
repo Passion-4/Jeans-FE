@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -11,12 +12,14 @@ export default function SignupScreen() {
       <Text style={styles.title}>회원가입</Text>
 
       <Text style={styles.label}>이름</Text>
-      <TextInput style={styles.input} placeholder="이름을 입력하세요." />
+      <TextInput 
+              style={styles.input} 
+              placeholder="이름을 입력하세요."
+              placeholderTextColor="#5E6365"  
+            />
 
-      {/* 다음 버튼 - BirthInput.tsx로 이동 */}
-      <TouchableOpacity style={styles.signupButton} onPress={() => router.push('/Signup/Birth_Signup')}>
-        <Text style={styles.signupText}>다음</Text>
-      </TouchableOpacity>
+      <FullButton title='다 음' onPress={() => router.push('/Signup/Birth_Signup')}></FullButton>
+
 
     </View>
   );
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 60,
+    marginBottom: 40,
     fontFamily :'Bold'
   },
   label: {
@@ -41,20 +44,20 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 20,
     marginTop: 10,
-    marginBottom: 7,
+    marginBottom: 15,
     fontFamily:'Medium'
   },
   input: {
-    width: '100%',
-    height: 50,
+    width: '100%', 
+    height: 55, 
     borderColor: '#CCCCCC',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginTop: 5,
-    fontFamily:'Light',
-    fontSize:17
+    marginBottom: 15, 
+    fontFamily: 'Medium',
+    fontSize:18
   },
   signupButton: {
     width: '100%',
