@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
+    fontFamily:'Bold',
   },
   friendsContainer: {
     alignItems: 'center',

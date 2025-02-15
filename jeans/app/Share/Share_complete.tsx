@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '../../components/FullButton'; // ✅ FullButton 불러오기
 
 export default function CompleteSignupScreen() {
   const router = useRouter();
@@ -23,13 +24,7 @@ export default function CompleteSignupScreen() {
           style={styles.lottie}
         />
 
-        {/* 확인 버튼 */}
-        <TouchableOpacity 
-          style={styles.confirmButton} 
-          onPress={() => router.push('/Home/Mainpage')}
-        >
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
+        <FullButton title='확 인' onPress={() => router.push('/Home/Mainpage')}></FullButton>
       </View>
 
       <BottomNavBar />

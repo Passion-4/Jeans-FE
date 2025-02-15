@@ -61,7 +61,7 @@ export default function PhotoDetailScreen() {
 
         {/* 📌 확인 버튼 */}
         <View style={styles.confirmButtonContainer}>
-          <CustomButton title="확 인" onPress={() => router.push('/Share/Share_complete')} />
+          <CustomButton title="보내기" onPress={() => router.push('/Share/Share_complete')} />
         </View>
       </View>
 
