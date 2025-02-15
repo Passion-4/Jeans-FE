@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal } from 'reac
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '@/components/FullButton';
 
 export default function AccountDeleteScreen() {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function AccountDeleteScreen() {
             <Text style={styles.modalText}>
               탈퇴 시 친구들과 추억은 소멸되며,{'\n'}
               30일 이내 재가입이 불가능합니다.{'\n'}
-              단, 같은 이메일로는 재가입이 가능합니다.{'\n\n'}
+              단, 같은 전화번호로 재가입이 가능합니다.{'\n\n'}
               탈퇴하시겠습니까?
             </Text>
 
@@ -121,17 +122,18 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   title: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 35,
+    fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 140
+    marginTop: 100
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
     color: '#555',
     marginBottom: 30,
+    fontFamily:'Medium',
   },
   reasonContainer: {
     marginBottom: 30,
@@ -144,11 +146,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E0E0E0',
   },
   selectedReasonButton: {
-    backgroundColor: '#E0F7FA',
+    backgroundColor: '#CCCCCC',
+    borderRadius:10,
   },
   reasonText: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#333',
+    fontFamily:'Medium',
+    marginLeft:5
   },
   input: {
     width: '100%',
@@ -178,7 +183,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
