@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
+import HalfButton from '../../components/HalfButton';
 import { useImageContext } from '../Context/ImageContext';
 
 export default function BestShotScreen() {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(true);
+  const [isHelpVisible, setIsHelpVisible] = useState(false);
   const { selectedImages } = useImageContext(); 
   
   useEffect(() => {
-    // 3초 후 애니메이션 종료 -> 실제 화면 표시
     const timer = setTimeout(() => {
       setIsProcessing(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -25,7 +24,7 @@ export default function BestShotScreen() {
     return (
       <View style={styles.processingContainer}>
         <LottieView
-          source={require('../../assets/animations/Animation - 1739445445148.json')} // JSON 애니메이션
+          source={require('../../assets/animations/Animation - 1739445445148.json')}
           autoPlay
           loop
           style={styles.animation}
@@ -39,12 +38,19 @@ export default function BestShotScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 텍스트 설명 */}
-      <Text style={styles.title}>기본 보정이 완료되었습니다.{'\n'}추가 보정을 해보시겠어요?</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>기본 보정이 완료되었습니다.{'\n'}추가 보정을 해보시겠어요?</Text>
+        {/* 물음표 아이콘 및 안내 버튼 */}
+        <TouchableOpacity style={styles.helpButton} onPress={() => setIsHelpVisible(true)}>
+          <View style={styles.helpCircle}>
+            <Text style={styles.helpIcon}>?</Text>
+          </View>
+          <Text style={styles.helpText}>추가 보정이 뭔가요?</Text>
+        </TouchableOpacity>
+      </View>
 
-
-      {/* 일단 임의로 첫 번째 사진 표시 */}
-            <View style={styles.imageContainer}>
+        {/* 일단 임의로 첫 번째 사진 표시 */}
+        <View style={styles.imageContainer}>
               {selectedImages && selectedImages.length > 0 ? (
                 <Image source={{ uri: selectedImages[0] }} style={styles.image} />
               ) : (
@@ -52,14 +58,32 @@ export default function BestShotScreen() {
               )}
             </View>
 
-      {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="아니오" color="#3DB2FF"onPress={() => router.push('/Makeup/MakeUp_Finish')} />
+        <HalfButton title="아니오" color="#3DB2FF" onPress={() => router.push('/Makeup/MakeUp_Finish')} />
         <HalfButton title="예" onPress={() => router.push('/Makeup/Edit1')} />
       </View>
-    
 
       <BottomNavBar />
+
+      {/* 추가 보정 안내 모달 */}
+      <Modal
+        transparent
+        visible={isHelpVisible}
+        animationType="fade"
+        onRequestClose={() => setIsHelpVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>추가 보정 안내</Text>
+            <Text style={styles.modalDescription}>
+              추가 보정은 사진 내의 내 모습에 {'\n'}동안, 새치, 몸매 보정을 적용할 수 있는{'\n'} 기능입니다.
+            </Text>
+            <TouchableOpacity style={styles.modalCloseButton} onPress={() => setIsHelpVisible(false)}>
+              <Text style={styles.modalCloseText}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -68,8 +92,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    justifyContent: 'center', // 전체 중앙 정렬 (위아래)
-    alignItems: 'center', // 좌우 중앙 정렬
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   processingContainer: {
@@ -88,18 +112,43 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
+  titleContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   title: {
     fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20, // 이미지와 간격 추가
-    marginTop: 30,
+  },
+  helpButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  helpCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#008DBF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5,
+  },
+  helpIcon: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  helpText: {
+    fontSize: 16,
+    fontFamily: 'Medium',
+    color: '#008DBF',
+    textDecorationLine: 'underline',
   },
   imageContainer: {
-    position: 'relative',
     borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: 30, // 버튼과의 간격 추가
+    marginBottom: 30,
   },
   image: {
     width: 250,
@@ -109,9 +158,45 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
     width: '100%',
     paddingHorizontal: 40,
+  },
+  /** 모달 스타일 */
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    width: 280,
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontFamily: 'Bold',
+    marginBottom: 10,
+  },
+  modalDescription: {
+    fontSize: 16,
+    fontFamily: 'Medium',
+    color: '#555',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalCloseButton: {
+    backgroundColor: '#008DBF',
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+  },
+  modalCloseText: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontFamily: 'Medium',
   },
   emptySpaceText: {
     fontSize: 20,

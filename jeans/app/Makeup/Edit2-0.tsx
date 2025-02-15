@@ -85,12 +85,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 5,
+    marginBottom:250
   },
   filterButton: {
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 5,
+    
   },
   selectedFilter: {
     backgroundColor: '#FFFFFF', // 선택된 버튼 배경을 흰색으로 변경
