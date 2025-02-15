@@ -80,6 +80,7 @@ export default function RootLayout() {
           <Stack.Screen name="Makeup/Edit2-2" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
           <Stack.Screen name="Makeup/Edit_PhotoSelec" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
           <Stack.Screen name="Makeup/MakeUp_Finish" options={{ title: '보정 페이지 - 사진 저장하기', headerShown: false}} />
+          <Stack.Screen name="Makeup/MakeUp_Download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
 
           {/* 공유 관련 페이지 */}
           <Stack.Screen name="Share/Share_complete" options={{ title: '공유 완료', headerShown: false}} />
