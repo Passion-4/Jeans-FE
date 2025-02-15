@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   selected: {
-    borderWidth: 8,
+    borderWidth: 5,
     borderColor: 'rgba(255, 183, 6, 0.6)'
   },
 });
