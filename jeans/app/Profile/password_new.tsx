@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import FullButton from '@/components/FullButton';
 
 export default function PasswordSignupScreen() {
   const router = useRouter();
@@ -9,7 +10,7 @@ export default function PasswordSignupScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>새로운 비밀번호호</Text>
+      <Text style={styles.title}>새로운 비밀번호 설정</Text>
 
       <Text style={styles.label}>비밀번호</Text>
       <TextInput 
@@ -19,8 +20,7 @@ export default function PasswordSignupScreen() {
         value={password}
         onChangeText={setPassword}
       />
-      {/* 안내 문구 추가 */}
-            <Text style={styles.infoText}> * 비밀번호 생성 시 영어와 {'\n'} 숫자를 반드시 포함해주세요.</Text>
+      <Text style={styles.infoText}> * 비밀번호 생성 시 영어와 {'\n'} 숫자를 반드시 포함해주세요.</Text>
             
       
 
@@ -33,12 +33,7 @@ export default function PasswordSignupScreen() {
         onChangeText={setConfirmPassword}
       />
 
-      {/* 다음 버튼 - 개인정보 동의 화면으로 이동 */}
-      <TouchableOpacity 
-        style={styles.signupButton} 
-        onPress={() => router.push('/Profile/password_complete')}>
-        <Text style={styles.signupText}>다음</Text>
-      </TouchableOpacity>
+      <FullButton title='다 음' onPress={() => router.push('/Profile/password_complete')}></FullButton>
     </View>
   );
 }
@@ -61,8 +56,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    marginBottom: 60,
-    fontFamily:'Bold'
+    marginBottom: 20,
+    fontFamily:'Bold',
+    marginTop:50
   },
   label: {
     alignSelf: 'flex-start',
@@ -82,23 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     marginTop: 5,
     fontFamily:'Light',
-    fontSize:17
-  },
-  signupButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 170,
-  },
-  signupText: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: 'bold',
-    fontFamily:'Medium',
-
+    fontSize:17,
+    marginBottom:15
   },
 });

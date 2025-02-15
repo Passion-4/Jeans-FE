@@ -15,7 +15,7 @@ export default function LoginScreen() {
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
-          placeholder="비밀번호를 입력하세요."
+          placeholder="기존 비밀번호를 입력하세요."
           placeholderTextColor="#5E6365" 
           secureTextEntry={!passwordVisible}
         />

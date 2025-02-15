@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '@/components/FullButton';
+
 
 export default function FriendRequestCompleteScreen() {
   const router = useRouter();
@@ -13,7 +15,7 @@ export default function FriendRequestCompleteScreen() {
       <TopNavBar />
 
       <View style={styles.content}>
-        <Text style={styles.title}>비밀번호가 변경 되었습니다!</Text>
+        <Text style={styles.title}>비밀번호가 {'\n'}변경 되었습니다!</Text>
 
         <LottieView 
           source={require('../../assets/animations/Animation - 1739343498719.json')} 
@@ -22,12 +24,7 @@ export default function FriendRequestCompleteScreen() {
           style={styles.lottie}
         />
 
-        <TouchableOpacity 
-          style={styles.confirmButton} 
-          onPress={() => router.push('/MyPage/MyPage')}
-        >
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
+        <FullButton title='확 인' onPress={() => router.push('/MyPage/MyPage')}></FullButton>
       </View>
 
       <BottomNavBar />
@@ -47,28 +44,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 35,
     textAlign: 'center',
     marginBottom: 40,
+    fontFamily:'Bold'
   },
   lottie: {
     width: 150,  
     height: 150, 
     marginBottom: 40,
-  },
-  confirmButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginTop: 30,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });

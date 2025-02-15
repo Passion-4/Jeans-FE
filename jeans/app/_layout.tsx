@@ -112,6 +112,9 @@ export default function RootLayout() {
           <Stack.Screen name="Profile/phonenum" options={{ title: '전화번호 바꾸기', headerShown: false}} />
           <Stack.Screen name="Profile/image" options={{ title: '이미지 바꾸기', headerShown: false}} />
           <Stack.Screen name="Profile/password" options={{ title: '비밀번호 바꾸기', headerShown: false}} />
+          <Stack.Screen name="Profile/password_new" options={{ title: '새로운 비밀번호 설정하기', headerShown: false}} />
+          <Stack.Screen name="Profile/password_complete" options={{ title: '비밀번호 변경 완료', headerShown: false}} />
+
 
 
           {/* not found */}
