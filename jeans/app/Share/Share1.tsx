@@ -60,13 +60,16 @@ export default function HomeUILayout() {
         contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
       />
 
-      {/* 확인 버튼 */}
+      {/* ✅ CustomButton 스타일 적용된 '다음' 버튼 */}
       <TouchableOpacity
-        style={[styles.confirmButton, selectedFriends.length === 0 && styles.disabledButton]}
+        style={[
+          styles.customButton,
+          selectedFriends.length === 0 && styles.disabledButton,
+        ]}
         onPress={handleConfirm}
         disabled={selectedFriends.length === 0}
       >
-        <Text style={styles.confirmText}>다 음</Text>
+        <Text style={styles.customButtonText}>다 음</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontFamily:'Bold',
+    fontFamily: 'Bold',
   },
   friendsContainer: {
     alignItems: 'center',
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
   },
   selectedFriend: {
     borderWidth: 5,
-    borderColor: '#008DBF',
+    borderColor: 'rgba(255, 183, 6, 0.6)',
   },
   friendImage: {
     width: 80,
@@ -119,30 +122,28 @@ const styles = StyleSheet.create({
   },
   friendName: {
     fontSize: 20,
-    fontFamily:'Medium',
+    fontFamily: 'Medium',
     marginBottom: 5,
   },
   friendRelation: {
     fontSize: 18,
     color: '#777',
-    fontFamily:'Medium'
+    fontFamily: 'Medium',
   },
-  confirmButton: {
+  customButton: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 10,
     alignItems: 'center',
-    borderRadius: 5,
-    marginVertical: 20,
-    marginBottom: 120,
+    backgroundColor: '#008DBF',
+    marginBottom: 150,
+  },
+  customButtonText: {
+    fontSize: 20,
+    fontFamily: 'Medium',
+    color: 'white',
   },
   disabledButton: {
     backgroundColor: '#B0BEC5',
-  },
-  confirmText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20,
   },
 });
