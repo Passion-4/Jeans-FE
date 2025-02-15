@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   helpText: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Medium',
     color: '#008DBF',
     textDecorationLine: 'underline',
