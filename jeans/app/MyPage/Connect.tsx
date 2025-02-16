@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
     paddingBottom: 20,
-    paddingTop: 210, // 전체적으로 내림
+    paddingTop: 140, // 전체적으로 내림
   },
   settingContainer: {
     marginTop: 50, // 목록을 내리기 위해 marginTop 조정
