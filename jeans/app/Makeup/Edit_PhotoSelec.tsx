@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가

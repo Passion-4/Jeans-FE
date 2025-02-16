@@ -4,9 +4,9 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import FullButton from '../../components/FullButton'; // ✅ FullButton 불러오기
+import FullButton from '@/components/FullButton';
 
-export default function CompleteSignupScreen() {
+export default function FriendRequestCompleteScreen() {
   const router = useRouter();
 
   return (
@@ -14,15 +14,18 @@ export default function CompleteSignupScreen() {
       <TopNavBar />
 
       <View style={styles.content}>
+        {/* 타이틀 */}
         <Text style={styles.title}>공유가 완료되었습니다!</Text>
 
-        {/* 애니메이션 */}
-        <LottieView 
-          source={require('../../assets/animations/Animation - 1739343498719.json')} 
-          autoPlay
-          loop={false} 
-          style={{ width: 200, height: 200 }}
-        />
+        {/* Lottie 애니메이션 */}
+        <View style={styles.lottieContainer}>
+          <LottieView 
+            source={require('../../assets/animations/Animation - 1739343498719.json')} 
+            autoPlay
+            loop={false} 
+            style={styles.lottie}
+          />
+        </View>
 
         <FullButton title='확 인' onPress={() => router.push('/Home/Mainpage')}></FullButton>
       </View>
@@ -43,29 +46,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+
+  /** 타이틀 */
   title: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontFamily: 'Bold',
     textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  /** Lottie 애니메이션 */
+  lottieContainer: {
+    width: 150,
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     marginBottom: 30,
   },
   lottie: {
-    width: 120,  
-    height: 120, 
-    marginBottom: 30,
-  },
-  confirmButton: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    height: '100%',
   },
 });

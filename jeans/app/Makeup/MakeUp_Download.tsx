@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import FullButton from '../../components/FullButton'; 
+import FullButton from '@/components/FullButton';
 
-export default function CompleteSignupScreen() {
+export default function FriendRequestCompleteScreen() {
   const router = useRouter();
 
   return (
@@ -14,18 +14,20 @@ export default function CompleteSignupScreen() {
       <TopNavBar />
 
       <View style={styles.content}>
-        <Text style={styles.title}>사진 저장이 완료되었습니다!</Text>
+        {/* 타이틀 */}
+        <Text style={styles.title}>사진이 저장되었습니다!</Text>
 
-        {/* 애니메이션 */}
-        <LottieView 
-          source={require('../../assets/animations/Animation - 1739343498719.json')} 
-          autoPlay
-          loop={false} 
-          style={styles.lottie}
-        />
+        {/* Lottie 애니메이션 */}
+        <View style={styles.lottieContainer}>
+          <LottieView 
+            source={require('../../assets/animations/Animation - 1739343498719.json')} 
+            autoPlay
+            loop={false} 
+            style={styles.lottie}
+          />
+        </View>
 
-        {/* 확인 버튼 */}
-        <FullButton title="확 인" onPress={() => router.push('/Home/Mainpage')} />
+        <FullButton title='확 인' onPress={() => router.push('/Home/Mainpage')}></FullButton>
       </View>
 
       <BottomNavBar />
@@ -44,15 +46,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+
+  /** 타이틀 */
   title: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontFamily: 'Bold',
     textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  /** Lottie 애니메이션 */
+  lottieContainer: {
+    width: 150,
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     marginBottom: 30,
   },
   lottie: {
-    width: 120,  
-    height: 120, 
-    marginBottom: 30,
+    width: '100%',
+    height: '100%',
   },
 });

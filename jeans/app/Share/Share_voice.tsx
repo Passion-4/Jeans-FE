@@ -58,16 +58,24 @@ export default function PhotoDetailScreen() {
 
       <BottomNavBar />
 
-      {/* 📌 녹음 중 UI */}
+            {/* 📌 녹음 중 UI */}
       <Modal visible={isRecording} transparent animationType="fade">
         <View style={styles.modalContainer}>
-          <LottieView
-            source={require('../../assets/animations/Animation - 1739445445148.json')}
-            autoPlay
-            loop
-            style={styles.animation}
-          />
+          {/* 고정된 크기 컨테이너에 LottieView */}
+          <View style={styles.animationContainer}>
+            <LottieView
+              source={require('../../assets/animations/Animation - 1739445445148.json')}
+              autoPlay
+              loop
+              resizeMode="cover"
+              style={styles.animation}
+            />
+          </View>
+      
+          {/* ✅ 듣는 중입니다. 텍스트 */}
           <Text style={styles.recordingText}>녹음 중입니다...</Text>
+      
+          {/* ✅ 완료 버튼 */}
           <TouchableOpacity style={styles.stopButton} onPress={stopRecording}>
             <Text style={styles.stopButtonText}>완료</Text>
           </TouchableOpacity>
@@ -151,36 +159,53 @@ const styles = StyleSheet.create({
     marginBottom:100
   },
 
-  /** 📌 추가된 스타일 */
+  /** 녹음 버튼 누른 후 */
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.9)', // 블러 효과
   },
-  animation: {
+  
+  /** Lottie 애니메이션 */
+  animationContainer: {
     width: 150,
     height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden', // 애니메이션 넘침 방지
   },
+  
+  animation: {
+    width: '100%',
+    height: '100%',
+    transform: [{ scale: 1 }],
+  },
+  
+  /** "녹음 중" 텍스트 */
   recordingText: {
     fontSize: 30,
     fontFamily: 'Bold',
     color: 'white',
-    marginVertical: 20,
-    marginTop: -10,
+    marginTop: 20,
     marginBottom: 20,
+    textAlign: 'center',
   },
+  
+  /** 녹음 완료 버튼  */
   stopButton: {
     backgroundColor: '#008DBF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
+    marginTop: 10,
+    elevation: 5,
   },
+  
   stopButtonText: {
     fontSize: 18,
     fontFamily: 'Medium',
     color: 'white',
+    textAlign: 'center',
   },
 });

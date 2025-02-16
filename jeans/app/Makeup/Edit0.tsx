@@ -23,13 +23,15 @@ export default function BestShotScreen() {
   if (isProcessing) {
     return (
       <View style={styles.processingContainer}>
-        <LottieView
-          source={require('../../assets/animations/Animation - 1739445445148.json')}
-          autoPlay
-          loop
-          style={styles.animation}
-        />
         <Text style={styles.processingText}>기본 보정 중입니다...</Text>
+        <View style={styles.fixedAnimationContainer}>
+          <LottieView
+            source={require('../../assets/animations/Animation - 1739445445148.json')}
+            autoPlay
+            loop
+            style={styles.animation}
+          />
+        </View>
       </View>
     );
   }
@@ -76,7 +78,7 @@ export default function BestShotScreen() {
           <View style={styles.modalBox}>
             <Text style={styles.modalTitle}>추가 보정 안내</Text>
             <Text style={styles.modalDescription}>
-              추가 보정은 사진 내의 내 모습에 {'\n'}동안, 새치, 몸매 보정을 적용할 수 있는{'\n'} 기능입니다.
+              추가 보정은 사진 내의 내 모습에 {'\n'}동안, 새치, 몸매 보정을 적용하는{'\n'} 기능입니다.
             </Text>
             <TouchableOpacity style={styles.modalCloseButton} onPress={() => setIsHelpVisible(false)}>
               <Text style={styles.modalCloseText}>확인</Text>
@@ -95,22 +97,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-  },
-  processingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  processingText: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  animation: {
-    width: 150,
-    height: 150,
   },
   titleContainer: {
     alignItems: 'center',
@@ -202,5 +188,26 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
+  },
+
+  processingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  processingText: {
+    fontSize: 30,
+    fontFamily: 'Bold',
+    marginBottom: 20,
+  },
+  fixedAnimationContainer: {
+    width: 150,
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  animation: {
+    width: '100%',
+    height: '100%',
   },
 });

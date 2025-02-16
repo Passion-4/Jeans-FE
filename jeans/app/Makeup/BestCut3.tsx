@@ -61,10 +61,10 @@ export default function BestShotScreen() {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>추가 보정 안내</Text>
+            <Text style={styles.modalTitle}>기본 보정 안내</Text>
             <Text style={styles.modalDescription}>
             기본 보정은 사진에 대해 {'\n'}명암, 색감, 선명도를 조정하여{'\n'}
-            원하는 느낌을 줄 수 있는 기능입니다.
+            원하는 느낌을 주는 기능입니다.
             </Text>
             <TouchableOpacity style={styles.modalCloseButton} onPress={() => setIsHelpVisible(false)}>
               <Text style={styles.modalCloseText}>확인</Text>
