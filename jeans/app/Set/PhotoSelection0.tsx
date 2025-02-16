@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     lineHeight: 50,
   },
   strongText: {
-    fontSize: 30,
+    fontSize: 25,
         fontFamily:'Bold' 
   },
 });

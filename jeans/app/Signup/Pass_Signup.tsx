@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     marginBottom: 15, // 동일한 간격
     fontFamily: 'Medium',
-    fontSize: 18,
+    fontSize: 16,
   },
   infoText: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#3DB2FF',
     fontFamily: 'Medium',
     marginBottom: 15,

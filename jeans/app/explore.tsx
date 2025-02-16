@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     marginBottom: 15, 
     fontFamily: 'Medium',
-    fontSize:18
+    fontSize:16
   },
   passwordContainer: {
     width: '100%', // ✅ FullButton과 동일한 너비 설정
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     color: '#888888',
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 5,
     marginBottom: 20, // ✅ 간격 동일하게 설정
     fontFamily: 'Medium',

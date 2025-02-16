@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     marginBottom: 15, 
     fontFamily: 'Medium',
-    fontSize:18,
+    fontSize:16,
   },
   backToLogin: {
     color: '#888888',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   infoText: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#3DB2FF',
     fontFamily: 'Medium',
     marginTop: 10,
