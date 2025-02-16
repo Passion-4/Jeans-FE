@@ -27,27 +27,35 @@ export default function BottomNavBar() {
       </View>
 
       {/* 🔹 녹음 모달 */}
-      <Modal visible={isRecording} transparent animationType="fade">
-        <View style={styles.modalContainer}>
-          <LottieView
-            source={require('../assets/animations/Animation - 1739445445148.json')}
-            autoPlay
-            loop
-            style={styles.animation}
-          />
-          <Text style={styles.recordingText}>듣는 중입니다...</Text>
-          <TouchableOpacity style={styles.stopButton} onPress={() => setIsRecording(false)}>
-            <Text style={styles.stopButtonText}>완료</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      {/* 🔹 녹음 모달 */}
+<Modal visible={isRecording} transparent animationType="fade">
+  <View style={styles.modalContainer}>
+    {/* ✅ 고정된 크기의 뷰에 LottieView 배치 */}
+    <View style={styles.animationContainer}>
+      <LottieView
+        source={require('../assets/animations/Animation - 1739445445148.json')}
+        autoPlay
+        loop
+        resizeMode="cover"
+        style={styles.animation}
+      />
+    </View>
+
+    {/* 텍스트 및 버튼 고정 */}
+    <Text style={styles.recordingText}>듣는 중입니다...</Text>
+    <TouchableOpacity style={styles.stopButton} onPress={() => setIsRecording(false)}>
+      <Text style={styles.stopButtonText}>완료</Text>
+    </TouchableOpacity>
+  </View>
+</Modal>
+
     </>
   );
 }
 
 const styles = StyleSheet.create({
   bottomNav: {
-    position: 'absolute', // 📌 항상 하단 고정
+    position: 'absolute', // 항상 하단 고정
     bottom: 0,
     left: 0,
     right: 0,
@@ -59,7 +67,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderColor: '#E0E0E0',
-    zIndex: 1000, // ✅ 다른 요소들보다 위로 배치
+    zIndex: 1000, // 다른 요소들보다 위로 배치
   },
   navButton: {
     flex: 1,
@@ -93,27 +101,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
+  
+  /* ✅ Lottie 애니메이션 크기 고정 */
+  animationContainer: {
+    width: 150,
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden', // 애니메이션 범위를 제한
+  },
+  
   animation: {
     width: 150,
     height: 150,
+    transform: [{ scale: 1 }],
   },
+  
   recordingText: {
     fontSize: 30,
     fontFamily: 'Bold',
     color: 'white',
     marginVertical: 20,
+    textAlign: 'center',
   },
+  
   stopButton: {
     backgroundColor: '#008DBF',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+    marginTop: 10,
   },
+  
   stopButtonText: {
     fontSize: 18,
     fontFamily: 'Medium',
     color: 'white',
+    textAlign: 'center',
   },
+  
 });
