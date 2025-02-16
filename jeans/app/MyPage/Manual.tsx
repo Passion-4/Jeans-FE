@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingBottom: 20,
-    marginTop: 100
+    marginTop: 85
   },
   sectionTitle: {
-    fontSize: 30,
+    fontSize: 25,
     fontFamily:'Bold',
-    marginTop: 30,
-    marginBottom: 15,
+    marginTop: 20,
+    marginBottom: 10,
   },
   videoContainer: {
     height: 200, // 동영상 높이 조정

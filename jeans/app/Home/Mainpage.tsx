@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 135, // 고정 위치 (TopNavBar 아래)
+    top: 125, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   /** 📌 고정된 사진 공유 버튼 */
   shareButton: {
     position: 'absolute', // 고정 위치
-    top: 120, // TopNavBar 아래 + 약간의 여백
+    top: 113, // TopNavBar 아래 + 약간의 여백
     right: 15, // 오른쪽 끝에 배치
     backgroundColor: '#008DBF',
     paddingVertical: 10,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
 
   /** 📌 친구 목록 */
   friendsContainer: {
-    marginTop: 210, // 고정된 타이틀 아래 배치
+    marginTop: 200, // 고정된 타이틀 아래 배치
     marginBottom: 20,
   },
   friendsScrollWrapper: {

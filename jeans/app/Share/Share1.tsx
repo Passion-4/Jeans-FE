@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 150,
   },
   title: {
-    fontSize: 35,
+    fontSize: 31,
     fontFamily: 'Bold',
   },
   friendsContainer: {

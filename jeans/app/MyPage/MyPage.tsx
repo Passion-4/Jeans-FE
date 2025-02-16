@@ -12,16 +12,23 @@ export default function MyPageScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 프로필 섹션 */}
+      {/* 📌 프로필 섹션 */}
       <View style={styles.profileContainer}>
+        {/* 🔹 프로필 이미지 (왼쪽 정렬) */}
         <Image source={require('../../assets/images/icon.png')} style={styles.profileImage} />
-        <Text style={styles.userName}>김덕배</Text>
+
+        {/* 🔹 프로필 정보 (이름, 생년월일, 전화번호) */}
+        <View style={styles.profileInfo}>
+          <Text style={styles.userName}>김덕배</Text>
+          <Text style={styles.userDetail}>생년월일: 1990.01.01</Text>
+          <Text style={styles.userDetail}>전화번호: 010-1234-5678</Text>
+        </View>
       </View>
 
-      {/* 설정 목록 */}
+      {/* 📌 설정 목록 */}
       <View style={styles.settingContainer}>
         <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/EditInfo')}>
-          <Text style={styles.settingText}>내 정보 수정하기(마이페이지)</Text>
+          <Text style={styles.settingText}>내 정보 수정하기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
@@ -68,22 +75,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
+  /** 📌 프로필 섹션 */
   profileContainer: {
-    alignItems: 'center',
-    marginTop: 70,
-    marginBottom: 20,
+    flexDirection: 'row', // 🔹 가로 정렬
+    alignItems: 'center', // 🔹 세로 중앙 정렬
+    marginTop: 130,
+    marginBottom: 25,
   },
   profileImage: {
     width: 90,
     height: 90,
     borderRadius: 45,
-    marginTop: 60
+    marginRight: 15, // 🔹 오른쪽 여백 추가
+  },
+  profileInfo: {
+    justifyContent: 'center',
   },
   userName: {
-    fontSize: 30,
-    fontFamily:'Bold',
-    marginTop: 8,
+    fontSize: 25,
+    fontFamily: 'Bold',
   },
+  userDetail: {
+    fontSize: 16,
+    color: '#555',
+    fontFamily: 'Medium',
+    marginTop: 3, // 🔹 간격 조정
+  },
+
+  /** 📌 설정 목록 */
   settingContainer: {
     marginTop: -10,
   },
@@ -96,9 +115,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E0E0E0',
   },
   settingText: {
-    fontSize: 22,
+    fontSize: 18,
     color: '#333',
-    fontFamily:'Medium'
+    fontFamily: 'Medium',
   },
 });
-

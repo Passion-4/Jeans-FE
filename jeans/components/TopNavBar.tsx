@@ -58,7 +58,7 @@ export default function TopNavBar() {
 const styles = StyleSheet.create({
   banner: {
     position: 'absolute',
-    top: 30,
+    top: 23,
     left: 0,
     right: 0,
     height: 80,

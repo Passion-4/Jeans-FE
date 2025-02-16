@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 15,
-    paddingTop: 100,
+    paddingTop: 50,
   },
   titleContainer: {
     alignItems: 'center',
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
-    paddingBottom: 30, // ✅ 버튼이 하단 네비게이션과 겹치지 않도록 설정
+    paddingBottom: 20, // ✅ 버튼이 하단 네비게이션과 겹치지 않도록 설정
   },
 
   /** 📌 녹음 버튼 */

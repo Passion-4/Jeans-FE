@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가

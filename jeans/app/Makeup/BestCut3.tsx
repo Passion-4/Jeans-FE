@@ -81,16 +81,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 10,
     paddingBottom: 20,
 
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 15,
-    marginTop:150
+    marginTop:120
   },
   imageContainer: {
     alignItems: 'center',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     borderRadius: 15,
-    marginBottom:30
+    marginBottom:10
   },
   emptySpaceText: {
     fontSize: 20,
