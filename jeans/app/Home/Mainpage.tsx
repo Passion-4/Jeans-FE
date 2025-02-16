@@ -49,15 +49,24 @@ export default function HomeUILayout() {
 
       {/* 📌 고정된 타이틀 & 버튼 */}
       <View style={styles.fixedHeader}>
-        <View>
-          <Text style={styles.title}>친구들 소식 확인</Text>
-          <Text style={styles.description}>
-            {selectedFriend.isGroup
-              ? `[${selectedFriend.name}] 그룹과 나눈 추억을 둘러보세요.`
-              : `${selectedFriend.name}님과 나눈 추억을 둘러보세요.`}
-          </Text>
-        </View>
+      <View>
+        <Text style={styles.title}>친구들 소식 확인</Text>
+        <Text style={styles.description}>
+          {selectedFriend.isGroup ? (
+            <>
+              <Text style={styles.defaultText}>[</Text>
+              <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
+              <Text style={styles.defaultText}>] 그룹과 나눈 추억을 둘러보세요.</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
+              <Text style={styles.defaultText}>님과 나눈 추억을 둘러보세요.</Text>
+            </>
+          )}
+        </Text>
       </View>
+    </View>
 
       {/* 📌 고정된 사진 공유 버튼 */}
       <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
@@ -126,18 +135,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 130, // 고정 위치 (TopNavBar 아래)
+    top: 135, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
     zIndex: 10,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: 'Bold',
+    marginBottom:5
   },
   description: {
-    fontSize: 18,
+    fontSize: 17,
     color: '#555',
     fontFamily: 'Medium',
   },
@@ -145,7 +155,7 @@ const styles = StyleSheet.create({
   /** 📌 고정된 사진 공유 버튼 */
   shareButton: {
     position: 'absolute', // 고정 위치
-    top: 130, // TopNavBar 아래 + 약간의 여백
+    top: 120, // TopNavBar 아래 + 약간의 여백
     right: 15, // 오른쪽 끝에 배치
     backgroundColor: '#008DBF',
     paddingVertical: 10,
@@ -161,7 +171,7 @@ const styles = StyleSheet.create({
 
   /** 📌 친구 목록 */
   friendsContainer: {
-    marginTop: 220, // 고정된 타이틀 아래 배치
+    marginTop: 210, // 고정된 타이틀 아래 배치
     marginBottom: 20,
   },
   friendsScrollWrapper: {
@@ -227,5 +237,12 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginBottom: 5,
     borderRadius: 10,
+  },
+  highlightedText: {
+    color: '#008DBF', // 🔹 지정된 색상 적용
+    fontWeight: 'bold', // 🔹 굵게 (선택 사항)
+  },
+  defaultText: {
+    color: '#555', // 🔹 기본 텍스트 색상 (회색 계열)
   },
 });
