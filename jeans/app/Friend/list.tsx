@@ -26,12 +26,10 @@ export default function FriendListScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>친구 목록 및 {'\n'}별명 생성하기</Text>
       </View>
 
-      {/* 친구 목록 컨테이너 */}
       <FlatList
         data={dummyFriends}
         numColumns={3}
@@ -39,22 +37,20 @@ export default function FriendListScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[styles.friendCard, selectedFriend === item.id && styles.selectedFriend]}
-            onPress={() => selectFriend(item.id)}
-          >
-            <Image source={item.profileImage} style={styles.friendImage} />
-            <Text style={styles.friendName}>{item.name}</Text>
-            <Text style={styles.friendRelation}>{item.relation}</Text>
+            onPress={() => selectFriend(item.id)}>
+            <View style={styles.friendCardContent}>
+              <Image source={item.profileImage} style={styles.friendImage} />
+              <Text style={styles.friendName}>{item.name}</Text>
+            </View>
           </TouchableOpacity>
         )}
-        contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
+        contentContainerStyle={styles.friendsContainer}
       />
 
-      {/* 별명 만들기 버튼 - 친구 선택 시만 활성화 */}
       <TouchableOpacity
         style={[styles.confirmButton, selectedFriend === null && styles.disabledButton]}
         onPress={() => router.push('/Friend/relation')}
-        disabled={selectedFriend === null}
-      >
+        disabled={selectedFriend === null}>
         <Text style={styles.confirmText}>별명 만들기</Text>
       </TouchableOpacity>
 
@@ -67,70 +63,69 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 20,
     paddingHorizontal: 15,
   },
   titleContainer: {
     alignItems: 'center',
-    marginBottom: 20,
-    paddingHorizontal: 15,
+    justifyContent: 'center',
+    marginVertical: 20,
     marginTop: 120,
   },
   title: {
     fontSize: 35,
-    fontFamily:'Bold'
+    fontFamily: 'Bold',
+    textAlign: 'center',
   },
   friendsContainer: {
-    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   friendCard: {
     width: 100,
     height: 130,
-    alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
-    borderRadius: 10,
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 12,
     backgroundColor: '#FFFFFF',
-    elevation: 3,
+    elevation: 4,
+    borderWidth: 2,
+    borderColor:'white'
   },
   selectedFriend: {
-   // 선택된 친구의 배경색 변경
-    borderWidth: 5,
-    borderColor: 'rgba(255, 183, 6, 0.6)',
+    borderColor: 'rgba(255, 183, 6, 0.8)',
+    borderWidth:5
+  },
+  friendCardContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   friendImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 7,
+    width: 85,
+    height: 85,
+    borderRadius: 42.5,
+    marginBottom: 8,
   },
   friendName: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  friendRelation: {
     fontSize: 18,
-    color: '#777',
+    fontFamily: 'Medium',
+    textAlign: 'center',
   },
   confirmButton: {
     width: '100%',
-    height: 50,
+    height: 55,
     backgroundColor: '#008DBF',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
-    marginVertical: 20,
-    marginBottom: 200,
+    borderRadius: 10,
+    marginBottom: 120,
   },
   disabledButton: {
-    backgroundColor: '#B0BEC5', // 선택되지 않았을 때 비활성화 색상
+    backgroundColor: '#B0BEC5',
   },
   confirmText: {
-    color: 'white',
-    fontWeight: 'bold',
     fontSize: 20,
+    fontFamily: 'Bold',
+    color: '#FFFFFF',
   },
 });

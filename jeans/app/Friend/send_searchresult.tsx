@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import FullButton from '@/components/FullButton';
 
 export default function ShareCheckGroupScreen() {
   const router = useRouter();
@@ -26,23 +27,9 @@ export default function ShareCheckGroupScreen() {
         <Text style={styles.friendName}>{name || '이름 없음'}</Text> 
       </View>
 
-      {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-          style={styles.optionButton} 
-          onPress={() => router.push('/Friend/send_complete')}
-        >
-          <Text style={styles.buttonText}>친구 요청 보내기</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={() => router.back()}
-        >
-          <Text style={styles.buttonText}>뒤로가기</Text>
-        </TouchableOpacity>
+      <FullButton title='친구 요청 보내기' onPress={() => router.push('/Friend/send_complete')}></FullButton>
       </View>
-
       <BottomNavBar />
     </View>
   );
@@ -76,7 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   friendName: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily:'Medium',
   },
   buttonContainer: {
@@ -84,24 +71,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 180,
   },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 15,
-    backgroundColor: '#87CEEB',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  backButton: {
-    width: '100%',
-    paddingVertical: 15,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 18,
-    fontFamily:'Medium',
-    color: 'black',
-  },
+ 
 });

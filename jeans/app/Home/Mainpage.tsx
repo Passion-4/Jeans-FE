@@ -47,7 +47,7 @@ export default function HomeUILayout() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 📌 고정된 타이틀 & 버튼 */}
+      {/* 고정된 타이틀 & 버튼 */}
       <View style={styles.fixedHeader}>
       <View>
         <Text style={styles.title}>친구들 소식 확인</Text>
@@ -68,12 +68,12 @@ export default function HomeUILayout() {
       </View>
     </View>
 
-      {/* 📌 고정된 사진 공유 버튼 */}
+      {/* 고정된 사진 공유 버튼 */}
       <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
         <Text style={styles.shareText}>공유</Text>
       </TouchableOpacity>
 
-      {/* 📌 친구 목록 */}
+      {/* 친구 목록 */}
       <View style={styles.friendsContainer}>
         <View style={styles.friendsScrollWrapper}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -98,14 +98,14 @@ export default function HomeUILayout() {
         </View>
       </View>
 
-      {/* 📌 그룹 선택 시 프로필 수정 버튼 표시 */}
+      {/* 그룹 선택 시 프로필 수정 버튼 */}
       {selectedFriend.isGroup && (
         <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Home/GroupImgEdit')}>
           <Text style={styles.editProfileText}>그룹 프로필 수정</Text>
         </TouchableOpacity>
       )}
 
-      {/* 📌 공유된 사진 */}
+      {/* 공유된 사진 */}
       <View style={styles.photosContainer}>
   <View style={styles.photosScrollWrapper}>
     <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
   },
 
-  /** 📌 프로필 수정 버튼 */
+  /** 프로필 수정 버튼 */
   editProfileButton: {
     backgroundColor: '#008DBF',
     paddingVertical: 10,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 
-  /** 📌 공유된 사진 */
+  /** 공유된 사진 */
   photosContainer: {
     flex: 1,
   },
@@ -232,8 +232,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sharedPhoto: {
-    width: 170,
-    height:170,
+    width: 160,
+    height:160,
     aspectRatio: 1,
     marginBottom: 5,
     borderRadius: 10,

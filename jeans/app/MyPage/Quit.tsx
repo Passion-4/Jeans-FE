@@ -13,11 +13,11 @@ export default function AccountDeleteScreen() {
 
   // 탈퇴 이유 목록
   const reasons = [
-    '서비스 이용을 잘 하지 않아요',
+    '서비스를 잘 이용하지 않아요',
     '디자인이 마음에 들지 않아요',
     '서비스 가격이 높아요',
-    '서비스가 만족스럽지 않아요',
-    '우리 서비스 보다 더 좋은 서비스가 있어요',
+
+    '이 서비스보다 더 좋은 서비스가 있어요',
     '기타', // 기타 옵션 추가
   ];
 
@@ -31,7 +31,7 @@ export default function AccountDeleteScreen() {
       {/* 설명 */}
       <Text style={styles.description}>
         서비스를 이용해 주셔서 감사합니다.{'\n'}
-        아래 항목 중 불편한 점이 있었다면 알려주세요.
+        불편한 점이 있었다면 알려주세요.
       </Text>
 
       {/* 탈퇴 이유 선택 */}
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 100
+    marginTop: 80
   },
   description: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
     color: '#555',
     marginBottom: 30,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
   reasonText: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#333',
     fontFamily:'Medium',
     marginLeft:5

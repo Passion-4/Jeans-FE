@@ -18,14 +18,12 @@ export default function FriendDeleteScreen() {
   const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
   const router = useRouter();
 
-  // 친구 선택 토글
   const toggleFriendSelection = (friendId: number) => {
     setSelectedFriends((prev) =>
-      prev.includes(friendId) ? prev.filter((id) => id !== friendId) : [...prev, friendId]
+      prev.includes(friendId) ? prev.filter(id => id !== friendId) : [...prev, friendId]
     );
   };
 
-  // 삭제 확인 경고창
   const confirmDelete = () => {
     Alert.alert(
       "친구 삭제",
@@ -37,45 +35,38 @@ export default function FriendDeleteScreen() {
     );
   };
 
-  // 선택된 친구 삭제
   const deleteSelectedFriends = () => {
-    setFriends((prev) => prev.filter((friend) => !selectedFriends.includes(friend.id)));
-    setSelectedFriends([]); // 선택 초기화
+    setFriends(friends.filter(friend => !selectedFriends.includes(friend.id)));
+    setSelectedFriends([]);
   };
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>친구 삭제</Text>
       </View>
 
-      {/* 친구 목록 컨테이너 */}
       <FlatList
         data={friends}
         numColumns={3}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[styles.friendButton, selectedFriends.includes(item.id) && styles.selectedFriend]}
-            onPress={() => toggleFriendSelection(item.id)}
-          >
+            style={[styles.friendCard, selectedFriends.includes(item.id) && styles.selectedFriend]}
+            onPress={() => toggleFriendSelection(item.id)}>
             <Image source={item.profileImage} style={styles.friendImage} />
             <Text style={styles.friendName}>{item.name}</Text>
-            <Text style={styles.friendRelation}>{item.relation}</Text>
           </TouchableOpacity>
         )}
-        contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
+        contentContainerStyle={styles.friendsContainer}
       />
 
-      {/* 삭제 버튼 */}
       <TouchableOpacity
-        style={[styles.deleteButton, selectedFriends.length === 0 && styles.disabledButton]}
+        style={[styles.confirmButton, selectedFriends.length === 0 && styles.disabledButton]}
         onPress={confirmDelete}
-        disabled={selectedFriends.length === 0}
-      >
+        disabled={selectedFriends.length === 0}>
         <Text style={styles.confirmText}>삭제 하기</Text>
       </TouchableOpacity>
 
@@ -88,68 +79,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 20,
     paddingHorizontal: 15,
   },
   titleContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 20,
-    paddingHorizontal: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
     marginTop: 120,
   },
   title: {
     fontSize: 35,
-    fontFamily:'Bold'
+    fontFamily: 'Bold',
+    textAlign: 'center',
   },
   friendsContainer: {
-    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
-  friendButton: {
+  friendCard: {
     width: 100,
     height: 130,
-    alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
-    borderRadius: 10,
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 12,
     backgroundColor: '#FFFFFF',
-    elevation: 3,
+    elevation: 4,
+    borderWidth: 2,
+    borderColor: 'white'
   },
   selectedFriend: {
-    borderWidth: 3,
-    borderColor: '#008DBF',
+    borderColor: 'rgba(255, 183, 6, 0.8)',
+    borderWidth: 5,
   },
   friendImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    marginBottom: 5,
+    width: 85,
+    height: 85,
+    borderRadius: 42.5,
+    marginBottom: 8,
   },
   friendName: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'Medium',
+    textAlign: 'center',
   },
-  friendRelation: {
-    fontSize: 12,
-    color: '#777',
-  },
-  deleteButton: {
+  confirmButton: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#87CEEB',
+    height: 55,
+    backgroundColor: '#008DBF',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
-    marginVertical: 10,
-    marginBottom:200
+    borderRadius: 10,
+    marginBottom: 120,
   },
   disabledButton: {
     backgroundColor: '#B0BEC5',
   },
   confirmText: {
-    color: 'white',
-    fontWeight: 'bold',
     fontSize: 20,
+    fontFamily: 'Bold',
+    color: '#FFFFFF',
   },
 });

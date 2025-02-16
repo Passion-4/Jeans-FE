@@ -1,23 +1,28 @@
-import React, { useState }from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import FullButton from '@/components/FullButton';
+import FullButton from '../../components/FullButton';
 
-export default function CompleteSignupScreen() {
+export default function PhotoSelectionCompleteScreen() {
   const router = useRouter();
   const [animationFinished, setAnimationFinished] = useState(false);
 
   return (
     <View style={styles.container}>
+      {/* ✅ 타이틀 */}
       <Text style={styles.title}>회원가입이 {'\n'}완료되었습니다!</Text>
-      <LottieView 
-              source={require('../../assets/animations/Animation - 1739343498719.json')} 
-              autoPlay
-              loop={false} // 반복 X
-              style={styles.lottie}
-              onAnimationFinish={() => setAnimationFinished(true)} // 애니메이션 끝나도 유지
-            />
+
+      {/* ✅ 고정된 Lottie 애니메이션 컨테이너 */}
+      <View style={styles.lottieContainer}>
+        <LottieView 
+          source={require('../../assets/animations/Animation - 1739343498719.json')} 
+          autoPlay
+          loop={false} 
+          style={styles.lottie}
+          onAnimationFinish={() => setAnimationFinished(true)}
+        />
+      </View>
 
       <FullButton title='로그인 하러 가기' onPress={() => router.push('/explore')}></FullButton>
     </View>
@@ -34,17 +39,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    marginBottom: 20,
+    fontFamily: 'Bold',
     textAlign: 'center',
-    fontFamily:'Bold'
+    marginBottom: 20,
   },
-  checkmark: {
-    fontSize: 50,
-    marginBottom: 40,
+
+  /** ✅ 애니메이션 고정 크기 컨테이너 */
+  lottieContainer: {
+    width: 120, 
+    height: 120, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    marginVertical: 20, 
   },
   lottie: {
-    width: 90,  
-    height: 90, 
-    marginBottom: 20,
+    width: '100%',
+    height: '100%',
   },
 });
+
