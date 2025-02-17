@@ -11,10 +11,10 @@ export default function HomeUILayout() {
   // 프로필 사진 데이터
   const friends = [
     { id: 1, name: '김덕배(나)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 2, name: '이순복', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 3, name: '박영남', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 4, name: '박보석(아들)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 5, name: '가족', profileImage: require('../../assets/images/friend1.jpg'), isGroup: true }, // 그룹
+    { id: 2, name: '박영남', profileImage: require('../../assets/images/friend2.jpg'), isGroup: false },
+    { id: 3, name: '이순복', profileImage: require('../../assets/images/friend3.jpg'), isGroup: false },
+    { id: 4, name: '박보석(아들)', profileImage: require('../../assets/images/sonjpg'), isGroup: false },
+    { id: 5, name: '가족', profileImage: require('../../assets/images/family.jpg'), isGroup: true }, // 그룹
   ];
 
   // 공유된 사진 
