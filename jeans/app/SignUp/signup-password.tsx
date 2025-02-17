@@ -40,7 +40,7 @@ export default function PasswordSignupScreen() {
       {/* 다음 버튼 - 개인정보 동의 화면으로 이동 */}
       <FullButton 
         title='다 음' 
-        onPress={() => router.push('/Signup/Privacy_Signup')}
+        onPress={() => router.push('/Signup/signup-privacy')}
       />
     </View>
   );

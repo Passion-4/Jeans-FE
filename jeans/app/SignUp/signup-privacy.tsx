@@ -29,7 +29,7 @@ export default function PrivacySignupScreen() {
         <Switch value={isAgreed3} onValueChange={setIsAgreed3} />
       </View>
 
-      <FullButton title='다 음' onPress={() => router.push('/Signup/Complete')}></FullButton>
+      <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-complete')}></FullButton>
     </View>
   );
 }

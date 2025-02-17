@@ -100,7 +100,7 @@ export default function HomeUILayout() {
 
       {/* 그룹 선택 시 프로필 수정 버튼 */}
       {selectedFriend.isGroup && (
-        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Home/GroupImgEdit')}>
+        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Home/group-img-edit')}>
           <Text style={styles.editProfileText}>그룹 프로필 수정</Text>
         </TouchableOpacity>
       )}
@@ -110,7 +110,7 @@ export default function HomeUILayout() {
   <View style={styles.photosScrollWrapper}>
     <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
       {sharedPhotos[selectedFriend.name]?.map((photo) => (
-        <TouchableOpacity key={photo.id} onPress={() => router.push({ pathname: '/Home/PhotoDetail', params: { photoId: photo.id } })}>
+        <TouchableOpacity key={photo.id} onPress={() => router.push({ pathname: '/Home/photo-detail', params: { photoId: photo.id } })}>
           <Image source={photo.imageUrl} style={styles.sharedPhoto} />
         </TouchableOpacity>
       ))}

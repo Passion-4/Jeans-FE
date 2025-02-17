@@ -12,7 +12,7 @@ export default function BottomNavBar() {
     <>
       {/* ✅ 하단 네비게이션 바 고정 */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Home/Mainpage')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Home/main-page')}>
           <Text style={styles.navText}>친구 소식</Text>
         </TouchableOpacity>
 

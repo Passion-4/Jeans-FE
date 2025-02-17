@@ -25,7 +25,7 @@ export default function PhotoSelectionCompleteScreen() {
       </View>
 
       {/* ✅ 완료 버튼 */}
-      <FullButton title="완 료" onPress={() => router.push('/Home/Mainpage')} />
+      <FullButton title="완 료" onPress={() => router.push('/Home/main-page')} />
     </View>
   );
 }

@@ -98,13 +98,10 @@ export default function PhotoDetailScreen() {
         </BlurView>
       </Modal>
 
-      
-
-      {/* 📌 녹음 중 UI */}
       {/* 📌 녹음 중 UI */}
 <Modal visible={isRecording} transparent animationType="fade">
   <View style={styles.modalContainer}>
-    {/* ✅ 고정된 크기 컨테이너에 LottieView */}
+    {/* 고정된 크기 컨테이너에 LottieView */}
     <View style={styles.animationContainer}>
       <LottieView
         source={require('../../assets/animations/Animation - 1739445445148.json')}
@@ -235,8 +232,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 
-  /** 추가된 스타일 */
- /** 📌 모달 스타일 */
 modalContainer: {
   flex: 1,
   justifyContent: 'center',

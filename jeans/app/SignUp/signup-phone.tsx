@@ -45,7 +45,7 @@ export default function SignupScreen() {
       {/* 안내 문구 추가 */}
       <Text style={styles.infoText}> * 입력하신 전화번호는 아이디로 사용됩니다.</Text>
 
-      <FullButton title='다 음' onPress={() => router.push('/Signup/Pass_Signup')}></FullButton>
+      <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-password')}></FullButton>
 
 
     </View>
@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
     marginBottom: 40,
     fontFamily :'Bold'
   },

@@ -35,8 +35,6 @@ export default function RootLayout() {
     <ImageProvider>  {/* ✅ ImageProvider로 감싸줌 */}
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
-          {/*<Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
-
           {/* 앱 시작 시 첫 화면 */}
           <Stack.Screen name="index" options={{ headerShown: false }} />
 
@@ -44,25 +42,25 @@ export default function RootLayout() {
           <Stack.Screen name="explore" options={{ headerShown: false }} />
 
           {/* 아이디/비밀번호 찾기 화면 추가 */}
-          <Stack.Screen name="FindAccount/Find_Account" options={{ title: '아이디/비밀번호 찾기', headerShown: false}} />
+          <Stack.Screen name="FindAccount/find-account" options={{ title: '아이디/비밀번호 찾기', headerShown: false}} />
 
           {/* 회원가입 관련 페이지 */}
-          <Stack.Screen name="Signup/Start_Signup" options={{ title: '회원가입', headerShown: false }} />
-          <Stack.Screen name="Signup/Birth_Signup" options={{ title: '회원가입 - 생년월일', headerShown: false }} />
-          <Stack.Screen name="Signup/Phone_Signup" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
-          <Stack.Screen name="Signup/Pass_Signup" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
-          <Stack.Screen name="Signup/Privacy_Signup" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
-          <Stack.Screen name="Signup/Complete" options={{ title: '회원가입 - 완료', headerShown: false }} />
+          <Stack.Screen name="SignUp/signup-name" options={{ title: '회원가입', headerShown: false }} />
+          <Stack.Screen name="SignUp/signup-birth" options={{ title: '회원가입 - 생년월일', headerShown: false }} />
+          <Stack.Screen name="SignUp/signup-phone" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
+          <Stack.Screen name="SignUp/signup-password" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
+          <Stack.Screen name="SignUp/signup-privacy" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
+          <Stack.Screen name="SignUp/signup-complete" options={{ title: '회원가입 - 완료', headerShown: false }} />
           
           {/* 사진 선택 (기본 보정) 페이지 */}
-          <Stack.Screen name="Set/PhotoSelection0" options={{ title: '사진 선택 - 0', headerShown: false}} />
-          <Stack.Screen name="Set/PhotoSelection1" options={{ title: '사진 선택 - 1', headerShown: false}} />
-          <Stack.Screen name="Set/PhotoSelection2" options={{ title: '사진 선택 - 2', headerShown: false}} />
+          <Stack.Screen name="Set/photo-selection0" options={{ title: '사진 선택 - 0', headerShown: false}} />
+          <Stack.Screen name="Set/photo-selection1" options={{ title: '사진 선택 - 1', headerShown: false}} />
+          <Stack.Screen name="Set/photo-selection2" options={{ title: '사진 선택 - 2', headerShown: false}} />
 
           {/* 메인 페이지 */}
-          <Stack.Screen name="Home/Mainpage" options={{ title: '메인 페이지', headerShown: false}} />
-          <Stack.Screen name="Home/GroupImgEdit" options={{ title: '메인 페이지 - 그룹 프로필 사진 수정', headerShown: false}} />
-          <Stack.Screen name="Home/PhotoDetail" options={{ title: '메인 페이지 - 사진 상세 정보 및 대화', headerShown: false}} />
+          <Stack.Screen name="Home/main-page" options={{ title: '메인 페이지', headerShown: false}} />
+          <Stack.Screen name="Home/group-img-edit" options={{ title: '메인 페이지 - 그룹 프로필 사진 수정', headerShown: false}} />
+          <Stack.Screen name="Home/photo-detail" options={{ title: '메인 페이지 - 사진 상세 정보 및 대화', headerShown: false}} />
           <Stack.Screen name="Home/Search" options={{ title: '메인 페이지 - 검색', headerShown: false}} />
 
           {/* 마이 페이지 */}
