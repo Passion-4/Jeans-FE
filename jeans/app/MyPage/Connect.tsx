@@ -19,7 +19,7 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/Friend/send-search')}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/Friend/send')}>
           <Text style={styles.settingText}>친구 요청 보내기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
