@@ -36,7 +36,7 @@ export default function FriendSearchScreen() {
 
       <FullButton 
         title='검 색' 
-        onPress={() => router.push({ pathname: '/Friend/send_searchresult', params: { name, phone } })}
+        onPress={() => router.push({ pathname: '/Friend/send-search-result', params: { name, phone } })}
       />
       <BottomNavBar />
     </View>

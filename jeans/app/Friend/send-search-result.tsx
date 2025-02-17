@@ -28,7 +28,7 @@ export default function ShareCheckGroupScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-      <FullButton title='친구 요청 보내기' onPress={() => router.push('/Friend/send_complete')}></FullButton>
+      <FullButton title='친구 요청 보내기' onPress={() => router.push('/Friend/send-complete')}></FullButton>
       </View>
       <BottomNavBar />
     </View>
