@@ -27,7 +27,7 @@ export default function PhotoDetailScreen() {
     imageUrl: require('../../assets/images/photo2.png'),
     description: '사진 제목 : 맛있는 칼국수 \n일시 : 2025-02-14 \n장소 : 제주도',
     messages: [
-      { id: 1, sender: '이순복', text: '너무 맛있어 보이네요!', profileImage: require('../../assets/images/friend1.jpg') },
+      { id: 1, sender: '이순복', text: '너무 맛있어 보이네요!', profileImage: require('../../assets/images/friend3.jpg') },
       { id: 2, sender: '나', text: '맞아요! 정말 맛집이에요.', profileImage: null },
     ],
   };

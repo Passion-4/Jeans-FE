@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import HalfButton from '../../components/HalfButton'; // ✅ 재사용 버튼 적용
-import { useImageContext } from '../Context/ImageContext';
+import HalfButton from '../../components/HalfButton';
 
 export default function BestShotScreen() {
   const router = useRouter();
-  const [selectedFilter, setSelectedFilter] = useState<string>("원본"); // 기본값을 "원본"으로 설정
-  const { selectedImages } = useImageContext(); 
+  const [selectedFilter, setSelectedFilter] = useState<string>('원본');
+  const { images } = useLocalSearchParams(); // 전달된 이미지 가져오기
+
+  // JSON으로 받은 이미지 데이터를 배열로 변환 (없을 경우 빈 배열)
+  const selectedImages = images ? JSON.parse(images as string) : [];
+
+  // 표시할 이미지 설정 (선택된 이미지가 없으면 기본 이미지)
+  const displayImage =
+    selectedImages.length > 0
+      ? { uri: selectedImages[0] }
+      : require('../../assets/images/friend3.jpg');
 
   return (
     <View style={styles.container}>
@@ -18,34 +26,47 @@ export default function BestShotScreen() {
       {/* 텍스트 설명 */}
       <Text style={styles.title}>동안 보정을 선택하세요.</Text>
 
-      {/* 일단 임의로 첫 번째 사진 표시 */}
-                  <View style={styles.imageContainer}>
-                    {selectedImages && selectedImages.length > 0 ? (
-                      <Image source={{ uri: selectedImages[0] }} style={styles.image} />
-                    ) : (
-                      <Text style={styles.emptySpaceText}>사진 없음</Text>
-                    )}
-                  </View>
-        {/* 보정 옵션 버튼 */}
-        <View style={styles.filterContainer}>
-          {["원본", "조금", "많이"].map((label, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.filterButton, selectedFilter === label && styles.selectedFilter]}
-              onPress={() => setSelectedFilter(label)}
-            >
-              <Text style={[styles.filterText, selectedFilter === label && styles.selectedFilterText]}>{label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      {/* 이미지 표시 */}
+      <View style={styles.imageContainer}>
+        <Image source={displayImage} style={styles.image} />
+      </View>
 
+      {/* 보정 옵션 버튼 */}
+      <View style={styles.filterContainer}>
+        {['원본', '조금', '많이'].map((label, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.filterButton,
+              selectedFilter === label && styles.selectedFilter,
+            ]}
+            onPress={() => setSelectedFilter(label)}
+          >
+            <Text
+              style={[
+                styles.filterText,
+                selectedFilter === label && styles.selectedFilterText,
+              ]}
+            >
+              {label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="그만두기" color="#3DB2FF"onPress={() => router.push('/MakeUp/advanced-option')} />
-        <HalfButton title="완료" onPress={() => router.push('/MakeUp/advanced-option')} />
+        <HalfButton
+          title="그만두기"
+          color="#3DB2FF"
+          onPress={() => router.push('/MakeUp/advanced-option')}
+        />
+        <HalfButton
+          title="완료"
+          onPress={() => router.push('/MakeUp/advanced-option')}
+        />
       </View>
-      
+
       <BottomNavBar />
     </View>
   );
@@ -85,14 +106,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 5,
-    marginBottom:250
+    marginBottom: 250,
   },
   filterButton: {
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 5,
-    
   },
   selectedFilter: {
     backgroundColor: '#FFFFFF', // 선택된 버튼 배경을 흰색으로 변경
@@ -113,9 +133,5 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 40,
   },
-  emptySpaceText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
 });
+
