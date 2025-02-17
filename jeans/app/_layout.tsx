@@ -83,8 +83,8 @@ export default function RootLayout() {
           <Stack.Screen name="Share/share-select-img" options={{ title: '공유 첫 화면', headerShown: false}} />
           <Stack.Screen name="Share/share-select-friend" options={{ title: '공유 선택', headerShown: false}} />
           <Stack.Screen name="Share/share-select-target" options={{ title: '공유 방식 선택', headerShown: false}} />
-          <Stack.Screen name="Share/Share_makegroup0" options={{ title: '그룹 만들기', headerShown: false}} />
-          <Stack.Screen name="Share/Share_makegroup1" options={{ title: '그룹 만들기 완료', headerShown: false}} />
+          <Stack.Screen name="Share/share-make-group" options={{ title: '그룹 만들기', headerShown: false}} />
+          <Stack.Screen name="Share/share-make-group-complete" options={{ title: '그룹 만들기 완료', headerShown: false}} />
           <Stack.Screen name="Share/share-to-group" options={{ title: '그룹 확인', headerShown: false}} />
           <Stack.Screen name="Share/Share_-oice" options={{ title: '그룹 확인', headerShown: false}} />
 

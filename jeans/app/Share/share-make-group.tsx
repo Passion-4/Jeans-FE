@@ -12,7 +12,7 @@ export default function ShareMakeGroupScreen() {
   const handleCreateGroup = () => {
     if (groupName.trim()) {
       // 이후 그룹 데이터를 저장하는 로직 추가 가능
-      router.push('/Share/Share_makegroup1'); 
+      router.push('/Share/share-make-group-complete'); 
     }
   };
 

@@ -26,7 +26,7 @@ export default function PhotoSelectionScreen() {
       setSelectedImages(imageUris); // ✅ 선택한 이미지를 글로벌 상태에 저장
 
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
-      router.push('/Share/Share1');
+      router.push('/Share/');
     }
   }, [router, setSelectedImages]);
 
