@@ -16,7 +16,7 @@ export default function BestShotScreen() {
       <TopNavBar />
 
       {/* 텍스트 설명 */}
-      <Text style={styles.title}>새치 보정을 선택하세요.</Text>
+      <Text style={styles.title}>동안 보정을 선택하세요.</Text>
 
       {/* 일단 임의로 첫 번째 사진 표시 */}
                   <View style={styles.imageContainer}>
@@ -42,8 +42,8 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="그만두기" color="#3DB2FF"onPress={() => router.push('/Makeup/Edit1')} />
-        <HalfButton title="완료" onPress={() => router.push('/Makeup/Edit1')} />
+        <HalfButton title="그만두기" color="#3DB2FF"onPress={() => router.push('/MakeUp/advanced-option')} />
+        <HalfButton title="완료" onPress={() => router.push('/MakeUp/advanced-option')} />
       </View>
       
       <BottomNavBar />
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 5,
+    
   },
   selectedFilter: {
     backgroundColor: '#FFFFFF', // 선택된 버튼 배경을 흰색으로 변경

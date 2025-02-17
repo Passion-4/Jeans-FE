@@ -79,7 +79,7 @@ export default function PhotoDetailScreen() {
 
       {/* 📌 녹음 버튼 */}
       <TouchableOpacity style={styles.recordButton} onPress={startRecording}>
-        <Ionicons name="mic" size={30} color="white" />
+        <Ionicons name="chatbubble-ellipses" size={30} color="white" />
         <Text style={styles.recordButtonText}>메시지를 녹음하세요</Text>
       </TouchableOpacity>
 
@@ -111,11 +111,7 @@ export default function PhotoDetailScreen() {
         style={styles.animation}
       />
     </View>
-
-    {/* ✅ 듣는 중입니다. 텍스트 */}
     <Text style={styles.recordingText}>녹음 중입니다...</Text>
-
-    {/* ✅ 완료 버튼 */}
     <TouchableOpacity style={styles.stopButton} onPress={stopRecording}>
       <Text style={styles.stopButtonText}>완료</Text>
     </TouchableOpacity>

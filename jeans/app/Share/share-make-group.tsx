@@ -21,7 +21,7 @@ export default function ShareMakeGroupScreen() {
       <TopNavBar />
 
       {/* 타이틀 */}
-      <Text style={styles.title}>그룹 이름을 만드시겠습니까?</Text>
+      <Text style={styles.title}>그룹 이름을 {'\n'}설정해주세요.</Text>
 
       {/* 그룹 이름 입력 필드 */}
       <TextInput
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 60,
+    fontFamily:'Bold'
   },
   input: {
     width: '100%',

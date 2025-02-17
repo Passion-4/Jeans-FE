@@ -31,8 +31,8 @@ export default function BestShotScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="사진 받기" color="#3DB2FF" onPress={() => router.push('/Makeup/MakeUp_Download')} />
-        <HalfButton title="공유하기" onPress={() => router.push('/Share/Share1')} />
+        <HalfButton title="사진 받기" color="#3DB2FF" onPress={() => router.push('/MakeUp/makeup-download')} />
+        <HalfButton title="공유하기" onPress={() => router.push('/Share/share-select-friend')} />
       </View>
 
 

@@ -23,7 +23,7 @@ export default function PhotoSelectionIntroScreen() {
 
   const handleConfirmSelection = () => {
     if (selectedBox !== null) {
-      router.push('/Makeup/BestCut3');
+      router.push('/MakeUp/basic-makeup');
     }
   };
 

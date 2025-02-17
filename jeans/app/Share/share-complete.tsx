@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
@@ -14,20 +14,18 @@ export default function FriendRequestCompleteScreen() {
       <TopNavBar />
 
       <View style={styles.content}>
-        {/* 타이틀 */}
         <Text style={styles.title}>공유가 완료되었습니다!</Text>
 
-        {/* Lottie 애니메이션 */}
-        <View style={styles.lottieContainer}>
-          <LottieView 
-            source={require('../../assets/animations/Animation - 1739343498719.json')} 
+        <View style={styles.fixedAnimationContainer}>
+          <LottieView
+            source={require('../../assets/animations/Animation - 1739343498719.json')}
             autoPlay
-            loop={false} 
+            loop={false}
             style={styles.lottie}
           />
         </View>
 
-        <FullButton title='확 인' onPress={() => router.push('/Home/main-page')}></FullButton>
+        <FullButton title="확 인" onPress={() => router.push('/Home/main-page')} />
       </View>
 
       <BottomNavBar />
@@ -46,26 +44,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-
-  /** 타이틀 */
   title: {
     fontSize: 28,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20,
   },
-
-  /** Lottie 애니메이션 */
-  lottieContainer: {
+  fixedAnimationContainer: {
     width: 150,
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    marginBottom: 30,
+    marginVertical: 20,
+    position: 'relative',
   },
   lottie: {
     width: '100%',
     height: '100%',
+    position: 'absolute',
+    top: 0,
   },
 });

@@ -10,7 +10,7 @@ export default function BottomNavBar() {
 
   return (
     <>
-      {/* ✅ 하단 네비게이션 바 고정 */}
+      {/* 하단 네비게이션 바 고정 */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Home/main-page')}>
           <Text style={styles.navText}>친구 소식</Text>
@@ -21,12 +21,11 @@ export default function BottomNavBar() {
           <Ionicons name="mic" size={50} color="white" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/Makeup/Makeup0')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/MakeUp/select-function')}>
           <Text style={styles.navText}>사진 편집</Text>
         </TouchableOpacity>
       </View>
 
-      {/* 🔹 녹음 모달 */}
       {/* 🔹 녹음 모달 */}
 <Modal visible={isRecording} transparent animationType="fade">
   <View style={styles.modalContainer}>

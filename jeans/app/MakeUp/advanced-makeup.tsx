@@ -61,8 +61,8 @@ export default function BestShotScreen() {
             </View>
 
       <View style={styles.buttonContainer}>
-        <HalfButton title="아니오" color="#3DB2FF" onPress={() => router.push('/Makeup/MakeUp_Finish')} />
-        <HalfButton title="예" onPress={() => router.push('/Makeup/Edit1')} />
+        <HalfButton title="아니오" color="#3DB2FF" onPress={() => router.push('/MakeUp/makeup-finish')} />
+        <HalfButton title="예" onPress={() => router.push('/MakeUp/advanced-option')} />
       </View>
 
       <BottomNavBar />
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   /** 모달 스타일 */
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -22,7 +22,7 @@ export default function PhotoSelectionScreen() {
 
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
       router.push({
-        pathname: '/Makeup/Edit0',
+        pathname: '/MakeUp/advanced-makeup',
         params: { images: JSON.stringify(imageUris) },
       });
     }

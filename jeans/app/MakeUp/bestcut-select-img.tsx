@@ -21,16 +21,14 @@ export default function PhotoSelectionScreen() {
       quality: 1, // 원본 화질 유지
     });
 
-    
-
     if (!result.canceled && result.assets) {
       const imageUris = result.assets.map((asset) => asset.uri);
-      setSelectedImages(imageUris); // ✅ 선택한 이미지를 글로벌 상태에 저장
+      setSelectedImages(imageUris); // 선택한 이미지를 글로벌 상태에 저장
 
 
       // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
       router.push({
-        pathname: '/Makeup/BestCut1',
+        pathname: '/MakeUp/bestcut-check-img',
         params: { images: JSON.stringify(imageUris) },
       });
     }

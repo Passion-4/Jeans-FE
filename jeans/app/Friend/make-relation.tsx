@@ -12,7 +12,7 @@ export default function FriendNicknameScreen() {
   const handleCreateNickname = () => {
     if (nickname.trim()) {
       // 별명 저장 로직 추가 가능
-      router.push('/Friend/'); 
+      router.push('/Friend/relation-complete'); 
     }
   };
 

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import CustomButton from '../../components/FullButton'; // ✅ 재사용 버튼 가져오기
+import CustomButton from '../../components/FullButton'; 
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
@@ -15,18 +15,18 @@ export default function PhotoSelectionScreen() {
       {/* 타이틀 */}
       <Text style={styles.title}>하고 싶은 추가 보정을 {'\n'}선택해주세요.</Text>
 
-      {/* 편집 기능 3가지 (재사용 버튼 적용) */}
+      {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="동안" onPress={() => router.push('/Makeup/Edit2-0')} />
-        <CustomButton title="새치" onPress={() => router.push('/Makeup/Edit2-1')} />
-        <CustomButton title="몸매" onPress={() => router.push('/Makeup/Edit2-2')} />
+        <CustomButton title="동안" onPress={() => router.push('/MakeUp/advanced-younger')} />
+        <CustomButton title="새치" onPress={() => router.push('/MakeUp/advanced-grayhair')} />
+        <CustomButton title="몸매" onPress={() => router.push('/MakeUp/advanced-body')} />
         <CustomButton 
-          title="추가 보정 하지 않고 사진 저장하기" 
-          onPress={() => router.push('/Makeup/MakeUp_Finish')} 
+          title="추가 보정 하지 않고 사진 저장" 
+          onPress={() => router.push('/MakeUp/makeup-finish')} 
           color="#3DB2FF" 
         />
       </View>
-      
+
       <BottomNavBar />
     </View>
   );
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 50,
-    marginTop: 160,
+    marginTop: 150,
   },
   buttonContainer: {
     alignItems: 'center',

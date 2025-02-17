@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { ImageProvider } from './Context/ImageContext';  // ✅ ImageProvider 추가
+import { ImageProvider } from './Context/ImageContext';  // ImageProvider 추가
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -32,7 +32,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ImageProvider>  {/* ✅ ImageProvider로 감싸줌 */}
+    <ImageProvider>  {/* ImageProvider로 감싸줌 */}
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           {/* 앱 시작 시 첫 화면 */}
@@ -63,30 +63,30 @@ export default function RootLayout() {
           <Stack.Screen name="Home/photo-detail" options={{ title: '메인 페이지 - 사진 상세 정보 및 대화', headerShown: false}} />
           <Stack.Screen name="Home/Search" options={{ title: '메인 페이지 - 검색', headerShown: false}} />
 
-          {/* 보정 페이지 */}
-          <Stack.Screen name="Makeup/Makeup0" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
-          <Stack.Screen name="Makeup/BestCut0" options={{ title: '보정 페이지 - 베스트 컷', headerShown: false}} />
-          <Stack.Screen name="Makeup/BestCut1" options={{ title: '보정 페이지 - 베스트 컷 사진 선택', headerShown: false}} />
-          <Stack.Screen name="Makeup/BestCut2" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
-          <Stack.Screen name="Makeup/BestCut3" options={{ title: '보정 페이지 - 베스트 컷 완료', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit0" options={{ title: '보정 페이지 - 기본 보정 완료', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit1" options={{ title: '보정 페이지 - 추가 보정 선택', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit2-0" options={{ title: '보정 페이지 - 동안', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit2-1" options={{ title: '보정 페이지 - 새치', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit2-2" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
-          <Stack.Screen name="Makeup/Edit_PhotoSelec" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
-          <Stack.Screen name="Makeup/MakeUp_Finish" options={{ title: '보정 페이지 - 사진 저장하기', headerShown: false}} />
-          <Stack.Screen name="Makeup/MakeUp_Download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
+          {/* 보정  */}
+          <Stack.Screen name="MakeUp/select-function" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+          <Stack.Screen name="MakeUp/bestcut-select-img" options={{ title: '보정 페이지 - 베스트 컷', headerShown: false}} />
+          <Stack.Screen name="MakeUp/bestcut-check-img" options={{ title: '보정 페이지 - 베스트 컷 사진 선택', headerShown: false}} />
+          <Stack.Screen name="MakeUp/bestcut-choose" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
+          <Stack.Screen name="MakeUp/basic-makeup" options={{ title: '보정 페이지 - 베스트 컷 완료', headerShown: false}} />
+          <Stack.Screen name="MakeUp/advanced-makeup" options={{ title: '보정 페이지 - 기본 보정 완료', headerShown: false}} />
+          <Stack.Screen name="MakeUp/advanced-option" options={{ title: '보정 페이지 - 추가 보정 선택', headerShown: false}} />
+          <Stack.Screen name="MakeUp/advanced-younger" options={{ title: '보정 페이지 - 동안', headerShown: false}} />
+          <Stack.Screen name="MakeUp/advanced-grayhair" options={{ title: '보정 페이지 - 새치', headerShown: false}} />
+          <Stack.Screen name="MakeUp/advanced-body" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
+          <Stack.Screen name="MakeUp/edit-select-img" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
+          <Stack.Screen name="MakeUp/makeup-finish" options={{ title: '보정 페이지 - 사진 보정 완료', headerShown: false}} />
+          <Stack.Screen name="MakeUp/makeup-download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
 
           {/* 공유 관련 페이지 */}
-          <Stack.Screen name="Share/Share-complete" options={{ title: '공유 완료', headerShown: false}} />
+          <Stack.Screen name="Share/share-complete" options={{ title: '공유 완료', headerShown: false}} />
           <Stack.Screen name="Share/share-select-img" options={{ title: '공유 첫 화면', headerShown: false}} />
           <Stack.Screen name="Share/share-select-friend" options={{ title: '공유 선택', headerShown: false}} />
           <Stack.Screen name="Share/share-select-target" options={{ title: '공유 방식 선택', headerShown: false}} />
           <Stack.Screen name="Share/share-make-group" options={{ title: '그룹 만들기', headerShown: false}} />
           <Stack.Screen name="Share/share-make-group-complete" options={{ title: '그룹 만들기 완료', headerShown: false}} />
           <Stack.Screen name="Share/share-to-group" options={{ title: '그룹 확인', headerShown: false}} />
-          <Stack.Screen name="Share/Share_-oice" options={{ title: '그룹 확인', headerShown: false}} />
+          <Stack.Screen name="Share/share-voice" options={{ title: '공유 - 음성 메시지 첨부', headerShown: false}} />
 
           {/* 마이페이지 */}
           <Stack.Screen name="MyPage/my-page" options={{ title: '내 정보', headerShown: false}} />

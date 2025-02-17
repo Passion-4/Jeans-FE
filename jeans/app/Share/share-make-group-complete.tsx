@@ -4,34 +4,26 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-
+import FullButton from '@/components/FullButton';
 export default function CompleteSignupScreen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       <TopNavBar />
-
       <View style={styles.content}>
         <Text style={styles.title}>그룹이 생성되었습니다!</Text>
+        <View style={styles.lottieFixedContainer}>
+          <LottieView 
+            source={require('../../assets/animations/Animation - 1739343498719.json')} 
+            autoPlay
+            loop={false} 
+            style={styles.lottie}
+          />
+        </View>
 
-        {/* 애니메이션 */}
-        <LottieView 
-          source={require('../../assets/animations/Animation - 1739343498719.json')} 
-          autoPlay
-          loop={false} 
-          style={styles.lottie}
-        />
-
-        {/* 확인 버튼 */}
-        <TouchableOpacity 
-          style={styles.confirmButton} 
-          onPress={() => router.push('/Share/share-voice')}
-        >
-          <Text style={styles.confirmText}>확인</Text>
-        </TouchableOpacity>
+        <FullButton title='확 인' onPress={() => router.push('/Share/share-voice')}></FullButton>
       </View>
-
       <BottomNavBar />
     </View>
   );
@@ -49,28 +41,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontFamily:'Bold',
     textAlign: 'center',
+    marginBottom: 20,
+  },
+  lottieFixedContainer: {
+    width: 120,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     marginBottom: 30,
   },
   lottie: {
-    width: 120,  
-    height: 120, 
-    marginBottom: 30,
-  },
-  confirmButton: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#008DBF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  confirmText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    height: '100%',
   },
 });
