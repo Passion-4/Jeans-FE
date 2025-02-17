@@ -63,9 +63,6 @@ export default function RootLayout() {
           <Stack.Screen name="Home/photo-detail" options={{ title: '메인 페이지 - 사진 상세 정보 및 대화', headerShown: false}} />
           <Stack.Screen name="Home/Search" options={{ title: '메인 페이지 - 검색', headerShown: false}} />
 
-          {/* 마이 페이지 */}
-          <Stack.Screen name="MyPage/MyPage0" options={{ title: '마이 페이지 - 첫 화면', headerShown: false}} />
-
           {/* 보정 페이지 */}
           <Stack.Screen name="Makeup/Makeup0" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
           <Stack.Screen name="Makeup/BestCut0" options={{ title: '보정 페이지 - 베스트 컷', headerShown: false}} />
@@ -92,12 +89,12 @@ export default function RootLayout() {
           <Stack.Screen name="Share/Share_voice" options={{ title: '그룹 확인', headerShown: false}} />
 
           {/* 마이페이지 */}
-          <Stack.Screen name="MyPage/MyPage" options={{ title: '내 정보', headerShown: false}} />
-          <Stack.Screen name="MyPage/EditInfo" options={{ title: '정보 수정', headerShown: false}} />
-          <Stack.Screen name="MyPage/Connect" options={{ title: '친구 추가', headerShown: false}} />
-          <Stack.Screen name="MyPage/WordSize" options={{ title: '글자 크기기', headerShown: false}} />
-          <Stack.Screen name="MyPage/Manual" options={{ title: '사용법', headerShown: false}} />
-          <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />    
+          <Stack.Screen name="MyPage/my-page" options={{ title: '내 정보', headerShown: false}} />
+          <Stack.Screen name="MyPage/edit-info" options={{ title: '정보 수정', headerShown: false}} />
+          <Stack.Screen name="MyPage/connect" options={{ title: '친구 추가', headerShown: false}} />
+          <Stack.Screen name="MyPage/word-size" options={{ title: '글자 크기기', headerShown: false}} />
+          <Stack.Screen name="MyPage/manual" options={{ title: '사용법', headerShown: false}} />
+          <Stack.Screen name="MyPage/quit" options={{ title: '탈퇴하기', headerShown: false}} />    
 
           {/* 친구 */}
           <Stack.Screen name="Friend/list" options={{ title: '친구 목록', headerShown: false}} />
@@ -113,9 +110,9 @@ export default function RootLayout() {
           <Stack.Screen name="Profile/name" options={{ title: '이름 바꾸기', headerShown: false}} />
           <Stack.Screen name="Profile/phonenum" options={{ title: '전화번호 바꾸기', headerShown: false}} />
           <Stack.Screen name="Profile/image" options={{ title: '이미지 바꾸기', headerShown: false}} />
-          <Stack.Screen name="Profile/password" options={{ title: '비밀번호 바꾸기', headerShown: false}} />
-          <Stack.Screen name="Profile/password_new" options={{ title: '새로운 비밀번호 설정하기', headerShown: false}} />
-          <Stack.Screen name="Profile/password_complete" options={{ title: '비밀번호 변경 완료', headerShown: false}} />
+          <Stack.Screen name="ChangePassword/origin-password" options={{ title: '비밀번호 바꾸기', headerShown: false}} />
+          <Stack.Screen name="ChangePassword/new-password" options={{ title: '새로운 비밀번호 설정하기', headerShown: false}} />
+          <Stack.Screen name="ChangePassword/change-password-complete" options={{ title: '비밀번호 변경 완료', headerShown: false}} />
 
 
 

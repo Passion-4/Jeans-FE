@@ -54,7 +54,7 @@ export default function GroupEditScreen() {
   // ✅ 저장 버튼 클릭 시 홈 화면 이동
   const handleSave = () => {
     Keyboard.dismiss(); // 키보드 내리기
-    router.push('/Home/Mainpage'); // 홈 화면으로 이동
+    router.push('/Home/main-page'); // 홈 화면으로 이동
   };
 
   return (

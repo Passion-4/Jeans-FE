@@ -33,7 +33,7 @@ export default function PasswordSignupScreen() {
         onChangeText={setConfirmPassword}
       />
 
-      <FullButton title='다 음' onPress={() => router.push('/Profile/password_complete')}></FullButton>
+      <FullButton title='다 음' onPress={() => router.push('/ChangePassword/change-password-complete')}></FullButton>
     </View>
   );
 }

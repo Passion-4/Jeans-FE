@@ -10,7 +10,7 @@ export default function TopNavBar() {
 
   // HelpButton을 표시할 페이지 목록
   const pagesWithHelpButton = [
-    '/Home/Mainpage',
+    '/Home/main-page',
     '/Makeup/Makeup0',
     '/Makeup/Edit1',
   ];
@@ -32,19 +32,19 @@ export default function TopNavBar() {
       {/* 🔹 오른쪽 영역 (검색 & 설정 아이콘) */}
       <View style={styles.rightContainer}>
         {/* 🔍 검색 아이콘 (메인 페이지에서만 표시) */}
-        {pathname === '/Home/Mainpage' && (
+        {pathname === '/Home/main-page' && (
           <TouchableOpacity onPress={() => router.push('/Home/Search')}>
             <Ionicons name="search" size={35} color="black" style={styles.icon} />
           </TouchableOpacity>
         )}
 
         {/* 👥 사람 여러 명 아이콘 */}
-        <TouchableOpacity onPress={() => router.push('/MyPage/Connect')}>
+        <TouchableOpacity onPress={() => router.push('/MyPage/connect')}>
           <Ionicons name="people-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
 
         {/* ⚙️ 마이 페이지 아이콘 */}
-        <TouchableOpacity onPress={() => router.push('/MyPage/MyPage')}>
+        <TouchableOpacity onPress={() => router.push('/MyPage/my-page')}>
           <Ionicons name="settings-outline" size={35} color="black" style={styles.icon} />
         </TouchableOpacity>
       </View>

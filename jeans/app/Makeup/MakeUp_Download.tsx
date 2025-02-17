@@ -27,7 +27,7 @@ export default function FriendRequestCompleteScreen() {
           />
         </View>
 
-        <FullButton title='확 인' onPress={() => router.push('/Home/Mainpage')}></FullButton>
+        <FullButton title='확 인' onPress={() => router.push('/Home/main-page')}></FullButton>
       </View>
 
       <BottomNavBar />

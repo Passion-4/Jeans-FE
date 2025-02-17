@@ -47,7 +47,7 @@ export default function GroupEditScreen() {
   // 저장 버튼 클릭 -> 홈 화면 이동
   const handleSave = () => {
     Keyboard.dismiss(); // 키보드 내리기
-    router.push('/Home/Mainpage'); // 홈 화면으로 이동
+    router.push('/Home/main-page'); // 홈 화면으로 이동
   };
 
   return (
@@ -92,7 +92,7 @@ export default function GroupEditScreen() {
         )}
       </View>
 
-      <FullButton title='비밀번호 바꾸기' onPress={() => router.push('/Profile/password')} color="#3DB2FF" ></FullButton>
+      <FullButton title='비밀번호 바꾸기' onPress={() => router.push('/ChangePassword/origin-password')} color="#3DB2FF" ></FullButton>
       <FullButton title='저장하기' onPress={handleSave} ></FullButton>
 
 

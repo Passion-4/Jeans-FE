@@ -21,9 +21,9 @@ export default function LoginScreen() {
         />
       </View>
 
-      <FullButton title='확 인' onPress={() => router.push('/Profile/password_new')}></FullButton>
+      <FullButton title='확 인' onPress={() => router.push('/ChangePassword/new-password')}></FullButton>
 
-      <TouchableOpacity onPress={() => router.push('/FindAccount/Find_Account')}>
+      <TouchableOpacity onPress={() => router.push('/FindAccount/find-account')}>
         <Text style={styles.forgotPassword}>아이디와 비밀번호를 잊으셨나요?</Text>
       </TouchableOpacity>
 

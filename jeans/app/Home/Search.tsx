@@ -44,7 +44,7 @@ export default function SearchScreen() {
         {dummyData.map((item) => (
           <TouchableOpacity 
             key={item.id}
-            onPress={() => router.push({ pathname: '/Home/PhotoDetail', params: { photoId: item.id } })}
+            onPress={() => router.push({ pathname: '/Home/photo-detail', params: { photoId: item.id } })}
           >
             <Image source={item.image} style={styles.sharedPhoto} />
           </TouchableOpacity>

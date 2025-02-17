@@ -2,7 +2,7 @@ const tutorialSteps: Record<
   string,
   { x: number; y: number; width: number; height: number; text: string }[]
 > = {
-  "/Home/Mainpage": [
+  "/Home/main-page": [
     { x: 203, y: 26, width: 50, height: 45, text: "검색 버튼을 누르면 친구를 검색할 수 있습니다." },
     { x: 251, y: 26, width: 50, height: 45, text: "친구 버튼을 누르면 친구 설정을 변경할 수 있습니다." },
     { x: 301, y: 26, width: 50, height: 45, text: "설정 버튼을 누르면 앱 설정을 변경할 수 있습니다." },
