@@ -14,11 +14,11 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    Bold: require('../assets/fonts/Roboto-Bold.ttf'),
+    Bold: require('../assets/fonts/Pretendard-Bold.ttf'),
     ExtraLight: require('../assets/fonts/Pretendard-ExtraLight.ttf'),
     ExtraBold: require('../assets/fonts/Pretendard-ExtraBold.ttf'),
     Light: require('../assets/fonts/Roboto-Light.ttf'),
-    Medium: require('../assets/fonts/Roboto-Medium.ttf')
+    Medium: require('../assets/fonts/Pretendard-Medium.ttf')
   });
 
   useEffect(() => {
@@ -113,8 +113,6 @@ export default function RootLayout() {
           <Stack.Screen name="ChangePassword/origin-password" options={{ title: '비밀번호 바꾸기', headerShown: false}} />
           <Stack.Screen name="ChangePassword/new-password" options={{ title: '새로운 비밀번호 설정하기', headerShown: false}} />
           <Stack.Screen name="ChangePassword/change-password-complete" options={{ title: '비밀번호 변경 완료', headerShown: false}} />
-
-
 
           {/* not found */}
           <Stack.Screen name="+not-found" />
