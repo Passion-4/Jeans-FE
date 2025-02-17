@@ -26,9 +26,9 @@ export default function Share2Screen() {
   // 그룹에 보내기 버튼 클릭 핸들러
   const handleGroupSend = () => {
     if (checkGroupExists()) {
-      router.push('/Share/Share_checkgroup'); // 기존 그룹이 있을 때
+      router.push('/Share/share-to-group'); // 기존 그룹이 있을 때
     } else {
-      router.push('/Share/Share_makegroup0'); // 그룹이 없을 때
+      router.push('/Share/share-make-group'); // 그룹이 없을 때
 
     }
   };
@@ -41,7 +41,7 @@ export default function Share2Screen() {
       <Text style={styles.title}>공유 방법을{'\n'}선택해 주세요.</Text>
 
       <View style={styles.buttonContainer}>
-        <CustomButton title="각자 보내실래요?" color="#3DB2FF" onPress={() => router.push('/Share/Share_voice')} />
+        <CustomButton title="각자 보내실래요?" color="#3DB2FF" onPress={() => router.push('/Share/share-voice')} />
         <CustomButton title="그룹에 보내실래요?" onPress={handleGroupSend} />
       </View>
       

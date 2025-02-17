@@ -69,7 +69,7 @@ export default function HomeUILayout() {
     </View>
 
       {/* 고정된 사진 공유 버튼 */}
-      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/Share0')}>
+      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
         <Text style={styles.shareText}>공유</Text>
       </TouchableOpacity>
 

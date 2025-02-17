@@ -26,7 +26,7 @@ export default function CompleteSignupScreen() {
         {/* 확인 버튼 */}
         <TouchableOpacity 
           style={styles.confirmButton} 
-          onPress={() => router.push('/Share/Share_voice')}
+          onPress={() => router.push('/Share/share-voice')}
         >
           <Text style={styles.confirmText}>확인</Text>
         </TouchableOpacity>

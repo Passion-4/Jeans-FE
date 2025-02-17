@@ -79,14 +79,14 @@ export default function RootLayout() {
           <Stack.Screen name="Makeup/MakeUp_Download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
 
           {/* 공유 관련 페이지 */}
-          <Stack.Screen name="Share/Share_complete" options={{ title: '공유 완료', headerShown: false}} />
-          <Stack.Screen name="Share/Share0" options={{ title: '공유 첫 화면', headerShown: false}} />
-          <Stack.Screen name="Share/Share1" options={{ title: '공유 선택', headerShown: false}} />
-          <Stack.Screen name="Share/Share2" options={{ title: '공유 방식 선택', headerShown: false}} />
+          <Stack.Screen name="Share/Share-complete" options={{ title: '공유 완료', headerShown: false}} />
+          <Stack.Screen name="Share/share-select-img" options={{ title: '공유 첫 화면', headerShown: false}} />
+          <Stack.Screen name="Share/share-select-friend" options={{ title: '공유 선택', headerShown: false}} />
+          <Stack.Screen name="Share/share-select-target" options={{ title: '공유 방식 선택', headerShown: false}} />
           <Stack.Screen name="Share/Share_makegroup0" options={{ title: '그룹 만들기', headerShown: false}} />
           <Stack.Screen name="Share/Share_makegroup1" options={{ title: '그룹 만들기 완료', headerShown: false}} />
-          <Stack.Screen name="Share/Share_checkgroup" options={{ title: '그룹 확인', headerShown: false}} />
-          <Stack.Screen name="Share/Share_voice" options={{ title: '그룹 확인', headerShown: false}} />
+          <Stack.Screen name="Share/share-to-group" options={{ title: '그룹 확인', headerShown: false}} />
+          <Stack.Screen name="Share/Share_-oice" options={{ title: '그룹 확인', headerShown: false}} />
 
           {/* 마이페이지 */}
           <Stack.Screen name="MyPage/my-page" options={{ title: '내 정보', headerShown: false}} />

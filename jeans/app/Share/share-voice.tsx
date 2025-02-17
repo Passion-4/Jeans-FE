@@ -52,7 +52,7 @@ export default function PhotoDetailScreen() {
         </TouchableOpacity>
 
         <View style={styles.confirmButtonContainer}>
-          <CustomButton title="보내기" onPress={() => router.push('/Share/Share_complete')} />
+          <CustomButton title="보내기" onPress={() => router.push('/share/Share-complete')} />
         </View>
       </View>
 

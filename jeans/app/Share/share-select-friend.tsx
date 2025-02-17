@@ -27,9 +27,9 @@ export default function HomeUILayout() {
 
   const handleConfirm = () => {
     if (selectedFriends.length === 1) {
-      router.push('/Share/Share_voice');
+      router.push('/Share/share-voice');
     } else if (selectedFriends.length > 1) {
-      router.push('/Share/Share2');
+      router.push('/Share/share-select-target');
     }
   };
 

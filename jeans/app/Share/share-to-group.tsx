@@ -28,7 +28,7 @@ export default function ShareCheckGroupScreen() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
           style={styles.optionButton} 
-          onPress={() => router.push('/Share/Share_voice')}
+          onPress={() => router.push('/Share/share-voice')}
         >
           <Text style={styles.buttonText}>그룹에 보내기</Text>
         </TouchableOpacity>
