@@ -11,9 +11,9 @@ const tutorialSteps: Record<
     { x: 10, y: 275, width: 170, height: 170, text: "사진을 누르면 사진에 대한 정보와 친구와의 대화를 볼 수 있어요." },
   ],
   "/MakeUp/select-function": [
-    { x: 10, y: 290, width: 338, height: 65, text: "단체 사진에서 내가 최고로 잘 나온 사진을 찾을 수 있어요." },
-    { x: 10, y: 365, width: 338, height: 65, text: "사진 기본보정과 추가 보정을 \n시작해요." },
-    { x: 10, y: 441, width: 338, height: 65, text: "잘 나온 사진을 모아서 한번에 볼 수 있어요." },
+    { x: 15, y: 288, width: 330, height: 65, text: "단체 사진에서 내가 가장 잘 나온 \n사진을 찾을 수 있어요." },
+    { x: 15, y: 364, width: 330, height: 65, text: "사진 기본보정과 추가 보정을 \n시작해요." },
+    { x: 15, y: 441, width: 330, height: 65, text: "새해 인사, 명언과 같이 좋은 글귀를 \n예쁜 사진에 담을 수 있어요." },
   ],
   "/MakeUp/advanced-option": [
     { x: 10, y: 245, width: 340, height: 65, text: "나를 젊게 만들 수 있어요." },
