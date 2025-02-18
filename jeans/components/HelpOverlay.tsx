@@ -125,16 +125,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     marginBottom: 10,
+    fontFamily:'Medium'
   },
   nextButton: {
-    backgroundColor: '#008DBF',
+    backgroundColor: 'rgba(255, 183, 6, 0.6)',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
   nextText: {
-    color: 'white',
+    color: 'black',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
 });

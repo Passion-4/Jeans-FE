@@ -11,8 +11,8 @@ export default function TopNavBar() {
   // HelpButton을 표시할 페이지 목록
   const pagesWithHelpButton = [
     '/Home/main-page',
-    '/Makeup/Makeup0',
-    '/Makeup/Edit1',
+    '/MakeUp/select-function',
+    '/MakeUp/advanced-option',
   ];
 
   // 🔹 설명서 버튼 상태 관리 (HelpButton 기능 추가)
