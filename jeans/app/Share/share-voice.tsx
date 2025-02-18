@@ -32,7 +32,7 @@ export default function PhotoDetailScreen() {
         <Text style={styles.title}>사진과 함께 첨부할 {'\n'}메시지를 녹음하세요.</Text>
       </View>
 
-      {/* ✅ 스크롤 가능하도록 설정 */}
+      {/* 스크롤 가능하도록 설정 */}
       <ScrollView contentContainerStyle={styles.imageContainer}>
         {selectedImages.length > 0 ? (
           selectedImages.map((uri: string, index: number) => (
@@ -43,7 +43,7 @@ export default function PhotoDetailScreen() {
         )}
       </ScrollView>
 
-      {/* ✅ 버튼 컨테이너 (버튼이 항상 보이도록 설정) */}
+      {/* 버튼 컨테이너 (버튼이 항상 보이도록 설정) */}
       <View style={styles.buttonWrapper}>
         {/* 📌 녹음 버튼 */}
         <TouchableOpacity style={styles.recordButton} onPress={startRecording}>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)', // 블러 효과
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // 블러 효과
   },
   
   /** Lottie 애니메이션 */

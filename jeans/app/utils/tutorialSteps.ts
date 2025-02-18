@@ -3,7 +3,7 @@ const tutorialSteps: Record<
   { x: number; y: number; width: number; height: number; text: string }[]
 > = {
   "/Home/main-page": [
-    { x: 203, y: 26, width: 50, height: 45, text: "검색 버튼을 누르면 사진을 검색할 수 있습니다." },
+    { x: 203, y: 26, width: 50, height: 45, text: "검색 버튼 누르면 사진을 {'\n'}검색할 수 있습니다." },
     { x: 251, y: 26, width: 50, height: 45, text: "친구 버튼을 누르면 친구와 관련된 설정을 변경할 수 있습니다." },
     { x: 301, y: 26, width: 50, height: 45, text: "설정 버튼을 누르면 앱 설정을 변경할 수 있습니다." },
     { x: 272, y: 85, width: 80, height: 55, text: "사진 공유 화면으로 넘어갑니다." },
