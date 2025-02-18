@@ -61,7 +61,7 @@ export default function HomeUILayout() {
           ) : (
             <>
               <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
-              <Text style={styles.defaultText}>님과 나눈 추억을 둘러보세요.</Text>
+              <Text style={styles.defaultText}>님이 나눈 추억을 둘러보세요.</Text>
             </>
           )}
         </Text>

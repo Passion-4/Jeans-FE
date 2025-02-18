@@ -10,10 +10,10 @@ export default function PhotoSelectionCompleteScreen() {
 
   return (
     <View style={styles.container}>
-      {/* ✅ 타이틀 */}
+      {/* 타이틀 */}
       <Text style={styles.title}>사진 선택이 {'\n'}완료되었습니다!</Text>
 
-      {/* ✅ 고정된 Lottie 애니메이션 컨테이너 */}
+      {/* 고정된 Lottie 애니메이션 컨테이너 */}
       <View style={styles.lottieContainer}>
         <LottieView 
           source={require('../../assets/animations/Animation - 1739343498719.json')} 
@@ -24,7 +24,7 @@ export default function PhotoSelectionCompleteScreen() {
         />
       </View>
 
-      {/* ✅ 완료 버튼 */}
+      {/* 완료 버튼 */}
       <FullButton title="완 료" onPress={() => router.push('/Home/main-page')} />
     </View>
   );

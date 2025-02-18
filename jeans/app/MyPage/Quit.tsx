@@ -16,7 +16,6 @@ export default function AccountDeleteScreen() {
     '서비스를 잘 이용하지 않아요',
     '디자인이 마음에 들지 않아요',
     '서비스 가격이 높아요',
-
     '이 서비스보다 더 좋은 서비스가 있어요',
     '기타', // 기타 옵션 추가
   ];
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     color: 'white',
   },
   modalOverlay: {
@@ -199,6 +198,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
     marginBottom: 20,
+    fontFamily:'Medium'
   },
   buttonRow: {
     flexDirection: 'row',
