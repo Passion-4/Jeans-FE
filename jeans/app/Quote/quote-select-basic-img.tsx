@@ -35,27 +35,22 @@ export default function HomeUILayout() {
       const selectedFriend = dummyFriends.find(friend => friend.id === selectedFriends[0]);
   
       router.push({
-        pathname: '/Quote/quote-select-img1',
+        pathname: '/Quote/quote-select-word-basic',
         params: {
-
-          friendImage: JSON.stringify(selectedFriend?.Image), // ✅ JSON 변환 후 전달
+          friendImage: JSON.stringify(selectedFriend?.Image),
         },
       });
     }
   };
-  
-  
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>글귀 배경 선택하기</Text>
       </View>
 
-      {/* 친구 목록 컨테이너 */}
       <FlatList
         data={dummyFriends}
         numColumns={3}
@@ -71,12 +66,8 @@ export default function HomeUILayout() {
         contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
       />
 
-      {/* ✅ CustomButton 스타일 적용된 '다음' 버튼 */}
       <TouchableOpacity
-        style={[
-          styles.customButton,
-          selectedFriends.length === 0 && styles.disabledButton,
-        ]}
+        style={[styles.customButton, selectedFriends.length === 0 && styles.disabledButton]}
         onPress={handleConfirm}
         disabled={selectedFriends.length === 0}
       >
