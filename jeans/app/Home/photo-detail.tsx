@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  Animated,
+  Dimensions,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -15,11 +17,21 @@ import { Ionicons } from '@expo/vector-icons';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
+const screenWidth = Dimensions.get('window').width || 400;
+
+interface EmojiItem {
+  id: string;
+  emoji: string;
+  xPosition: number;
+  animatedValue: Animated.Value;
+}
+
 export default function PhotoDetailScreen() {
   const router = useRouter();
   const { photoId } = useLocalSearchParams();
-  const [isRecording, setIsRecording] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [fallingEmojis, setFallingEmojis] = useState<EmojiItem[]>([]);
 
   // 임의 데이터
   const photoData = {
@@ -41,6 +53,27 @@ export default function PhotoDetailScreen() {
   const stopRecording = () => {
     setIsRecording(false);
   };
+  
+  const dropEmojis = (emoji: string) => {
+    const newEmojis: EmojiItem[] = Array.from({ length: 10 }, (_, index): EmojiItem => ({
+      id: Math.random().toString() + index, // 인덱스를 추가하여 고유 ID 보장
+      emoji,
+      xPosition: Math.random() * (screenWidth - 50),
+      animatedValue: new Animated.Value(-50),
+    }));
+  
+    setFallingEmojis((prev) => [...prev, ...newEmojis]);
+  
+    newEmojis.forEach((item) => {
+      Animated.timing(item.animatedValue, {
+        toValue: 500, // 떨어지는 최종 위치
+        duration: 1000 + Math.random() * 500, // 1초 ~ 1.5초 랜덤 지속시간
+        useNativeDriver: true,
+      }).start(() => {
+        setFallingEmojis((prev) => prev.filter((e) => e.id !== item.id));
+      });
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -56,22 +89,37 @@ export default function PhotoDetailScreen() {
         </View>
       </View>
 
-      {/* 버튼 영역 */}
+      {/* 📌 버튼 영역 */}
       <View style={styles.reactionButtons}>
-        <TouchableOpacity style={styles.reactionButton}>
-          <Text style={styles.reactionText}>좋아요</Text>
+        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("👍")}>
+          <Text style={styles.reactionText}>👍 좋아요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton}>
-          <Text style={styles.reactionText}>기뻐요</Text>
+        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("😆")}>
+          <Text style={styles.reactionText}>😆 기뻐요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton}>
-          <Text style={styles.reactionText}>멋져요</Text>
+        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("🔥")}>
+          <Text style={styles.reactionText}>🔥 멋져요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton}>
-          <Text style={styles.reactionText}>최고예요</Text>
+        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("💖")}>
+          <Text style={styles.reactionText}>💖 최고예요</Text>
         </TouchableOpacity>
       </View>
 
+      {/* 📌 떨어지는 이모티콘 */}
+      {fallingEmojis.map((item) => (
+        <Animated.Text
+          key={item.id}
+          style={[
+            styles.emoji,
+            {
+              transform: [{ translateY: item.animatedValue }],
+              left: item.xPosition,
+            },
+          ]}
+        >
+          {item.emoji}
+        </Animated.Text>
+      ))}
       {/* 대화 내역 */}
       <ScrollView style={styles.chatContainer}>
         {photoData.messages.map((message) =>
@@ -169,6 +217,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
     fontFamily: 'Medium'
+  },
+  emoji: {
+    position: 'absolute',
+    fontSize: 40, // 이모티콘 크기
+    top: 90, // 화면 위에서 시작
   },
   reactionButtons: {
     flexDirection: 'row',
