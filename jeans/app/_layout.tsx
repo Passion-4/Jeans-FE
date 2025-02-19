@@ -115,7 +115,8 @@ export default function RootLayout() {
           <Stack.Screen name="ChangePassword/change-password-complete" options={{ title: '비밀번호 변경 완료', headerShown: false}} />
 
           {/* 좋은 글귀 */}
-          <Stack.Screen name="Quote/quote-select-img0" options={{ title: '좋은 글귀  - 이미지 선택', headerShown: false}} />
+          <Stack.Screen name="Quote/quote-select-img" options={{ title: '좋은 글귀  - 갤러리/기본 이미지 선택', headerShown: false}} />
+          <Stack.Screen name="Quote/quote-select-basic-img" options={{ title: '좋은 글귀  - 기본 이미지 선택', headerShown: false}} />
           <Stack.Screen name="Quote/quote-select-img1" options={{ title: '좋은 글귀  - 기본 이미지 선택', headerShown: false}} />
           <Stack.Screen name="Quote/quote-select-word" options={{ title: '좋은 글귀  - 글귀 선택', headerShown: false}} />
           <Stack.Screen name="Quote/quote-complete" options={{ title: '좋은 글귀  - 생성 완료', headerShown: false}} />

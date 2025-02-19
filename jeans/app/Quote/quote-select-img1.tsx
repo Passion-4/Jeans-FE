@@ -1,62 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
-import { useRouter } from 'expo-router';
-import TopNavBar from '../../components/TopNavBar';
-import BottomNavBar from '../../components/BottomNavBar';
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 
-const imageSources = [
-  require('../../assets/images/bg/bg1.jpg'),
-  require('../../assets/images/bg/bg2.jpg'),
-  require('../../assets/images/bg/bg3.jpg'),
-  require('../../assets/images/bg/bg4.jpg'),
-  require('../../assets/images/bg/bg5.jpg'),
-  require('../../assets/images/bg/bg6.jpg'),
-  require('../../assets/images/bg/bg7.png'),
-  require('../../assets/images/bg/bg8.png'),
-  require('../../assets/images/bg/bg9.png'),
-  require('../../assets/images/bg/bg10.png'),
-  require('../../assets/images/bg/bg11.png')
-];
+export default function QuoteSelectImg1() {
+  const { friendName, friendRelation, friendImage } = useLocalSearchParams();
 
-export default function BackgroundSelectionScreen() {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const router = useRouter();
-
-  const handleConfirm = () => {
-    if (selectedImage) {
-      router.push({
-        pathname: '/Quote/quote-select-word',
-        params: { imageUri: selectedImage }
-      });
-    }
-  };
+  // friendImage가 string | string[] 타입일 수 있으므로 처리
+  const parsedFriendImage = typeof friendImage === "string" ? JSON.parse(friendImage) : friendImage[0];
 
   return (
     <View style={styles.container}>
-      <TopNavBar />
-      <Text style={styles.title}>글귀 배경 선택하기</Text>
-      <FlatList
-        data={imageSources}
-        numColumns={3}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.imageCard, selectedImage === item && styles.selectedImage]}
-            onPress={() => setSelectedImage(item)}
-          >
-            <Image source={item} style={styles.image} />
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      />
-      <TouchableOpacity
-        style={[styles.customButton, !selectedImage && styles.disabledButton]}
-        onPress={handleConfirm}
-        disabled={!selectedImage}
-      >
-        <Text style={styles.customButtonText}>다 음</Text>
-      </TouchableOpacity>
-      <BottomNavBar />
+      <Text style={styles.title}>선택한 친구</Text>
+      <Image source={parsedFriendImage} style={styles.profileImage} />
     </View>
   );
 }
@@ -64,49 +19,28 @@ export default function BackgroundSelectionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    paddingTop: 120,
-    paddingHorizontal: 0,
   },
   title: {
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: 'Bold',
-    textAlign: 'center',
-    marginVertical: 20,
+    marginBottom: 20,
   },
-  imageCard: {
-    width: 100,
-    height: 100,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: '#FFFFFF',
-    elevation: 3,
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 10,
   },
-  selectedImage: {
-    borderWidth: 6,
-    borderColor: '#FFB706',
-    borderRadius:15
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-  },
-  customButton: {
-    width: '80%',
-    paddingVertical: 16,
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: '#008DBF',
-    marginBottom: 120,
-    marginLeft:35
-  },
-  customButtonText: {
-    fontSize: 20,
+  friendName: {
+    fontSize: 22,
     fontFamily: 'Medium',
-    color: 'white',
   },
-  disabledButton: {
-    backgroundColor: '#B0BEC5',
+  friendRelation: {
+    fontSize: 18,
+    color: '#777',
+    fontFamily: 'Medium',
   },
 });

@@ -19,7 +19,7 @@ export default function PhotoSelectionScreen() {
       <View style={styles.buttonContainer}>
         <CustomButton title="나의 베스트 컷" onPress={() => router.push('/MakeUp/bestcut-select-img')} />
         <CustomButton title="사진 보정" onPress={() => router.push('/MakeUp/edit-select-img')} />
-        <CustomButton title="좋은 글귀" onPress={() => router.push('/Quote/quote-select-img0')} />
+        <CustomButton title="좋은 글귀" onPress={() => router.push('/Quote/quote-select-img')} />
       </View>
 
       {/* 빈 공간 추가 (하단 네비게이션을 아래로 밀기 위함) */}
