@@ -8,7 +8,7 @@ export default function HelpOverlay({ onClose }: { onClose: () => void }) {
   const pathname = usePathname();
   const [step, setStep] = useState(0);
   const screenWidth = Dimensions.get('window').width;
-  const screenHeight = Dimensions.get('window').height;
+  const screenHeight = Dimensions.get('window').height+20;
 
   // 현재 페이지의 튜토리얼 데이터 가져오기
   const steps = tutorialSteps[pathname] || [];
@@ -97,7 +97,7 @@ export default function HelpOverlay({ onClose }: { onClose: () => void }) {
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
-    top: 0,
+    top: -30,
     left: 0,
     right: 0,
     bottom: 0,

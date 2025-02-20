@@ -8,7 +8,7 @@ import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import ListeningAnimation from '@/components/ListeningAnimation';
 
-const screenWidth = Dimensions.get('window').width || 400;
+const screenWidth = Dimensions.get('window').width;
 
 interface EmojiItem {
   id: string;
