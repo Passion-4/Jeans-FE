@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import LottieView from 'lottie-react-native';
 import { useRouter } from 'expo-router';
+import ListeningAnimation from './ListeningAnimation';
 
 export default function BottomNavBar() {
   const router = useRouter();
@@ -29,19 +29,7 @@ export default function BottomNavBar() {
       {/* 🔹 녹음 모달 */}
       <Modal visible={isRecording} transparent animationType="fade">
         <View style={styles.modalContainer}>
-          {/* ✅ 고정된 크기의 뷰에 LottieView 배치 */}
-          <View style={styles.animationContainer}>
-            <LottieView
-              source={require('../assets/animations/Animation - 1739445445148.json')}
-              autoPlay
-              loop
-              resizeMode="cover"
-              style={styles.animation}
-            />
-          </View>
-
-          {/* 텍스트 및 버튼 고정 */}
-          <Text style={styles.recordingText}>듣는 중입니다...</Text>
+          <ListeningAnimation></ListeningAnimation>
           <TouchableOpacity style={styles.stopButton} onPress={() => setIsRecording(false)}>
             <Text style={styles.stopButtonText}>완료</Text>
           </TouchableOpacity>
@@ -109,37 +97,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
 
-  /* ✅ Lottie 애니메이션 크기 고정 */
-  animationContainer: {
-    width: 150,
-    height: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden', // 애니메이션 범위를 제한
-  },
-
-  animation: {
-    width: 150,
-    height: 150,
-    transform: [{ scale: 1 }],
-  },
-
-  recordingText: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-    color: 'white',
-    marginVertical: 20,
-    textAlign: 'center',
-  },
-
   stopButton: {
     backgroundColor: '#008DBF',
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: 50,
   },
-
   stopButtonText: {
     fontSize: 18,
     fontFamily: 'Medium',

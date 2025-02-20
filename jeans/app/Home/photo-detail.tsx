@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Modal,
-  Animated,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions,} from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import ListeningAnimation from '@/components/ListeningAnimation';
 
 const screenWidth = Dimensions.get('window').width || 400;
 
@@ -36,10 +27,10 @@ export default function PhotoDetailScreen() {
 
   const handleReactionPress = (reaction: string) => {
     if (selectedReaction === reaction) {
-      // ✅ 같은 버튼을 다시 눌러 취소하는 경우, 이모티콘을 쏟지 않음
+      // 같은 버튼을 다시 눌러 취소하는 경우, 이모티콘을 쏟지 않음
       setSelectedReaction(null);
     } else {
-      // ✅ 새로운 반응을 누르면, 상태 변경 후 이모티콘을 떨어뜨림
+      // 새로운 반응을 누르면, 상태 변경 후 이모티콘을 떨어뜨림
       setSelectedReaction(reaction);
       dropEmojis(reaction);
     }
@@ -151,7 +142,7 @@ export default function PhotoDetailScreen() {
         )}
       </ScrollView>
 
-      {/* 하단 버튼 (녹음, 태그) */}
+      {/* 하단 (녹음, 태그) */}
       <View style={styles.bottomButtons}>
         <TouchableOpacity style={styles.recordButton} onPress={startRecording}>
           <Ionicons name="chatbubble-ellipses" size={25} color="white" />
@@ -181,16 +172,7 @@ export default function PhotoDetailScreen() {
       {/* 녹음 중 모달 */}
       <Modal visible={isRecording} transparent animationType="fade">
         <View style={styles.modalContainer}>
-          <View style={styles.animationContainer}>
-            <LottieView
-              source={require('../../assets/animations/Animation - 1739445445148.json')}
-              autoPlay
-              loop
-              resizeMode="cover"
-              style={styles.animation}
-            />
-          </View>
-          <Text style={styles.recordingText}>녹음 중입니다...</Text>
+          <ListeningAnimation></ListeningAnimation>
           <TouchableOpacity style={styles.stopButton} onPress={stopRecording}>
             <Text style={styles.stopButtonText}>완료</Text>
           </TouchableOpacity>
@@ -214,8 +196,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   photo: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -226,7 +208,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   descriptionText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
     fontFamily: 'Medium'
   },
@@ -282,14 +264,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium'
   },
   friendName: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
     fontFamily: 'Medium'
   },
   chatBubbleRight: {
     alignSelf: 'flex-end',
-    backgroundColor: '#3DB2FF',
+    backgroundColor: '#FFE2E5',
     padding: 10,
     borderRadius: 10,
     maxWidth: '70%',
@@ -297,7 +279,7 @@ const styles = StyleSheet.create({
   },
   chatTextRight: {
     fontSize: 16,
-    color: 'white',
+    color: 'black',
     fontFamily: 'Medium'
   },
   bottomButtons: {
@@ -317,7 +299,8 @@ const styles = StyleSheet.create({
   recordButtonText: {
     color: 'white',
     marginLeft: 10,
-    fontFamily: 'Medium'
+    fontFamily: 'Medium',
+    fontSize:18
   },
   tagButton: {
     flex: 1,
@@ -331,7 +314,8 @@ const styles = StyleSheet.create({
   },
   tagButtonText: {
     color: '#333',
-    fontFamily: 'Medium'
+    fontFamily: 'Medium',
+    fontSize:18
   },
   modalContainer: {
     flex: 1,
@@ -339,42 +323,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.9)', // 블러 효과
   },
-  
-  /** ✅ Lottie 애니메이션 크기 고정 */
-  animationContainer: {
-    width: 150,
-    height: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden', // 애니메이션 넘침 방지
-  },
-  
-  animation: {
-    width: '100%',
-    height: '100%',
-    transform: [{ scale: 1 }],
-  },
-  
-  /** ✅ 녹음 중 텍스트 */
-  recordingText: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-    color: 'white',
-    marginTop: 20,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  
-  /** ✅ 완료 버튼 스타일 */
+  /** 완료 버튼 */
   stopButton: {
     backgroundColor: '#008DBF',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 25,
-    marginTop: 10,
+    marginTop: 40,
     elevation: 5,
   },
-  
   stopButtonText: {
     fontSize: 18,
     fontFamily: 'Medium',
