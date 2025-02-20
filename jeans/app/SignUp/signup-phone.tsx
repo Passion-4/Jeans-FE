@@ -1,30 +1,50 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Animated, Easing } from 'react-native';
 import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen() {
   const router = useRouter();
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [phone, setPhone] = useState('');
-  // 전화번호 자동 하이픈 추가 함수
-  const formatPhoneNumber = (text: string) => {
-    // 숫자만 남기기
-    let cleaned = text.replace(/[^0-9]/g, '');
+  const inputRef = useRef<TextInput>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const pulseAnimation = useRef(new Animated.Value(1)).current;
 
-    // 최대 11자리까지만 입력 가능
-    if (cleaned.length > 11) {
-      cleaned = cleaned.slice(0, 11);
-    }
-
-    // 전화번호 형식 적용 (010-1234-5678)
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 7) {
-      return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+  useEffect(() => {
+    if (isRecording) {
+      startPulseAnimation();
     } else {
-      return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7)}`;
+      pulseAnimation.setValue(1);
+    }
+  }, [isRecording]);
+
+  const startPulseAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnimation, {
+          toValue: 1.1,
+          duration: 600,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnimation, {
+          toValue: 1,
+          duration: 600,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const handleMicPress = () => {
+    if (isRecording) {
+      setIsRecording(false);
+      inputRef.current?.blur();
+    } else {
+      setIsRecording(true);
+      inputRef.current?.focus();
+      startPulseAnimation();
     }
   };
 
@@ -34,24 +54,36 @@ export default function SignupScreen() {
 
       <Text style={styles.label}>전화번호</Text>
       <TextInput
+        ref={inputRef}
         style={styles.input}
         placeholder="01012345678 형태로 입력해주세요."
         keyboardType="numeric"
-        value={phone}
-        onChangeText={(text) => setPhone(formatPhoneNumber(text))}
-        maxLength={13} // 13자리 (하이픈 포함)
-        placeholderTextColor="#5E6365"  
+        placeholderTextColor="#5E6365"
       />
-
-      {/* 안내 문구 추가 */}
       <Text style={styles.infoText}> * 입력하신 전화번호는 아이디로 사용됩니다.</Text>
-      <TouchableOpacity style={styles.recordButton} >
-          <Ionicons name="mic" size={25} color="white" />
-          <Text style={styles.recordButtonText}>전화번호를 말해보세요</Text>
-        </TouchableOpacity>
-      <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-password')}></FullButton>
 
+      <TouchableOpacity style={{ width: '100%' }} onPress={handleMicPress} activeOpacity={0.8}>
+        <View style={styles.micContainer}>
+          {isRecording && (
+            <Animated.View
+              style={[styles.pulseCircle, { transform: [{ scale: pulseAnimation }] }]}
+            />
+          )}
+          <View style={styles.recordButton}>
+            <Ionicons name="mic" size={25} color="white" />
+            <Text style={styles.recordButtonText}>전화번호를 말해보세요</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
 
+      {/** 음성 안내 문구 */}
+      <View style={{ minHeight: 25 }}>
+        <Text style={[styles.recordingNotice, { opacity: isRecording ? 1 : 0 }]}>
+          다시 누르면 음성이 멈춥니다.
+        </Text>
+      </View>
+
+      <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-password')} />
     </View>
   );
 }
@@ -67,7 +99,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     marginBottom: 40,
-    fontFamily :'Bold'
+    fontFamily: 'Bold',
   },
   label: {
     alignSelf: 'flex-start',
@@ -75,24 +107,50 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
     marginBottom: 15,
-    fontFamily:'Medium'
+    fontFamily: 'Medium',
   },
   input: {
-    width: '100%', 
-    height: 55, 
+    width: '100%',
+    height: 55,
     borderColor: '#CCCCCC',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginBottom: 5, 
+    marginBottom: 5,
     fontFamily: 'Medium',
-    fontSize:16,
+    fontSize: 18,
   },
-  backToLogin: {
-    color: '#888888',
-    fontSize: 17,
-    marginTop: 17,
+  micContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:7,
+    marginBottom:20
+  },
+  pulseCircle: {
+    position: 'absolute',
+    width: '102%', // 마이크 버튼과 동일한 크기
+    height: 85,
+    borderRadius: 100,
+    backgroundColor: 'rgba(61, 178, 255, 0.3)',
+  },
+  recordButton: {
+    width: '100%',
+    height: 70,
+    backgroundColor: '#3DB2FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    flexDirection: 'row',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  recordButtonText: {
+    color: 'white',
+    marginLeft: 10,
+    fontFamily: 'Medium',
+    fontSize: 21,
   },
   infoText: {
     fontSize: 15,
@@ -100,22 +158,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
     alignSelf: 'flex-start',
   },
-  recordButton: {
-    width: '100%',
-    paddingVertical: 16,
-    backgroundColor: '#008DBF',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginTop: 13,
-    marginBottom: 20
-  },
-  recordButtonText: {
-    color: 'white',
-    marginLeft: 10,
+  recordingNotice: {
+    fontSize: 20,
+    color: '#3DB2FF',
     fontFamily: 'Medium',
-    fontSize: 20
+    marginBottom: 30,
   },
 });
-
