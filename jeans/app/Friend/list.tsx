@@ -49,7 +49,7 @@ export default function FriendListScreen() {
 
       <TouchableOpacity
         style={[styles.confirmButton, selectedFriend === null && styles.disabledButton]}
-        onPress={() => router.push('/Friend/')}
+        onPress={() => router.push('/Friend/make-relation')}
         disabled={selectedFriend === null}>
         <Text style={styles.confirmText}>별명 만들기</Text>
       </TouchableOpacity>

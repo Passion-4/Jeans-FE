@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -44,7 +45,10 @@ export default function SignupScreen() {
 
       {/* 안내 문구 추가 */}
       <Text style={styles.infoText}> * 입력하신 전화번호는 아이디로 사용됩니다.</Text>
-
+      <TouchableOpacity style={styles.recordButton} >
+          <Ionicons name="chatbubble-ellipses" size={25} color="white" />
+          <Text style={styles.recordButtonText}>전화번호를 말해보세요</Text>
+        </TouchableOpacity>
       <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-password')}></FullButton>
 
 
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 20,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 15,
     fontFamily:'Medium'
   },
   input: {
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 15,
     backgroundColor: '#F8F8F8',
-    marginBottom: 15, 
+    marginBottom: 5, 
     fontFamily: 'Medium',
     fontSize:16,
   },
@@ -94,9 +98,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#3DB2FF',
     fontFamily: 'Medium',
-    marginTop: 10,
-    marginBottom: 20,
     alignSelf: 'flex-start',
+  },
+  recordButton: {
+    width: '100%',
+    height: 55,
+    backgroundColor: '#008DBF',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderRadius: 5,
+    marginTop: 13,
+    marginBottom: 20
+  },
+  recordButtonText: {
+    color: 'white',
+    marginLeft: 10,
+    fontFamily: 'Medium',
+    fontSize: 17
   },
 });
 

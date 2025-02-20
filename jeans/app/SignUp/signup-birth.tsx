@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -17,7 +18,10 @@ export default function SignupScreen() {
               placeholder="주민번호 앞자리"
               placeholderTextColor="#5E6365"  
             />
-
+        <TouchableOpacity style={styles.recordButton} >
+          <Ionicons name="chatbubble-ellipses" size={25} color="white" />
+          <Text style={styles.recordButtonText}>주민번호 앞자리를 말해보세요</Text>
+        </TouchableOpacity>
       <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-phone')}></FullButton>
 
 
@@ -57,5 +61,22 @@ const styles = StyleSheet.create({
     marginBottom: 15, 
     fontFamily: 'Medium',
     fontSize:18
+  },
+  recordButton: {
+    width: '100%',
+    height: 55,
+    backgroundColor: '#008DBF',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 20
+  },
+  recordButtonText: {
+    color: 'white',
+    marginLeft: 10,
+    fontFamily: 'Medium',
+    fontSize: 17
   },
 });
