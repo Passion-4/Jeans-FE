@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 40,
   },
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     paddingHorizontal: 5,
     textAlign: 'left',
+    fontFamily:'Medium'
   },
   createButton: {
     width: '100%',
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
   createText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     color: 'white',
   },
 });
