@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions,} from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -77,6 +77,31 @@ export default function PhotoDetailScreen() {
       });
     });
   };
+  const [isCancelPopupVisible, setIsCancelPopupVisible] = useState<boolean>(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const showCancelPopup = () => {
+    setIsCancelPopupVisible(true);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300, // 0.3초 동안 등장
+      useNativeDriver: true,
+    }).start();
+
+    // ✅ 2초 후에 팝업 사라지고 자동으로 메인 페이지 이동
+    setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300, // 0.3초 동안 사라짐
+        useNativeDriver: true,
+      }).start(() => {
+      
+        router.push('/Home/main-page'); // ✅ 메인 페이지로 이동
+      });
+    }, 2000);
+  };
+
+  
 
   return (
     <View style={styles.container}>
@@ -163,8 +188,13 @@ export default function PhotoDetailScreen() {
           <View style={styles.modalContent}>
             <Image source={photoData.imageUrl} style={styles.modalImage} />
             <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
-              <Ionicons name="close-circle" size={40} color="white" />
+              <Ionicons name="close-circle" size={40} color="black" />
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
+              <Text style={styles.cancelButtonText}>공유 취소</Text>
+            </TouchableOpacity>
+
           </View>
         </BlurView>
       </Modal>
@@ -369,6 +399,24 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: -10,
       right: -10,
+    
+    },
+
+
+
+    cancelButton: {
+      backgroundColor: '#FF616D',
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      borderRadius: 25,
+      marginTop: 20,
+      elevation: 5,
+    },
+    cancelButtonText: {
+      fontSize: 18,
+      fontFamily: 'Medium',
+      color: 'white',
+      textAlign: 'center',
     },
   
 });
