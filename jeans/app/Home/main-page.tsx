@@ -61,17 +61,19 @@ export default function HomeUILayout() {
           ) : (
             <>
               <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
-              <Text style={styles.defaultText}>님이 나눈 추억을 둘러보세요.</Text>
+              <Text style={styles.defaultText}>님의 추억을 둘러보세요.</Text>
             </>
           )}
         </Text>
       </View>
     </View>
 
-      {/* 고정된 사진 공유 버튼 */}
-      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
-        <Text style={styles.shareText}>공유</Text>
-      </TouchableOpacity>
+      {/* 공유 버튼 */}
+<TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
+  <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
+  <Text style={styles.shareText}>공유</Text>
+</TouchableOpacity>
+
 
       {/* 친구 목록 */}
       <View style={styles.friendsContainer}>
@@ -152,21 +154,42 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
   },
 
-  /** 📌 고정된 사진 공유 버튼 */
+  /** 📌 수정된 공유 버튼 스타일 */
   shareButton: {
     position: 'absolute', // 고정 위치
-    top: 113, // TopNavBar 아래 + 약간의 여백
-    right: 15, // 오른쪽 끝에 배치
-    backgroundColor: '#008DBF',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 30,
-    zIndex: 20, // 최상위 레이어 유지
+    top: 120, // 네비게이션 바 아래
+    right: 15, // 오른쪽 끝
+    width: 60, // 버튼 크기 조정
+    height: 60,
+    borderRadius: 15, // 네모 모서리 둥글게
+    backgroundColor: '#F5F5F5', // ✅ 네모 배경 흰색
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    zIndex: 999, // ✅ 모든 요소보다 앞에 위치
+
+    // ✅ 그림자 효과 추가
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5, // ✅ 안드로이드 그림자 지원
   },
+
+  /** 공유 아이콘 스타일 */
+  shareIcon: {
+    width: 25, // 아이콘 크기 조정
+    height: 25,
+    resizeMode: 'contain', // 비율 유지
+    marginBottom: 5, // 텍스트와 간격 추가
+  },
+
+  /** 공유 텍스트 스타일 */
   shareText: {
-    color: 'white',
+    fontSize: 15,
     fontFamily: 'Medium',
-    fontSize: 18,
+    color: '#333', // 회색 텍스트
+    textAlign: 'center',
   },
 
   /** 📌 친구 목록 */
