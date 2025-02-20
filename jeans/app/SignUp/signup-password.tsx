@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
 
+
 export default function PasswordSignupScreen() {
   const router = useRouter();
   const [password, setPassword] = useState('');

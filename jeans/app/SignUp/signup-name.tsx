@@ -19,7 +19,7 @@ export default function SignupScreen() {
               placeholderTextColor="#5E6365"  
             />
         <TouchableOpacity style={styles.recordButton} >
-          <Ionicons name="chatbubble-ellipses" size={25} color="white" />
+          <Ionicons name="mic" size={25} color="white" />
           <Text style={styles.recordButtonText}>이름을 말해보세요</Text>
         </TouchableOpacity>
       <FullButton title='다 음' onPress={() => router.push('/SignUp/signup-birth')}></FullButton>
@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
   },
   recordButton: {
     width: '100%',
-    height: 55,
+    paddingVertical: 16,
     backgroundColor: '#008DBF',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 20,
     marginBottom: 20
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 10,
     fontFamily: 'Medium',
-    fontSize: 17
+    fontSize: 20
   },
   signupButton: {
     width: '100%',
