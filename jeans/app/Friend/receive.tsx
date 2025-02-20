@@ -15,6 +15,7 @@ export default function FriendRequestsScreen() {
   ]);
 
   useEffect(() => {
+
     // 실제 백엔드 API 요청 부분 (예: axios.get('/api/friendRequests').then(res => setFriendRequests(res.data)))
   }, []);
 
@@ -66,7 +67,6 @@ export default function FriendRequestsScreen() {
           )}
         />
       )}
-
       <BottomNavBar />
     </View>
   );
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     color: '#777',
     textAlign: 'center',
     marginTop: 50,
+    fontFamily:'Medium'
   },
   requestContainer: {
     flexDirection: 'row',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     flex: 1,
   },
   buttonContainer: {
@@ -130,6 +131,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily:'Medium'
   },
 });

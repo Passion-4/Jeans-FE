@@ -42,7 +42,7 @@ export default function BestCutScreen() {
         {/* 왼쪽 화살표 (첫 번째 이미지가 아닐 때만 표시) */}
         {selectedImageIndex > 0 && (
           <TouchableOpacity style={styles.arrowLeft} onPress={handlePrevImage}>
-            <Ionicons name="chevron-back-circle" size={40} color="'rgba(255, 183, 6, 0.6)'" />
+            <Ionicons name="chevron-back-circle" size={40} color="#FFE2E5" />
           </TouchableOpacity>
         )}
 
@@ -52,14 +52,14 @@ export default function BestCutScreen() {
         {/* 오른쪽 화살표 (마지막 이미지가 아닐 때만 표시) */}
         {selectedImageIndex < selectedImages.length - 1 && (
           <TouchableOpacity style={styles.arrowRight} onPress={handleNextImage}>
-            <Ionicons name="chevron-forward-circle" size={40} color="'rgba(255, 183, 6, 0.6)'" />
+            <Ionicons name="chevron-forward-circle" size={40} color="#FFE2E5" />
           </TouchableOpacity>
         )}
       </View>
 
       {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="다시 선택하기" color="#3DB2FF" onPress={() => router.push('/MakeUp/bestcut-select-img')} />
+        <HalfButton title="다시 선택하기" color="#FF616D" onPress={() => router.push('/MakeUp/bestcut-select-img')} />
         <HalfButton title="사진 선택 완료" onPress={() => router.push('/MakeUp/bestcut-choose')} />
       </View>
 
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 270,
+    width: 260,
     height: 200,
     borderRadius: 10,
   },

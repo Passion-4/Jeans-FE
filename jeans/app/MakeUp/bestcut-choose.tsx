@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   selected: {
-    borderWidth: 8,
-    borderColor: 'rgba(255, 183, 6, 0.6)',
+    borderWidth: 5,
+    borderColor: '#FF616D',
   },
 });

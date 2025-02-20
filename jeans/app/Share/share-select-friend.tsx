@@ -43,6 +43,7 @@ export default function HomeUILayout() {
       </View>
 
       {/* 친구 목록 컨테이너 */}
+
       <FlatList
         data={dummyFriends}
         numColumns={3}
@@ -60,7 +61,7 @@ export default function HomeUILayout() {
         contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
       />
 
-      {/* ✅ CustomButton 스타일 적용된 '다음' 버튼 */}
+      {/* CustomButton 스타일 적용된 '다음' 버튼 */}
       <TouchableOpacity
         style={[
           styles.customButton,
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     height: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
+    margin: 5,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
     elevation: 3,
@@ -112,7 +113,8 @@ const styles = StyleSheet.create({
   },
   selectedFriend: {
     borderWidth: 5,
-    borderColor: 'rgba(255, 183, 6, 0.6)',
+    borderColor: '#FF616D',
+    
   },
   friendImage: {
     width: 80,
@@ -146,4 +148,5 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: '#B0BEC5',
   },
+
 });

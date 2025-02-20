@@ -41,7 +41,7 @@ export default function Share2Screen() {
       <Text style={styles.title}>공유 방법을{'\n'}선택해 주세요.</Text>
 
       <View style={styles.buttonContainer}>
-        <CustomButton title="각자 보내실래요?" color="#3DB2FF" onPress={() => router.push('/Share/share-voice')} />
+        <CustomButton title="각자 보내실래요?" color="#FF616D" onPress={() => router.push('/Share/share-voice')} />
         <CustomButton title="그룹에 보내실래요?" onPress={handleGroupSend} />
       </View>
       

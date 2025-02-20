@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
   },
   selected: {
     borderWidth: 5,
-    borderColor: 'rgba(255, 183, 6, 0.6)'
+    borderColor: '#FF616D'
   },
 });

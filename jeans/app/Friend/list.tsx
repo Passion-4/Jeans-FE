@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
+    marginTop:15
   },
   friendsContainer: {
     justifyContent: 'center',
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     borderColor:'white'
   },
   selectedFriend: {
-    borderColor: 'rgba(255, 183, 6, 0.8)',
+    borderColor: '#FF616D',
     borderWidth:5
   },
   friendCardContent: {
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   confirmText: {
     fontSize: 20,
-    fontFamily: 'Bold',
+    fontFamily: 'Medium',
     color: '#FFFFFF',
   },
 });
