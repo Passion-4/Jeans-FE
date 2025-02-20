@@ -239,8 +239,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   highlightedText: {
-    color: '#008DBF', // 🔹 지정된 색상 적용
-    fontWeight: 'bold', // 🔹 굵게 (선택 사항)
+    color: '#008DBF', 
+    fontWeight: 'bold', 
+    fontFamily:'Medium'
   },
   defaultText: {
     color: '#555', // 🔹 기본 텍스트 색상 (회색 계열)
