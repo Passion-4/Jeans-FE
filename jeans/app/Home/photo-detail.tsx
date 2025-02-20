@@ -32,6 +32,18 @@ export default function PhotoDetailScreen() {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [fallingEmojis, setFallingEmojis] = useState<EmojiItem[]>([]);
+  const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
+
+  const handleReactionPress = (reaction: string) => {
+    if (selectedReaction === reaction) {
+      // ✅ 같은 버튼을 다시 눌러 취소하는 경우, 이모티콘을 쏟지 않음
+      setSelectedReaction(null);
+    } else {
+      // ✅ 새로운 반응을 누르면, 상태 변경 후 이모티콘을 떨어뜨림
+      setSelectedReaction(reaction);
+      dropEmojis(reaction);
+    }
+  };
 
   // 임의 데이터
   const photoData = {
@@ -91,16 +103,16 @@ export default function PhotoDetailScreen() {
 
       {/* 📌 버튼 영역 */}
       <View style={styles.reactionButtons}>
-        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("👍")}>
+        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "👍" && styles.selectedReaction]} onPress={() => handleReactionPress("👍")}>
           <Text style={styles.reactionText}>👍 좋아요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("😆")}>
+        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "😆" && styles.selectedReaction]} onPress={() => handleReactionPress("😆")}>
           <Text style={styles.reactionText}>😆 기뻐요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("🔥")}>
+        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "🔥" && styles.selectedReaction]} onPress={() => handleReactionPress("🔥")}>
           <Text style={styles.reactionText}>🔥 멋져요</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionButton} onPress={() => dropEmojis("💖")}>
+        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "💖" && styles.selectedReaction]} onPress={() => handleReactionPress("💖")}>
           <Text style={styles.reactionText}>💖 최고예요</Text>
         </TouchableOpacity>
       </View>
@@ -240,6 +252,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontFamily: 'Medium'
+  },
+  selectedReaction: {
+    backgroundColor: 'rgba(255, 183, 6, 0.6)', // 선택된 경우 파란색으로 변경
   },
   chatContainer: {
     flex: 1,

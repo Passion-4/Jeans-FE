@@ -23,7 +23,7 @@ export default function FriendRequestCompleteScreen() {
             style={styles.lottie}
           />
         </View>
-        <FullButton title='확 인' onPress={() => router.push('/MyPage/MyPage')} />
+        <FullButton title='확 인' onPress={() => router.push('/MyPage/my-page')} />
       </View>
       <BottomNavBar />
     </View>
