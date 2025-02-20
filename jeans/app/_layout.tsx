@@ -56,6 +56,9 @@ export default function RootLayout() {
           <Stack.Screen name="Set/photo-selection0" options={{ title: '사진 선택 - 0', headerShown: false}} />
           <Stack.Screen name="Set/photo-selection1" options={{ title: '사진 선택 - 1', headerShown: false}} />
           <Stack.Screen name="Set/photo-selection2" options={{ title: '사진 선택 - 2', headerShown: false}} />
+          <Stack.Screen name="Set/face-input" options={{ title: '개인 얼굴 사진 받기', headerShown: false}} />
+          <Stack.Screen name="Set/face-input-complete" options={{ title: '개인 얼굴 사진 받기 완료', headerShown: false}} />
+
 
           {/* 메인 페이지 */}
           <Stack.Screen name="Home/main-page" options={{ title: '메인 페이지', headerShown: false}} />
