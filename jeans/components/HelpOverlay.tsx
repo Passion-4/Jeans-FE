@@ -51,7 +51,7 @@ export default function HelpOverlay({ onClose }: { onClose: () => void }) {
           height={screenHeight}
           fill="black"
           mask="url(#mask)"
-          opacity="0.7"
+          opacity="0.8"
         />
         {/* 하이라이트된 영역에 테두리 추가 */}
         <Rect

@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 22,
     color: '#333',
+    fontFamily:'Medium'
   },
 });

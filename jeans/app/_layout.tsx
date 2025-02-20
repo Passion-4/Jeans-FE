@@ -17,7 +17,7 @@ export default function RootLayout() {
     Bold: require('../assets/fonts/Pretendard-Bold.ttf'),
     ExtraLight: require('../assets/fonts/Pretendard-ExtraLight.ttf'),
     ExtraBold: require('../assets/fonts/Pretendard-ExtraBold.ttf'),
-    Light: require('../assets/fonts/Roboto-Light.ttf'),
+    Light: require('../assets/fonts/Pretendard-Light.ttf'),
     Medium: require('../assets/fonts/Pretendard-Medium.ttf')
   });
 

@@ -27,27 +27,26 @@ export default function BottomNavBar() {
       </View>
 
       {/* 🔹 녹음 모달 */}
-<Modal visible={isRecording} transparent animationType="fade">
-  <View style={styles.modalContainer}>
-    {/* ✅ 고정된 크기의 뷰에 LottieView 배치 */}
-    <View style={styles.animationContainer}>
-      <LottieView
-        source={require('../assets/animations/Animation - 1739445445148.json')}
-        autoPlay
-        loop
-        resizeMode="cover"
-        style={styles.animation}
-      />
-    </View>
+      <Modal visible={isRecording} transparent animationType="fade">
+        <View style={styles.modalContainer}>
+          {/* ✅ 고정된 크기의 뷰에 LottieView 배치 */}
+          <View style={styles.animationContainer}>
+            <LottieView
+              source={require('../assets/animations/Animation - 1739445445148.json')}
+              autoPlay
+              loop
+              resizeMode="cover"
+              style={styles.animation}
+            />
+          </View>
 
-    {/* 텍스트 및 버튼 고정 */}
-    <Text style={styles.recordingText}>듣는 중입니다...</Text>
-    <TouchableOpacity style={styles.stopButton} onPress={() => setIsRecording(false)}>
-      <Text style={styles.stopButtonText}>완료</Text>
-    </TouchableOpacity>
-  </View>
-</Modal>
-
+          {/* 텍스트 및 버튼 고정 */}
+          <Text style={styles.recordingText}>듣는 중입니다...</Text>
+          <TouchableOpacity style={styles.stopButton} onPress={() => setIsRecording(false)}>
+            <Text style={styles.stopButtonText}>완료</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -66,8 +65,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderColor: '#E0E0E0',
-    zIndex: 1000, // 다른 요소들보다 위로 배치
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+
+    // ✅ 그림자 효과 추가 (iOS & Android)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -6 }, // 위쪽 그림자 강조
+    shadowOpacity: 0.15, // 그림자 투명도
+    shadowRadius: 8, // 그림자 번짐 정도
+    elevation: 6, // 안드로이드용 그림자 효과
   },
+
   navButton: {
     flex: 1,
     alignItems: 'center',
@@ -76,12 +84,12 @@ const styles = StyleSheet.create({
   navText: {
     fontSize: 20,
     fontFamily: 'Bold',
-    marginBottom:20
+    marginBottom: 20,
   },
   centerButton: {
     width: 90,
     height: 90,
-    backgroundColor: '#008DBF',
+    backgroundColor: '#FF616D',
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
-  
+
   /* ✅ Lottie 애니메이션 크기 고정 */
   animationContainer: {
     width: 150,
@@ -109,13 +117,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden', // 애니메이션 범위를 제한
   },
-  
+
   animation: {
     width: 150,
     height: 150,
     transform: [{ scale: 1 }],
   },
-  
+
   recordingText: {
     fontSize: 30,
     fontFamily: 'Bold',
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     textAlign: 'center',
   },
-  
+
   stopButton: {
     backgroundColor: '#008DBF',
     paddingVertical: 10,
@@ -131,12 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 10,
   },
-  
+
   stopButtonText: {
     fontSize: 18,
     fontFamily: 'Medium',
     color: 'white',
     textAlign: 'center',
   },
-  
 });
