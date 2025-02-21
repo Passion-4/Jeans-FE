@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ImageProvider } from './Context/ImageContext';  // ImageProvider 추가
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { SignupProvider } from '@/hooks/SignupContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,7 +33,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ImageProvider>  {/* ImageProvider로 감싸줌 */}
+    <SignupProvider>
+      <ImageProvider>  {/* ImageProvider로 감싸줌 */}
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           {/* 앱 시작 시 첫 화면 */}
@@ -50,6 +52,7 @@ export default function RootLayout() {
           <Stack.Screen name="SignUp/signup-phone" options={{ title: '회원가입 - 전화번호', headerShown: false}} />
           <Stack.Screen name="SignUp/signup-password" options={{ title: '회원가입 - 비밀번호', headerShown: false}} />
           <Stack.Screen name="SignUp/signup-privacy" options={{ title: '회원가입 - 개인정보', headerShown: false }} />
+          <Stack.Screen name="SignUp/signup-voice" options={{ title: '회원가입 - 보이스', headerShown: false }} />
           <Stack.Screen name="SignUp/signup-complete" options={{ title: '회원가입 - 완료', headerShown: false }} />
           
           {/* 사진 선택 (기본 보정) 페이지 */}
@@ -135,5 +138,7 @@ export default function RootLayout() {
         <StatusBar style="auto" />
       </ThemeProvider>
     </ImageProvider>  
+    </SignupProvider>
+    
   );
 }

@@ -11,18 +11,21 @@ import {
 import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
 import { Ionicons } from '@expo/vector-icons';
+import { useSignup } from '@/hooks/SignupContext';
 
 export default function SignupScreen() {
   const router = useRouter();
+  const { signupData, updateSignupData } = useSignup();
   const inputRef = useRef<TextInput>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const pulseAnimation = useRef(new Animated.Value(1)).current; // 원 크기 애니메이션 값
+  const [name, setName] = useState(signupData.name || ""); // Context에서 초기값 로드
+  const pulseAnimation = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     if (isRecording) {
       startPulseAnimation();
     } else {
-      pulseAnimation.setValue(1); // 원래 크기로 초기화
+      pulseAnimation.setValue(1);
     }
   }, [isRecording]);
 
@@ -31,13 +34,13 @@ export default function SignupScreen() {
     Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnimation, {
-          toValue: 1.1, // 커졌다가
+          toValue: 1.1,
           duration: 600,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
         Animated.timing(pulseAnimation, {
-          toValue: 1, // 작아졌다가
+          toValue: 1,
           duration: 600,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
@@ -49,15 +52,23 @@ export default function SignupScreen() {
   // 🔹 마이크 버튼 눌렀을 때 동작
   const handleMicPress = () => {
     if (isRecording) {
-      // 🔹 녹음 중이면 중지하고 입력창 포커스 해제
       setIsRecording(false);
-      inputRef.current?.blur(); // 입력창 포커스 해제
+      inputRef.current?.blur();
     } else {
-      // 🔹 녹음을 시작하고 입력창에 포커스를 줌
       setIsRecording(true);
-      inputRef.current?.focus(); // 입력창 포커스
+      inputRef.current?.focus();
       startPulseAnimation();
     }
+  };
+
+  // 🔹 다음 버튼 눌렀을 때 실행
+  const handleNext = () => {
+    if (!name.trim()) {
+      alert("이름을 입력해주세요.");
+      return;
+    }
+    updateSignupData("name", name); // Context에 저장
+    router.push("/SignUp/signup-birth");
   };
 
   return (
@@ -66,16 +77,17 @@ export default function SignupScreen() {
 
       <Text style={styles.label}>이름</Text>
       <TextInput
-        ref={inputRef} // 🔹 ref 연결
+        ref={inputRef}
         style={styles.input}
         placeholder="이름을 입력하세요."
         placeholderTextColor="#5E6365"
+        value={name}
+        onChangeText={setName}
       />
 
       {/* 🔹 음성 버튼 */}
       <TouchableOpacity style={{ width: '100%' }} onPress={handleMicPress} activeOpacity={0.8}>
         <View style={styles.micContainer}>
-          {/* 🔹 뒤에 반응하는 원 */}
           {isRecording && (
             <Animated.View
               style={[
@@ -84,7 +96,6 @@ export default function SignupScreen() {
               ]}
             />
           )}
-          {/* 🔹 실제 마이크 버튼 */}
           <View style={styles.recordButton}>
             <Ionicons name="mic" size={25} color="white" />
             <Text style={styles.recordButtonText}>이름을 말해보세요</Text>
@@ -92,14 +103,14 @@ export default function SignupScreen() {
         </View>
       </TouchableOpacity>
 
-      {/** 음성 안내 문구 */}
+      {/* 음성 안내 문구 */}
       <View style={{ minHeight: 25 }}>
         <Text style={[styles.recordingNotice, { opacity: isRecording ? 1 : 0 }]}>
           다시 누르면 음성이 멈춥니다.
         </Text>
       </View>
 
-      <FullButton title="다 음" onPress={() => router.push('/SignUp/signup-birth')} />
+      <FullButton title="다 음" onPress={handleNext} />
     </View>
   );
 }
@@ -146,10 +157,10 @@ const styles = StyleSheet.create({
   },
   pulseCircle: {
     position: 'absolute',
-    width: '102%', // 마이크 버튼과 동일한 크기
+    width: '102%',
     height: 85,
     borderRadius: 100,
-    backgroundColor: 'rgba(61, 178, 255, 0.3)', // 반투명한 효과
+    backgroundColor: 'rgba(61, 178, 255, 0.3)',
   },
   recordButton: {
     width: '100%',

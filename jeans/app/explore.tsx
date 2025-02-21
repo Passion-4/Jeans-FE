@@ -30,11 +30,7 @@ export default function LoginScreen() {
 
       <FullButton title="로그인" onPress={() => router.push('/Set/photo-selection0')} />
 
-      <TouchableOpacity onPress={() => router.push('/FindAccount/find-account')}>
-        <Text style={styles.forgotPassword}>아이디와 비밀번호를 잊으셨나요?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => router.push('/SignUp/signup-name')}>
+      <TouchableOpacity onPress={() => router.push('/SignUp/signup-voice')}>
         <Text style={styles.signup}>회원가입</Text>
       </TouchableOpacity>
     </View>
