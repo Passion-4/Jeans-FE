@@ -12,7 +12,7 @@ export default function PhotoSelectionIntroScreen() {
         <Text style={styles.strongText}>지금부터 화면에 보이는{'\n'}두 개의 사진 중 마음에 드는 {'\n'} 사진을 골라주세요.</Text>
       </Text>
 
-    <FullButton title='다 음' onPress={() => router.push('/Set/face-input')}></FullButton>
+    <FullButton title='다 음' onPress={() => router.push('/Set/photo-selection1')}></FullButton>
     </View>
   );
 }
