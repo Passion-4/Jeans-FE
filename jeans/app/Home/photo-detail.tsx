@@ -1,5 +1,5 @@
 import React, { useState,useRef } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions,} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions,Alert} from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -24,6 +24,14 @@ export default function PhotoDetailScreen() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [fallingEmojis, setFallingEmojis] = useState<EmojiItem[]>([]);
   const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
+  const [isTagModalVisible, setIsTagModalVisible] = useState(false);
+
+  // 태그 클릭 시 이동할 함수
+  const navigateToTagInfo = (tag: String) => {
+    Alert.alert(`"${tag}" 관련 정보 페이지로 이동합니다.`);
+    // 여기에서 실제 네비게이션 코드 추가 가능 (예: React Navigation 사용 시)
+    // navigation.navigate('TagInfoScreen', { tag });
+  };
 
   const handleReactionPress = (reaction: string) => {
     if (selectedReaction === reaction) {
@@ -101,8 +109,6 @@ export default function PhotoDetailScreen() {
     }, 2000);
   };
 
-  
-
   return (
     <View style={styles.container}>
       <TopNavBar />
@@ -174,10 +180,40 @@ export default function PhotoDetailScreen() {
           <Text style={styles.recordButtonText}>메시지를 녹음하세요</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tagButton}>
+        <TouchableOpacity style={styles.tagButton} onPress={() => setIsTagModalVisible(true)}>
           <Text style={styles.tagButtonText}>태그</Text>
         </TouchableOpacity>
       </View>
+
+      {/* 태그 안내 모달 */}
+      <Modal
+        transparent
+        visible={isTagModalVisible}
+        animationType="fade"
+        onRequestClose={() => setIsTagModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>태그 안내</Text>
+            <Text style={styles.modalDescription}>
+              사진과 관련된 태그를 자동으로 생성하고 태그를 클릭하면 관련된 정보를 볼 수 있습니다.
+            </Text>
+
+            {/* 태그 리스트 */}
+            <View style={styles.tagContainer}>
+              {["#00", "#00", "#00"].map((tag, index) => (
+                <TouchableOpacity key={index} style={styles.tagButton} onPress={() => navigateToTagInfo(tag)}>
+                  <Text style={styles.tagText}>{tag}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <TouchableOpacity style={styles.modalCloseButton} onPress={() => setIsTagModalVisible(false)}>
+              <Text style={styles.modalCloseText}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <BottomNavBar />
 
@@ -402,7 +438,16 @@ const styles = StyleSheet.create({
     
     },
 
-
+    tagContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 20,
+      marginBottom: 20,
+    },
+    tagText: {
+      color: 'black',
+      fontFamily: 'Medium',
+    },
 
     cancelButton: {
       backgroundColor: '#FF616D',
@@ -419,6 +464,62 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
   
+    helpButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 10,
+      marginLeft:80
+    },
+    helpCircle: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      backgroundColor: '#008DBF',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 5,
+    },
+    helpIcon: {
+      color: '#FFFFFF',
+      fontWeight: 'bold',
+    },
+    helpText: {
+      fontSize: 18,
+      fontFamily: 'Medium',
+      color: '#008DBF',
+      textDecorationLine: 'underline',
+    },
+    /** 모달 스타일 */
+    modalBox: {
+      width: 280,
+      backgroundColor: '#FFFFFF',
+      padding: 20,
+      borderRadius: 15,
+      alignItems: 'center',
+    },
+    modalTitle: {
+      fontSize: 22,
+      fontFamily: 'Bold',
+      marginBottom: 10,
+    },
+    modalDescription: {
+      fontSize: 16,
+      fontFamily: 'Medium',
+      color: '#555',
+      marginBottom: 20,
+      textAlign: 'center',
+    },
+    modalCloseButton: {
+      backgroundColor: '#008DBF',
+      paddingVertical: 10,
+      paddingHorizontal: 30,
+      borderRadius: 20,
+    },
+    modalCloseText: {
+      color: '#FFFFFF',
+      fontSize: 17,
+      fontFamily: 'Medium',
+    },
 });
 
 
