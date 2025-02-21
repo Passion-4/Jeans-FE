@@ -10,7 +10,7 @@ export default function TopNavBar() {
   // HelpButton을 표시할 페이지 목록
   const pagesWithHelpButton = [
     '/Home/main-page',
-    'Home/photo-detail',
+    '/Home/photo-detail',
     '/MakeUp/select-function',
     '/MakeUp/advanced-option',
   ];
