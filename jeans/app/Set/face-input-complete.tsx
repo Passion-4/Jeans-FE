@@ -19,7 +19,7 @@ export default function FriendRequestCompleteScreen() {
 
         <CheckAnimation></CheckAnimation>
 
-        <FullButton title="확 인" onPress={() => router.push('/Set/photo-selection1')} />
+        <FullButton title="확 인" onPress={() => router.push('/Set/photo-selection0')} />
       </View>
     </View>
   );
