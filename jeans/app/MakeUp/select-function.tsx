@@ -10,7 +10,7 @@ export default function PhotoSelectionScreen() {
   const translateY = useRef(new Animated.Value(0)).current; // ✅ 애니메이션 값 설정
 
   useEffect(() => {
-    // ✅ 위아래로 부드럽게 움직이는 애니메이션
+    // 위아래로 부드럽게 움직이는 애니메이션
     Animated.loop(
       Animated.sequence([
         Animated.timing(translateY, {

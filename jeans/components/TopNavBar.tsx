@@ -60,7 +60,7 @@ export default function TopNavBar() {
 const styles = StyleSheet.create({
   banner: {
     position: 'absolute',
-    top: 23,
+    top: 35,
     left: 0,
     right: 0,
     height: 80, // ✅ 높이 증가하여 텍스트 공간 확보
@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly', // ✅ 동일한 간격 정렬
     width: '100%',
     alignItems: 'center',
-    paddingBottom:15
+    paddingBottom:10,
+    paddingTop:10
   },
   iconWrapper: {
     width: 60, // ✅ 크기 조정

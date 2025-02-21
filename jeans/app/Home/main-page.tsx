@@ -137,11 +137,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 125, // 고정 위치 (TopNavBar 아래)
+    top: 130, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
     zIndex: 10,
+
   },
   title: {
     fontSize: 25,
@@ -166,7 +167,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
-    zIndex: 999, // ✅ 모든 요소보다 앞에 위치
+    zIndex: 999, // 모든 요소보다 앞에
+    marginTop: 10,
 
     // ✅ 그림자 효과 추가
     shadowColor: '#000',
@@ -267,6 +269,6 @@ const styles = StyleSheet.create({
     fontFamily:'Medium'
   },
   defaultText: {
-    color: '#555', // 🔹 기본 텍스트 색상 (회색 계열)
+    color: '#555', // 기본 텍스트 색상 (회색 계열)
   },
 });
