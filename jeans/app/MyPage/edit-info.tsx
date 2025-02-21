@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import FullButton from '@/components/FullButton';
+import HalfButton from '@/components/HalfButton';
 
 export default function GroupEditScreen() {
   const router = useRouter();
@@ -92,8 +93,19 @@ export default function GroupEditScreen() {
         )}
       </View>
 
-      <FullButton title='비밀번호 바꾸기' onPress={() => router.push('/ChangePassword/origin-password')} color="#3DB2FF" ></FullButton>
-      <FullButton title='저장하기' onPress={handleSave} ></FullButton>
+      <View style={styles.buttonContainer}>
+      <HalfButton
+        title="비밀번호 바꾸기"
+        onPress={() => router.push('/ChangePassword/origin-password')}
+        color="#3DB2FF"
+      />
+      <HalfButton
+        title="기본 보정값 바꾸기"
+        onPress={() => router.push('/Set/photo-selection0')}
+        color="#3DB2FF"
+      />
+    </View>
+    <FullButton title="저장하기" onPress={handleSave} />
 
 
       <BottomNavBar />
@@ -113,7 +125,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
+    marginTop:15
   },
   imageContainer: {
     width: 120,
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   imageEditText: {
     fontSize: 16,
@@ -144,7 +157,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 20,
     paddingVertical: 5,
   },
   editIcon: {
@@ -153,8 +166,8 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 50,
-    fontSize: 20,
+    height: 40,
+    fontSize: 18,
     textAlign: 'left',
     paddingHorizontal: 5,
     fontFamily:'Medium'
@@ -171,5 +184,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
     fontSize: 16,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // 버튼을 양쪽 끝으로 배치
+    width: '100%', // 부모 컨테이너의 전체 너비 사용
+    marginBottom: 20, // 아래쪽 간격 추가
+  }
 });
 

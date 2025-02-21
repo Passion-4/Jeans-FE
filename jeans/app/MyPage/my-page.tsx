@@ -32,11 +32,6 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/Set/photo-selection0')}>
-          <Text style={styles.settingText}>보정값 변경하기</Text>
-          <Ionicons name="chevron-forward" size={18} color="#777" />
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/connect')}>
           <Text style={styles.settingText}>친구</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
