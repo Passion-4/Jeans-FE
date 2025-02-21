@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row', // 🔹 가로 정렬
     alignItems: 'center', // 🔹 세로 중앙 정렬
-    marginTop: 130,
+    marginTop: 140,
     marginBottom: 25,
   },
   profileImage: {

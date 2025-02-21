@@ -15,7 +15,6 @@ export default function AccountDeleteScreen() {
   const reasons = [
     '서비스를 잘 이용하지 않아요',
     '디자인이 마음에 들지 않아요',
-    '서비스 가격이 높아요',
     '이 서비스보다 더 좋은 서비스가 있어요',
     '기타', // 기타 옵션 추가
   ];
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
     fontFamily:'Bold',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 80
+    marginTop: 100
   },
   description: {
     fontSize: 18,
