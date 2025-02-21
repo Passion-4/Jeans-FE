@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 130, // 고정 위치 (TopNavBar 아래)
+    top: 135, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
@@ -145,12 +145,12 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 27,
+    fontSize: 22,
     fontFamily: 'Bold',
     marginBottom:5
   },
   description: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#555',
     fontFamily: 'Medium',
   },
@@ -158,10 +158,10 @@ const styles = StyleSheet.create({
   /** 📌 수정된 공유 버튼 스타일 */
   shareButton: {
     position: 'absolute', // 고정 위치
-    top: 120, // 네비게이션 바 아래
+    top: 125, // 네비게이션 바 아래
     right: 15, // 오른쪽 끝
-    width: 60, // 버튼 크기 조정
-    height: 60,
+    width: 52, // 버튼 크기 조정
+    height: 52,
     borderRadius: 15, // 네모 모서리 둥글게
     backgroundColor: '#F5F5F5', // ✅ 네모 배경 흰색
     alignItems: 'center',
@@ -180,15 +180,15 @@ const styles = StyleSheet.create({
 
   /** 공유 아이콘 스타일 */
   shareIcon: {
-    width: 25, // 아이콘 크기 조정
-    height: 25,
+    width: 22, // 아이콘 크기 조정
+    height: 22,
     resizeMode: 'contain', // 비율 유지
     marginBottom: 5, // 텍스트와 간격 추가
   },
 
   /** 공유 텍스트 스타일 */
   shareText: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: 'Medium',
     color: '#333', // 회색 텍스트
     textAlign: 'center',
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   /** 📌 친구 목록 */
   friendsContainer: {
     marginTop: 200, // 고정된 타이틀 아래 배치
-    marginBottom: 20,
+    marginBottom: 17,
   },
   friendsScrollWrapper: {
     flexDirection: 'row',
@@ -206,18 +206,18 @@ const styles = StyleSheet.create({
   },
   friendItem: {
     alignItems: 'center',
-    marginRight: 15,
+    marginRight: 12,
   },
   profileImage: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 30,
   },
   blurred: {
     opacity: 0.3, // 블러 효과 (투명도 적용)
   },
   friendName: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Medium',
     marginTop: 5,
   },
