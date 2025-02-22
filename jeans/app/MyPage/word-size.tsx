@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '@/components/HalfButton';
+import FullButton from '@/components/FullButton';
+import { Colors } from '@/constants/Colors';
 
 export default function FontSizeAdjustmentScreen() {
-  const [fontSize, setFontSize] = useState(16); // 기본 글씨 크기
+  const [fontSize, setFontSize] = useState(19); // 기본 글씨 크기
   const router = useRouter();
 
-  const increaseFontSize = () => setFontSize((prev) => Math.min(prev + 2, 30)); // 최대 30까지 증가
-  const decreaseFontSize = () => setFontSize((prev) => Math.max(prev - 2, 10)); // 최소 10까지 감소
+  const setYouthFont = () => setFontSize(16); // 청년
+  const setActiveSeniorFont = () => setFontSize(19); // 액티브 시니어
+  const setSeniorFont = () => setFontSize(22); // 시니어
+
+  // 🔹 현재 폰트 크기에 따른 경로 반환
+  const getNavigationPath = () => {
+    if (fontSize <= 17) return '/Home/main-page_small';
+    if (fontSize <= 21) return '/Home/main-page';
+    return '/Home/main-page_large';
+  };
+
+  const handleConfirm = () => {
+    router.push(getNavigationPath());
+  };
 
   return (
     <View style={styles.container}>
@@ -26,11 +40,14 @@ export default function FontSizeAdjustmentScreen() {
 
       {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="- 작게" color="#3DB2FF" onPress={decreaseFontSize} />
-        <HalfButton title="+ 크게" onPress={increaseFontSize}/>
+      <HalfButton title="청년" color="#70C6E9" onPress={setYouthFont} />
+      <HalfButton title="액티브 시니어" color="#4F9ED3" onPress={setActiveSeniorFont} />
+      <HalfButton title="시니어" color="#0C7BBC" onPress={setSeniorFont} />
       </View>
 
-    
+      {/* ✅ 확인 버튼 추가 */}
+      <FullButton title="확인" onPress={handleConfirm} />
+
       <BottomNavBar />
     </View>
   );
@@ -46,7 +63,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontFamily:'Bold',
+    fontFamily: 'Bold',
     marginBottom: 30,
   },
   previewContainer: {
@@ -61,29 +78,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   previewText: {
-    fontWeight: 'bold',
+    fontFamily: 'Medium'
   },
-
-  button: {
-    flex: 1,
-    paddingVertical: 15,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
     width: '100%',
-    paddingHorizontal: 40,
+    marginBottom:20
   },
 });
 

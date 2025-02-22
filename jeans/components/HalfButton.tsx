@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5, // 버튼 간격
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Medium',
   },
 });

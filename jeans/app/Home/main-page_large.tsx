@@ -107,18 +107,18 @@ export default function HomeUILayout() {
         </TouchableOpacity>
       )}
 
-      {/* 공유된 사진 */}
       <View style={styles.photosContainer}>
-  <View style={styles.photosScrollWrapper}>
-    <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
-      {sharedPhotos[selectedFriend.name]?.map((photo) => (
-        <TouchableOpacity key={photo.id} onPress={() => router.push({ pathname: '/Home/photo-detail', params: { photoId: photo.id } })}>
-          <Image source={photo.imageUrl} style={styles.sharedPhoto} />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  </View>
-</View>
+        <ScrollView contentContainerStyle={styles.photoList} showsVerticalScrollIndicator={false}>
+          {sharedPhotos[selectedFriend.name]?.map((photo) => (
+            <TouchableOpacity 
+              key={photo.id} 
+              onPress={() => router.push({ pathname: '/Home/photo-detail', params: { photoId: photo.id } })}
+            >
+              <Image source={photo.imageUrl} style={styles.sharedPhoto} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
 
       <BottomNavBar />
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 130, // 고정 위치 (TopNavBar 아래)
+    top: 145, // 고정 위치 (TopNavBar 아래)
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
@@ -145,12 +145,12 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 27,
+    fontSize: 30,
     fontFamily: 'Bold',
-    marginBottom:5
+    marginBottom:16
   },
   description: {
-    fontSize: 17,
+    fontSize: 22,
     color: '#555',
     fontFamily: 'Medium',
   },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   /** 📌 수정된 공유 버튼 스타일 */
   shareButton: {
     position: 'absolute', // 고정 위치
-    top: 120, // 네비게이션 바 아래
+    top: 118, // 네비게이션 바 아래
     right: 15, // 오른쪽 끝
     width: 60, // 버튼 크기 조정
     height: 60,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
 
   /** 📌 친구 목록 */
   friendsContainer: {
-    marginTop: 200, // 고정된 타이틀 아래 배치
+    marginTop: 240, // 고정된 타이틀 아래 배치
     marginBottom: 20,
   },
   friendsScrollWrapper: {
@@ -209,17 +209,18 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   profileImage: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     borderRadius: 30,
   },
   blurred: {
     opacity: 0.3, // 블러 효과 (투명도 적용)
   },
   friendName: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Medium',
     marginTop: 5,
+    backgroundColor: '#FFE2E5'
   },
   rightArrow: {
     position: 'absolute',
@@ -257,10 +258,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sharedPhoto: {
-    width: 160,
-    height:160,
+    width: 320,
+    height:250,
     aspectRatio: 1,
-    marginBottom: 5,
+    marginBottom: 10,
     borderRadius: 10,
   },
   highlightedText: {
@@ -270,5 +271,10 @@ const styles = StyleSheet.create({
   },
   defaultText: {
     color: '#555', // 기본 텍스트 색상 (회색 계열)
+  },
+  photoList: {
+    flexDirection: 'column', // 사진을 세로 정렬
+    alignItems: 'center', // 중앙 정렬
+    paddingBottom: 20, // 하단 여백 추가
   },
 });
