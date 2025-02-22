@@ -1,12 +1,59 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function MyPageScreen() {
   const router = useRouter();
+  const [profile, setProfile] = useState({
+    name: '',
+    birthday: '',
+    phone: '',
+    profileUrl: null,
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const accessToken = await AsyncStorage.getItem('accessToken');
+        if (!accessToken) {
+          Alert.alert('오류', '로그인이 필요합니다.');
+          return;
+        }
+
+        const response = await fetch('https://api.passion4-jeans.store/my/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('프로필 정보를 불러오는 데 실패했습니다.');
+        }
+
+        const data = await response.json();
+        console.log('📌 내 정보:', data);
+
+        setProfile({
+          name: data.name || '',
+          birthday: data.birthday || '',
+          phone: data.phone || '',
+          profileUrl: data.profileUrl || null,
+        });
+
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류 발생";
+        Alert.alert("오류", errorMessage);
+      }
+      
+    };
+
+    fetchProfile();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -14,14 +61,17 @@ export default function MyPageScreen() {
 
       {/* 📌 프로필 섹션 */}
       <View style={styles.profileContainer}>
-        {/* 🔹 프로필 이미지 (왼쪽 정렬) */}
-        <Image source={require('../../assets/images/icon.png')} style={styles.profileImage} />
+        {/* 🔹 프로필 이미지 */}
+        <Image
+          source={profile.profileUrl ? { uri: profile.profileUrl } : require('../../assets/images/icon.png')}
+          style={styles.profileImage}
+        />
 
         {/* 🔹 프로필 정보 (이름, 생년월일, 전화번호) */}
         <View style={styles.profileInfo}>
-          <Text style={styles.userName}>김덕배</Text>
-          <Text style={styles.userDetail}>생년월일: 1990.01.01</Text>
-          <Text style={styles.userDetail}>전화번호: 010-1234-5678</Text>
+          <Text style={styles.userName}>{profile.name || '이름 없음'}</Text>
+          <Text style={styles.userDetail}>생년월일: {profile.birthday || '미등록'}</Text>
+          <Text style={styles.userDetail}>전화번호: {profile.phone || '미등록'}</Text>
         </View>
       </View>
 
@@ -72,16 +122,17 @@ const styles = StyleSheet.create({
   },
   /** 📌 프로필 섹션 */
   profileContainer: {
-    flexDirection: 'row', // 🔹 가로 정렬
-    alignItems: 'center', // 🔹 세로 중앙 정렬
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 140,
     marginBottom: 25,
   },
   profileImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    marginRight: 15, // 🔹 오른쪽 여백 추가
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 30,
+    marginLeft:10
   },
   profileInfo: {
     justifyContent: 'center',
@@ -91,10 +142,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Bold',
   },
   userDetail: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
     fontFamily: 'Medium',
-    marginTop: 3, // 🔹 간격 조정
+    marginTop: 3,
   },
 
   /** 📌 설정 목록 */
@@ -115,3 +166,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
   },
 });
+
