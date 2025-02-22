@@ -1,56 +1,117 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
-const dummyFriends = [
-  { id: 1, name: '김춘자', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
-  { id: 2, name: '이순복', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
-  { id: 3, name: '박영남', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
-  { id: 4, name: '박보석', relation: '아들', profileImage: require('../../assets/images/selec1.jpg') },
-  { id: 5, name: '박준용', relation: '손자', profileImage: require('../../assets/images/selec1.jpg') },
-  { id: 6, name: '유삼복', relation: '친구', profileImage: require('../../assets/images/selec1.jpg') },
-];
+type Friend = {
+  memberId: number;
+  name: string;
+  profileUrl: string;
+  nickname?: string;
+};
 
 export default function FriendListScreen() {
   const router = useRouter();
-  const [selectedFriend, setSelectedFriend] = useState<number | null>(null);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
-  // 친구 선택 시 실행되는 함수
-  const selectFriend = (friendId: number) => {
-    setSelectedFriend(friendId === selectedFriend ? null : friendId);
+  // 🔹 API 호출하여 친구 목록 가져오기
+  useEffect(() => {
+    const fetchFriends = async () => {
+      setLoading(true);
+      try {
+        console.log("🚀 API 요청 시작: /follow-list");
+
+        // ✅ accessToken 가져오기
+        const token = await AsyncStorage.getItem("accessToken");
+        if (!token) {
+          console.log("❌ 액세스 토큰 없음 → 로그인 필요");
+          Alert.alert("로그인이 필요합니다.");
+          return;
+        }
+
+        const response = await fetch("https://api.passion4-jeans.store/follow-list", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        console.log("🔹 API 응답 상태 코드:", response.status);
+        let responseText = await response.text();
+        console.log("🔹 API 응답 본문:", responseText);
+
+        if (response.status === 403) {
+          Alert.alert("오류", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+          await AsyncStorage.removeItem("accessToken");
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`친구 목록을 불러오는 데 실패했습니다. (${response.status})`);
+        }
+
+        const data = JSON.parse(responseText);
+        console.log("✅ 친구 목록 데이터:", data);
+
+        setFriends(data || []);
+      } catch (error) {
+        console.error("❌ API 요청 실패:", error);
+        Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFriends();
+  }, []);
+
+  // 🔹 친구 선택 시 실행되는 함수
+  const selectFriend = (friend: Friend) => {
+    setSelectedFriend(friend === selectedFriend ? null : friend);
   };
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
+      {/* 🔹 타이틀 */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>친구 목록 및 {'\n'}별명 생성하기</Text>
       </View>
 
-      <FlatList
-        data={dummyFriends}
-        numColumns={3}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.friendCard, selectedFriend === item.id && styles.selectedFriend]}
-            onPress={() => selectFriend(item.id)}>
-            <View style={styles.friendCardContent}>
-              <Image source={item.profileImage} style={styles.friendImage} />
-              <Text style={styles.friendName}>{item.name}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.friendsContainer}
-      />
+      {/* 🔹 로딩 중 표시 */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#008DBF" />
+      ) : (
+        <FlatList
+          data={friends}
+          numColumns={3}
+          keyExtractor={(item) => item.memberId.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[styles.friendCard, selectedFriend?.memberId === item.memberId && styles.selectedFriend]}
+              onPress={() => selectFriend(item)}
+            >
+              <View style={styles.friendCardContent}>
+                <Image source={{ uri: item.profileUrl }} style={styles.friendImage} />
+                <Text style={styles.friendName}>{item.nickname || item.name}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.friendsContainer}
+        />
+      )}
 
+      {/* 🔹 '별명 만들기' 버튼 */}
       <TouchableOpacity
-        style={[styles.confirmButton, selectedFriend === null && styles.disabledButton]}
-        onPress={() => router.push('/Friend/make-relation')}
-        disabled={selectedFriend === null}>
+        style={[styles.confirmButton, !selectedFriend && styles.disabledButton]}
+        onPress={() => router.push({ pathname: '/Friend/make-relation', params: { memberId: selectedFriend?.memberId } })}
+        disabled={!selectedFriend}
+      >
         <Text style={styles.confirmText}>별명 만들기</Text>
       </TouchableOpacity>
 
@@ -75,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginTop:15
+    marginTop: 15,
   },
   friendsContainer: {
     justifyContent: 'center',
@@ -91,11 +152,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     elevation: 4,
     borderWidth: 2,
-    borderColor:'white'
+    borderColor: 'white',
   },
   selectedFriend: {
     borderColor: '#FF616D',
-    borderWidth:5
+    borderWidth: 5,
   },
   friendCardContent: {
     justifyContent: 'center',
