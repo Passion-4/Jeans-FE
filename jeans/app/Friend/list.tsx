@@ -16,7 +16,7 @@ export default function FriendListScreen() {
   const router = useRouter();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFriend, setSelectedFriend] = useState<number | null>(null);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   // 🔹 API 호출하여 친구 목록 가져오기
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function FriendListScreen() {
         const response = await fetch("https://api.passion4-jeans.store/follow-list", {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${token}`, // ✅ accessToken 포함
+            "Authorization": `Bearer ${token}`,
           },
         });
 
@@ -44,10 +44,9 @@ export default function FriendListScreen() {
         let responseText = await response.text();
         console.log("🔹 API 응답 본문:", responseText);
 
-        // 🔹 API 응답이 403이면 토큰이 만료되었을 가능성 있음
         if (response.status === 403) {
           Alert.alert("오류", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
-          await AsyncStorage.removeItem("accessToken"); // ✅ 토큰 삭제
+          await AsyncStorage.removeItem("accessToken");
           return;
         }
 
@@ -58,7 +57,7 @@ export default function FriendListScreen() {
         const data = JSON.parse(responseText);
         console.log("✅ 친구 목록 데이터:", data);
 
-        setFriends(data || []); // ✅ 친구 목록 저장
+        setFriends(data || []);
       } catch (error) {
         console.error("❌ API 요청 실패:", error);
         Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
@@ -71,8 +70,8 @@ export default function FriendListScreen() {
   }, []);
 
   // 🔹 친구 선택 시 실행되는 함수
-  const selectFriend = (friendId: number) => {
-    setSelectedFriend(friendId === selectedFriend ? null : friendId);
+  const selectFriend = (friend: Friend) => {
+    setSelectedFriend(friend === selectedFriend ? null : friend);
   };
 
   return (
@@ -94,8 +93,8 @@ export default function FriendListScreen() {
           keyExtractor={(item) => item.memberId.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={[styles.friendCard, selectedFriend === item.memberId && styles.selectedFriend]}
-              onPress={() => selectFriend(item.memberId)}
+              style={[styles.friendCard, selectedFriend?.memberId === item.memberId && styles.selectedFriend]}
+              onPress={() => selectFriend(item)}
             >
               <View style={styles.friendCardContent}>
                 <Image source={{ uri: item.profileUrl }} style={styles.friendImage} />
@@ -109,9 +108,9 @@ export default function FriendListScreen() {
 
       {/* 🔹 '별명 만들기' 버튼 */}
       <TouchableOpacity
-        style={[styles.confirmButton, selectedFriend === null && styles.disabledButton]}
-        onPress={() => router.push('/Friend/make-relation')}
-        disabled={selectedFriend === null}
+        style={[styles.confirmButton, !selectedFriend && styles.disabledButton]}
+        onPress={() => router.push({ pathname: '/Friend/make-relation', params: { memberId: selectedFriend?.memberId } })}
+        disabled={!selectedFriend}
       >
         <Text style={styles.confirmText}>별명 만들기</Text>
       </TouchableOpacity>
