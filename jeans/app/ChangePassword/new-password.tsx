@@ -4,6 +4,7 @@ import { useSignup } from "@/hooks/SignupContext"; // ✅ Context 연결
 import { Ionicons } from "@expo/vector-icons";
 import FullButton from "@/components/FullButton";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignupPassword() {
   const router = useRouter();
@@ -58,15 +59,40 @@ export default function SignupPassword() {
   };
 
   // 🔹 다음 버튼 동작
-  const handleNext = () => {
-
+  const handleNext = async () => {
     if (password !== confirmPassword) {
       Alert.alert("비밀번호 불일치", "비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
       return;
     }
-
-    updateSignupData("password", password);
-    router.push("/ChangePassword/change-password-complete");
+  
+    try {
+      const accessToken = await AsyncStorage.getItem("accessToken"); // ✅ 인증 토큰 가져오기
+      if (!accessToken) {
+        Alert.alert("오류", "로그인이 필요합니다.");
+        return;
+      }
+  
+      const response = await fetch("https://api.passion4-jeans.store/my/password", {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newPassword: password }), // ✅ 요청 바디 추가
+      });
+  
+      const responseText = await response.text();
+      console.log("📌 서버 응답:", responseText);
+  
+      if (response.ok) {
+        Alert.alert("비밀번호 변경 완료", "비밀번호가 성공적으로 변경되었습니다.");
+        router.push("/ChangePassword/change-password-complete");
+      } else {
+        throw new Error(responseText || "비밀번호 변경 실패");
+      }
+    } catch (error) {
+      Alert.alert("오류", error instanceof Error ? error.message : "비밀번호 변경 중 문제가 발생했습니다.");
+    }
   };
 
   return (
