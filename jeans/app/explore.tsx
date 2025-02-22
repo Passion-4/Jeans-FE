@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // ✅ 토큰 저장
 import FullButton from "../components/FullButton";
 
 export default function LoginScreen() {
@@ -21,9 +22,7 @@ export default function LoginScreen() {
     try {
       const response = await fetch("https://api.passion4-jeans.store/members/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password }),
       });
 
@@ -34,10 +33,11 @@ export default function LoginScreen() {
         throw new Error(responseData.message || "로그인 정보가 없습니다.");
       }
 
-      Alert.alert("로그인 성공", "환영합니다!");
+      // ✅ 로그인 성공 시 토큰 저장
+      await AsyncStorage.setItem("accessToken", responseData.accessToken);
 
-      // ✅ 홈 화면으로 이동
-      router.push("/Set/face-input");
+      Alert.alert("로그인 성공", "환영합니다!");
+      router.push("/Set/face-input"); // ✅ 홈 화면으로 이동
     } catch (error) {
       let errorMessage = "로그인 실패. 다시 시도해주세요.";
       if (error instanceof Error) {
