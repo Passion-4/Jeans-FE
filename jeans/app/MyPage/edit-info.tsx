@@ -126,7 +126,7 @@ export default function GroupEditScreen() {
 
           {/* 프로필 사진 수정 버튼 */}
           <TouchableOpacity style={styles.imageEditButton} onPress={handleChangeName}>
-            <Text style={styles.imageEditText}>프로필 사진 수정</Text>
+            <Text style={styles.imageEditText}>프로필 사진 변경</Text>
           </TouchableOpacity>
 
           {/* 이름 입력 필드 */}
@@ -152,11 +152,11 @@ export default function GroupEditScreen() {
           </View>
 
           <View style={styles.buttonContainer}>
-            <HalfButton title="비밀번호 바꾸기" onPress={() => router.push('/ChangePassword/origin-password')} color="#3DB2FF" />
-            <HalfButton title="기본 보정값 바꾸기" onPress={() => router.push('/Set/photo-selection0')} color="#3DB2FF" />
+            <HalfButton title="비밀번호 변경" onPress={() => router.push('/ChangePassword/origin-password')} color="#3DB2FF" />
+            <HalfButton title="기본 보정값 변경" onPress={() => router.push('/Set/photo-selection0')} color="#3DB2FF" />
           </View>
 
-          <FullButton title="이름 변경" onPress={handleChangeName} />
+          <FullButton title="정보 저장" onPress={handleChangeName} />
         </>
       )}
 
@@ -211,19 +211,21 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
     paddingVertical: 5,
-    marginTop:30
+    marginTop:10
   },
   editIcon: {
     padding: 5,
     marginRight: 5,
+    marginBottom:-10
   },
   input: {
     flex: 1,
-    height: 40,
+    height: 60,
     fontSize: 20,
     textAlign: 'left',
     paddingHorizontal: 5,
     fontFamily: 'Medium',
+    marginBottom:-10
   },
   confirmButton: {
     backgroundColor: '#008DBF',
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    width: '103%',
     marginBottom: 20,
   },
 });
