@@ -4,6 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import CustomButton from '@/components/FullButton';
 
 type Group = {
   teamId: number;
@@ -75,33 +76,27 @@ export default function ShareCheckGroupScreen() {
       ) : group ? (
         <>
           {/* 타이틀 */}
-          <Text style={styles.title}>그룹이 존재합니다</Text>
+          <Text style={styles.title}>그룹이 이미 존재합니다.</Text>
 
           {/* 그룹 정보 표시 */}
           <View style={styles.groupContainer}>
             <Image 
-              source={group.imageUrl ? { uri: group.imageUrl } : require('../../assets/images/icon.png')} // ✅ 그룹 이미지
+              source={group.imageUrl ? { uri: group.imageUrl } : require('../../assets/images/group-default.png')} // ✅ 그룹 이미지
               style={styles.groupImage}
             />
-            <Text style={styles.groupName}>{group.name}</Text>
-            <Text style={styles.groupType}>그룹</Text>
+            <Text style={styles.groupName}>그룹명 : {group.name}</Text>
           </View>
 
           {/* 버튼 컨테이너 */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-              style={styles.optionButton} 
-              onPress={() => router.push('/Share/share-voice')}
-            >
-              <Text style={styles.buttonText}>그룹에 보내기</Text>
-            </TouchableOpacity>
+          <CustomButton 
+  title='이 그룹에 전송' 
+  onPress={() => router.push({ 
+    pathname: '/Share/share-voice', 
+    params: { shareType: 'team', teamId: group.teamId }
+  })}
+/>
 
-            <TouchableOpacity 
-              style={styles.backButton} 
-              onPress={() => router.back()}
-            >
-              <Text style={styles.buttonText}>뒤로가기</Text>
-            </TouchableOpacity>
           </View>
         </>
       ) : (
@@ -123,9 +118,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontFamily:'Bold',
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 30,
+    marginTop:50
   },
   groupContainer: {
     alignItems: 'center',
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
   },
   groupName: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily:'Medium',
     marginBottom: 10,
   },
   groupType: {

@@ -9,9 +9,9 @@ import FullButton from '../../components/FullButton'; // ✅ FullButton 불러�
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
-  const {setSelectedImages} = useImageContext(); // ✅ 이미지 저장을 위한 context 사용
+  const { setSelectedImages } = useImageContext(); // ✅ Context 사용
 
-  // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
+  // 갤러리에서 사진 선택 -> 선택 즉시 Context 저장 후 이동
   const pickImages = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -23,10 +23,10 @@ export default function PhotoSelectionScreen() {
     if (!result.canceled && result.assets) {
       const imageUris = result.assets.map((asset) => asset.uri);
 
-      setSelectedImages(imageUris); // ✅ 선택한 이미지를 글로벌 상태에 저장
+      setSelectedImages(imageUris); // ✅ Context에 선택한 이미지 저장
 
-      // 선택된 사진을 다음 화면으로 전달하면서 자동 이동
-      router.push('/Share/share-select-friend');
+      console.log("📸 선택한 이미지 목록:", imageUris);
+      router.push('/Share/share-select-friend'); // ✅ 다음 화면으로 이동
     }
   }, [router, setSelectedImages]);
 
@@ -34,10 +34,8 @@ export default function PhotoSelectionScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
       <Text style={styles.title}>공유할 사진을{'\n'}선택해주세요.</Text>
 
-      {/* 로컬 이미지 */}
       <Image 
         source={require('../../assets/images/photo1.png')} 
         style={styles.image}
@@ -70,6 +68,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 190,
     marginBottom: 30,
-    marginTop:20
+    marginTop: 20,
   },
 });

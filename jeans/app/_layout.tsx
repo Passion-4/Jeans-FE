@@ -5,11 +5,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { ImageProvider } from './Context/ImageContext';  // ImageProvider 추가
+import { ImageProvider } from './Context/ImageContext';  
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { SignupProvider } from '@/hooks/SignupContext';
+import { useImageContext } from './Context/ImageContext';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -34,7 +34,7 @@ export default function RootLayout() {
 
   return (
     <SignupProvider>
-      <ImageProvider>  {/* ImageProvider로 감싸줌 */}
+      <ImageProvider> 
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           {/* 앱 시작 시 첫 화면 */}
@@ -131,7 +131,6 @@ export default function RootLayout() {
           <Stack.Screen name="Quote/quote-complete-basic" options={{ title: '좋은 글귀  - 갤러리 - 생성 완료', headerShown: false}} />
           <Stack.Screen name="Quote/quote-complete-gallery" options={{ title: '좋은 글귀  - 기본 이미지 - 생성 완료', headerShown: false}} />
           
-
           {/* not found */}
           <Stack.Screen name="+not-found" />
 

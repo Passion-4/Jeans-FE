@@ -110,24 +110,48 @@ export default function ShareFriendSelection() {
           )
         : [...prev, item];
   
-      console.log("🔹 선택된 친구 리스트 (업데이트됨):", updatedList); // ✅ 상태 확인 로그 추가
+      console.log("🔹 선택된 친구 리스트 (업데이트됨):", updatedList);
       return updatedList;
     });
   };
+  
 
-  // ✅ '다음' 버튼 클릭 시 이동할 경로
-  // ✅ '다음' 버튼 클릭 시 selectedFriends 저장 후 이동
+
   const handleConfirm = () => {
-    const isGroupSelected = selectedFriends.some((item) => 'teamId' in item);
-
-    console.log("🚀 다음 페이지로 보낼 데이터:", JSON.stringify(selectedFriends));
-
-    if (isGroupSelected || selectedFriends.length === 1) {
-      router.push('/Share/share-voice');
-    } else if (selectedFriends.length > 1) {
-      router.push('/Share/share-select-target');
+    const selectedMemberIds = selectedFriends
+      .filter((item) => 'memberId' in item)
+      .map((item) => item.memberId);
+  
+    const selectedTeamIds = selectedFriends
+      .filter((item) => 'teamId' in item)
+      .map((item) => item.teamId);
+  
+    console.log("🚀 다음 페이지로 보낼 데이터:");
+    console.log("📌 친구 리스트 (memberId):", selectedMemberIds);
+    console.log("📌 팀 리스트 (teamId):", selectedTeamIds);
+  
+    if (selectedTeamIds.length > 0) {
+      // 팀 공유인 경우 (팀 여러 개 선택 가능)
+      router.push({
+        pathname: '/Share/share-voice',
+        params: { shareType: 'team', teamId: JSON.stringify(selectedTeamIds) }
+      });
+    } else if (selectedMemberIds.length === 1) {
+      // 친구 1명 공유
+      router.push({
+        pathname: '/Share/share-voice',
+        params: { shareType: 'friend', receiverList: JSON.stringify(selectedMemberIds) }
+      });
+    } else if (selectedMemberIds.length > 1) {
+      // 친구 여러 명 공유
+      router.push({
+        pathname: '/Share/share-select-target',
+        params: { shareType: 'friend', receiverList: JSON.stringify(selectedMemberIds) }
+      });
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>
@@ -159,7 +183,9 @@ export default function ShareFriendSelection() {
               onPress={() => toggleFriendSelection(item)}
             >
               <Image source={{ uri: "memberId" in item ? item.profileUrl : item.imageUrl }} style={styles.friendImage} />
-              <Text style={styles.friendName}>{'memberId' in item ? item.memberId : 'Unknown ID'}</Text> 
+              <Text style={styles.friendName}>{'memberId' in item ? item.nickname : item.name}</Text> 
+              <Text style={styles.friendName2}>{'memberId' in item ? '친구' : '그룹'}</Text> 
+              
             </TouchableOpacity>
           )}
           contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
@@ -194,7 +220,7 @@ const styles = StyleSheet.create({
     marginTop: 150,
   },
   title: {
-    fontSize: 31,
+    fontSize: 30,
     fontFamily: 'Bold',
   },
   friendsContainer: {
@@ -224,8 +250,13 @@ const styles = StyleSheet.create({
     marginBottom: 7,
   },
   friendName: {
-    fontSize: 20,
+    fontSize: 18,
+    fontFamily: 'Bold',
+  },
+  friendName2: {
+    fontSize: 16,
     fontFamily: 'Medium',
+    color:"#555"
   },
   customButton: {
     width: '100%',
