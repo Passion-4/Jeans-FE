@@ -1,130 +1,195 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import { Ionicons } from '@expo/vector-icons';
 
+// ✅ 친구/팀 데이터 타입 정의
+type Friend = {
+  memberId?: number;  // 개별 친구일 경우
+  teamId?: number;    // 그룹일 경우
+  name: string;
+  imageUrl: string;
+  nickname?: string;
+};
+
+type Photo = {
+  photoId: number;
+  photoUrl: string;
+};
+
 export default function HomeUILayout() {
   const router = useRouter();
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photoLoading, setPhotoLoading] = useState(false);
 
-  // 프로필 사진 데이터
-  const friends = [
-    { id: 1, name: '김덕배(나)', profileImage: require('../../assets/images/friend1.jpg'), isGroup: false },
-    { id: 2, name: '박영남', profileImage: require('../../assets/images/friend2.jpg'), isGroup: false },
-    { id: 3, name: '이순복', profileImage: require('../../assets/images/friend3.jpg'), isGroup: false },
-    { id: 4, name: '박보석(아들)', profileImage: require('../../assets/images/son.jpg'), isGroup: false },
-    { id: 5, name: '가족', profileImage: require('../../assets/images/family.jpg'), isGroup: true }, // 그룹
-  ];
+  // 🔹 API 호출하여 친구 목록 가져오기
+  useEffect(() => {
+    const fetchFriends = async () => {
+      setLoading(true);
+      try {
+        let token = await AsyncStorage.getItem("accessToken");
+        if (!token) {
+          Alert.alert("오류", "로그인이 필요합니다.");
+          setLoading(false);
+          return;
+        }
 
-  // 공유된 사진 
-  const sharedPhotos: Record<string, { id: number; imageUrl: any }[]> = {
-    '김덕배(나)': [
-      { id: 1, imageUrl: require('../../assets/images/photo2.png') },
-      { id: 2, imageUrl: require('../../assets/images/photo2.png') },
-    ],
-    '이순복': [
-      { id: 3, imageUrl: require('../../assets/images/photo2.png') },
-      { id: 4, imageUrl: require('../../assets/images/photo2.png') },
-    ],
-    '박영남': [
-      { id: 5, imageUrl: require('../../assets/images/photo2.png') },
-      { id: 6, imageUrl: require('../../assets/images/photo2.png') },
-    ],
-    '박보석(아들)': [
-      { id: 7, imageUrl: require('../../assets/images/photo2.png') },
-      { id: 8, imageUrl: require('../../assets/images/photo2.png') },
-    ],
-    '가족 그룹': [
-      { id: 9, imageUrl: require('../../assets/images/photo2.png') },
-      { id: 10, imageUrl: require('../../assets/images/photo2.png') },
-    ],
+        console.log("🚀 API 요청 시작: /home-list");
+        let response = await fetch("https://api.passion4-jeans.store/home-list", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`데이터 불러오기 실패 (${response.status})`);
+        }
+
+        const data: Friend[] = await response.json();
+        console.log("✅ 친구 및 팀 목록 가져오기 성공:", data);
+
+        setFriends(data);
+        if (data.length > 0) {
+          setSelectedFriend(data[0]); // ✅ 기본 선택 값 설정
+          fetchPhotos(data[0]); // ✅ 기본값 사진 가져오기
+        }
+      } catch (error) {
+        console.error("❌ API 요청 실패:", error);
+        Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFriends();
+  }, []);
+
+  // 🔹 선택한 친구/팀에 따라 사진 목록 가져오기
+  const fetchPhotos = async (friend: Friend) => {
+    setPhotoLoading(true);
+    try {
+      let token = await AsyncStorage.getItem("accessToken");
+      if (!token) {
+        Alert.alert("오류", "로그인이 필요합니다.");
+        setPhotoLoading(false);
+        return;
+      }
+
+      let url = "";
+      if (friend.memberId == 1) { // 1 대신해서 지금 로그인한 사람이 누구인지 확인할 수 있는 값이 필요요
+        url = "https://api.passion4-jeans.store/feed"; // ✅ "나" 선택 시
+      } else if (friend.memberId) {
+        url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`; // ✅ 친구 선택 시
+      } else if (friend.teamId) {
+        url = `https://api.passion4-jeans.store/team-photos/${friend.teamId}`; // ✅ 그룹 선택 시
+      }
+
+      console.log(`🚀 API 요청 시작: ${url}`);
+
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`사진 불러오기 실패 (${response.status})`);
+      }
+
+      const data: Photo[] = await response.json();
+      console.log("✅ 사진 목록 가져오기 성공:", data);
+
+      setPhotos(data);
+    } catch (error) {
+      console.error("❌ 사진 가져오기 실패:", error);
+      Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+    } finally {
+      setPhotoLoading(false);
+    }
   };
-
-  const [selectedFriend, setSelectedFriend] = useState(friends[0]); // 기본값: 김춘자(나)
 
   return (
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 고정된 타이틀 & 버튼 */}
+      {/* 🔹 타이틀 & 공유 버튼 */}
       <View style={styles.fixedHeader}>
-      <View>
-        <Text style={styles.title}>친구들 소식 확인</Text>
-        <Text style={styles.description}>
-          {selectedFriend.isGroup ? (
-            <>
-              <Text style={styles.defaultText}>[</Text>
-              <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
-              <Text style={styles.defaultText}>] 그룹과 나눈 추억을 둘러보세요.</Text>
-            </>
-          ) : (
-            <>
-              <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
-              <Text style={styles.defaultText}>님의 추억을 둘러보세요.</Text>
-            </>
-          )}
-        </Text>
-      </View>
-    </View>
-
-      {/* 공유 버튼 */}
-<TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
-  <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
-  <Text style={styles.shareText}>공유</Text>
-</TouchableOpacity>
-
-
-      {/* 친구 목록 */}
-      <View style={styles.friendsContainer}>
-        <View style={styles.friendsScrollWrapper}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {friends.map((friend) => (
-              <TouchableOpacity
-                key={friend.id}
-                style={styles.friendItem}
-                onPress={() => setSelectedFriend(friend)}
-              >
-                <Image
-                  source={friend.profileImage}
-                  style={[
-                    styles.profileImage,
-                    selectedFriend.id !== friend.id && styles.blurred, // 선택된 친구가 아니면 블러 처리
-                  ]}
-                />
-                <Text style={styles.friendName}>{friend.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-          <Ionicons name="chevron-forward-outline" size={24} color="#008DBF" style={styles.rightArrow} />
+        <View>
+          <Text style={styles.title}>친구들 소식 확인</Text>
+          <Text style={styles.description}>
+            {selectedFriend && (
+              selectedFriend.teamId ? (
+                <>
+                  <Text style={styles.defaultText}>[</Text>
+                  <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
+                  <Text style={styles.defaultText}>] 그룹과 나눈 추억을 둘러보세요.</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
+                  <Text style={styles.defaultText}>님의 추억을 둘러보세요.</Text>
+                </>
+              )
+            )}
+          </Text>
         </View>
       </View>
 
-      {/* 그룹 선택 시 프로필 수정 버튼 */}
-      {selectedFriend.isGroup && (
-        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/Home/group-img-edit')}>
-          <Text style={styles.editProfileText}>그룹 프로필 수정</Text>
-        </TouchableOpacity>
-      )}
+      {/* 🔹 공유 버튼 */}
+      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
+        <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
+        <Text style={styles.shareText}>공유</Text>
+      </TouchableOpacity>
 
-      {/* 공유된 사진 */}
+      {/* 🔹 친구 목록 */}
+      <View style={styles.friendsContainer}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#008DBF" />
+        ) : (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.friendsScrollWrapper}>
+            {friends.map((friend) => (
+              <TouchableOpacity
+                key={friend.memberId || friend.teamId}
+                style={styles.friendItem}
+                onPress={() => {
+                  setSelectedFriend(friend);
+                  fetchPhotos(friend);
+                }}
+              >
+                <Image source={{ uri: friend.imageUrl }} style={styles.profileImage} />
+                <Text style={styles.friendName}>{friend.nickname || friend.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
+      </View>
+
+      {/* 🔹 공유된 사진 */}
       <View style={styles.photosContainer}>
-  <View style={styles.photosScrollWrapper}>
-    <ScrollView contentContainerStyle={styles.photoGrid} showsVerticalScrollIndicator={false}>
-      {sharedPhotos[selectedFriend.name]?.map((photo) => (
-        <TouchableOpacity key={photo.id} onPress={() => router.push({ pathname: '/Home/photo-detail', params: { photoId: photo.id } })}>
-          <Image source={photo.imageUrl} style={styles.sharedPhoto} />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  </View>
-</View>
-
+        {photoLoading ? (
+          <ActivityIndicator size="large" color="#008DBF" />
+        ) : (
+          <ScrollView contentContainerStyle={styles.photoGrid}>
+            {photos.map((photo) => (
+              <Image key={photo.photoId} source={{ uri: photo.photoUrl }} style={styles.sharedPhoto} />
+            ))}
+          </ScrollView>
+        )}
+      </View>
 
       <BottomNavBar />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -137,66 +202,54 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    top: 130, // 고정 위치 (TopNavBar 아래)
+    top: 130,
     left: 15,
     right: 15,
     backgroundColor: '#FFFFFF',
     zIndex: 10,
-
   },
   title: {
     fontSize: 27,
     fontFamily: 'Bold',
-    marginBottom:5
+    marginBottom: 5,
   },
   description: {
     fontSize: 17,
     color: '#555',
     fontFamily: 'Medium',
   },
-
-  /** 📌 수정된 공유 버튼 스타일 */
   shareButton: {
-    position: 'absolute', // 고정 위치
-    top: 120, // 네비게이션 바 아래
-    right: 15, // 오른쪽 끝
-    width: 60, // 버튼 크기 조정
+    position: 'absolute',
+    top: 120,
+    right: 15,
+    width: 60,
     height: 60,
-    borderRadius: 15, // 네모 모서리 둥글게
-    backgroundColor: '#F5F5F5', // ✅ 네모 배경 흰색
+    borderRadius: 15,
+    backgroundColor: '#F5F5F5',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
-    zIndex: 999, // 모든 요소보다 앞에
-    marginTop: 10,
-
-    // ✅ 그림자 효과 추가
+    zIndex: 999,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 6,
-    elevation: 5, // ✅ 안드로이드 그림자 지원
+    elevation: 5,
   },
-
-  /** 공유 아이콘 스타일 */
   shareIcon: {
-    width: 25, // 아이콘 크기 조정
+    width: 25,
     height: 25,
-    resizeMode: 'contain', // 비율 유지
-    marginBottom: 5, // 텍스트와 간격 추가
+    resizeMode: 'contain',
+    marginBottom: 5,
   },
-
-  /** 공유 텍스트 스타일 */
   shareText: {
     fontSize: 15,
     fontFamily: 'Medium',
-    color: '#333', // 회색 텍스트
+    color: '#333',
     textAlign: 'center',
   },
-
-  /** 📌 친구 목록 */
   friendsContainer: {
-    marginTop: 200, // 고정된 타이틀 아래 배치
+    marginTop: 200,
     marginBottom: 20,
   },
   friendsScrollWrapper: {
@@ -214,7 +267,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   blurred: {
-    opacity: 0.3, // 블러 효과 (투명도 적용)
+    opacity: 0.3,
   },
   friendName: {
     fontSize: 14,
@@ -227,48 +280,15 @@ const styles = StyleSheet.create({
     top: '50%',
     transform: [{ translateY: -12 }],
   },
-
-  /** 프로필 수정 버튼 */
-  editProfileButton: {
-    backgroundColor: '#008DBF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  editProfileText: {
-    color: 'white',
-    fontFamily: 'Medium',
-    fontSize: 18,
-  },
-
-  /** 공유된 사진 */
-  photosContainer: {
-    flex: 1,
-  },
-  photosScrollWrapper: {
-    flex: 1,
-    position: 'relative',
-  },
-  photoGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  sharedPhoto: {
-    width: 160,
-    height:160,
-    aspectRatio: 1,
-    marginBottom: 5,
-    borderRadius: 10,
-  },
   highlightedText: {
-    color: '#008DBF', 
-    fontWeight: 'bold', 
-    fontFamily:'Medium'
+    color: '#008DBF',
+    fontWeight: 'bold',
+    fontFamily: 'Medium',
   },
   defaultText: {
-    color: '#555', // 기본 텍스트 색상 (회색 계열)
+    color: '#555',
   },
+  photosContainer: { flex: 1, marginTop: 10 },
+  photoGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+  sharedPhoto: { width: 160, height: 160, marginBottom: 5, borderRadius: 10 },
 });
