@@ -83,7 +83,7 @@ export default function HomeUILayout() {
       }
 
       let url = "";
-      if (friend.memberId == 1) { // 1 대신해서 지금 로그인한 사람이 누구인지 확인할 수 있는 값이 필요요
+      if (friend.nickname == '나') { // 회원가입시 본인의 닉네임은 무조건 '나'로 만들고 바꿀 수 없게 해야 함.
         url = "https://api.passion4-jeans.store/feed"; // ✅ "나" 선택 시
       } else if (friend.memberId) {
         url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`; // ✅ 친구 선택 시
@@ -154,21 +154,21 @@ export default function HomeUILayout() {
         {loading ? (
           <ActivityIndicator size="large" color="#008DBF" />
         ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.friendsScrollWrapper}>
-            {friends.map((friend) => (
-              <TouchableOpacity
-                key={friend.memberId || friend.teamId}
-                style={styles.friendItem}
-                onPress={() => {
-                  setSelectedFriend(friend);
-                  fetchPhotos(friend);
-                }}
-              >
-                <Image source={{ uri: friend.imageUrl }} style={styles.profileImage} />
-                <Text style={styles.friendName}>{friend.nickname || friend.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.friendsScrollWrapper}>
+              {friends.map((friend, index) => (
+                <TouchableOpacity
+                  key={friend.memberId ? `member-${friend.memberId}` : `team-${friend.teamId}` || `friend-${index}`}
+                  style={styles.friendItem}
+                  onPress={() => {
+                    setSelectedFriend(friend);
+                    fetchPhotos(friend);
+                  }}
+                >
+                  <Image source={{ uri: friend.imageUrl }} style={styles.profileImage} />
+                  <Text style={styles.friendName}>{friend.nickname || friend.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
         )}
       </View>
 
