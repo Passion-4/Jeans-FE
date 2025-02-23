@@ -97,7 +97,14 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/explore')}>
+        <TouchableOpacity
+          style={styles.settingItem}
+          onPress={async () => {
+            await AsyncStorage.removeItem("accessToken"); // 🔥 토큰 삭제
+            Alert.alert("로그아웃", "성공적으로 로그아웃되었습니다.");
+            router.push("/explore"); // 🔥 로그인 페이지로 이동
+          }}
+        >
           <Text style={styles.settingText}>로그아웃</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
