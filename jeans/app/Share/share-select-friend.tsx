@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import useSelectedFriends from '../../hooks/useSelectedFriends'; // ✅ 추가
 
 // ✅ API 응답 데이터 타입 정의
 type Friend = {
@@ -17,7 +18,6 @@ type Team = {
   teamId: number;
   name: string;
   imageUrl: string;
-  nickname?: string;
 };
 
 export default function ShareFriendSelection() {
@@ -25,14 +25,16 @@ export default function ShareFriendSelection() {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
+  //const [selectedFriends, setSelectedFriends] = useState<(Friend | Team)[]>([]);
+  const { selectedFriends, setSelectedFriends } = useSelectedFriends();
+  
 
   // 🔹 API 호출하여 친구 및 팀 목록 가져오기
   useEffect(() => {
     const fetchFriendsAndTeams = async () => {
       setLoading(true);
       try {
-        console.log("🚀 API 요청 시작: /share-list (토큰 없이 요청)");
+        console.log("🚀 API 요청 시작: /share-list");
 
         let response = await fetch("https://api.passion4-jeans.store/share-list", {
           method: "GET",
@@ -92,16 +94,35 @@ export default function ShareFriendSelection() {
     fetchFriendsAndTeams();
   }, []);
 
-  // ✅ 친구 선택 토글 함수
-  const toggleFriendSelection = (id: number) => {
-    setSelectedFriends((prev) =>
-      prev.includes(id) ? prev.filter((fid) => fid !== id) : [...prev, id]
-    );
+  const toggleFriendSelection = (item: Friend | Team) => {
+    setSelectedFriends((prev) => {
+      const isSelected = prev.some((selected) => 
+        'memberId' in item 
+          ? 'memberId' in selected && selected.memberId === item.memberId
+          : 'teamId' in selected && selected.teamId === item.teamId
+      );
+  
+      const updatedList = isSelected
+        ? prev.filter((selected) => 
+            'memberId' in item 
+              ? 'memberId' in selected && selected.memberId !== item.memberId
+              : 'teamId' in selected && selected.teamId !== item.teamId
+          )
+        : [...prev, item];
+  
+      console.log("🔹 선택된 친구 리스트 (업데이트됨):", updatedList); // ✅ 상태 확인 로그 추가
+      return updatedList;
+    });
   };
 
   // ✅ '다음' 버튼 클릭 시 이동할 경로
+  // ✅ '다음' 버튼 클릭 시 selectedFriends 저장 후 이동
   const handleConfirm = () => {
-    if (selectedFriends.length === 1) {
+    const isGroupSelected = selectedFriends.some((item) => 'teamId' in item);
+
+    console.log("🚀 다음 페이지로 보낼 데이터:", JSON.stringify(selectedFriends));
+
+    if (isGroupSelected || selectedFriends.length === 1) {
       router.push('/Share/share-voice');
     } else if (selectedFriends.length > 1) {
       router.push('/Share/share-select-target');
@@ -127,11 +148,18 @@ export default function ShareFriendSelection() {
           keyExtractor={(item) => ("memberId" in item ? `m-${item.memberId}` : `t-${item.teamId}`)}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={[styles.friendCard, selectedFriends.includes("memberId" in item ? item.memberId : item.teamId) && styles.selectedFriend]}
-              onPress={() => toggleFriendSelection("memberId" in item ? item.memberId : item.teamId)}
+              style={[
+                styles.friendCard, 
+                selectedFriends.some((selected) =>
+                  'memberId' in item 
+                    ? 'memberId' in selected && selected.memberId === item.memberId
+                    : 'teamId' in selected && selected.teamId === item.teamId
+                ) && styles.selectedFriend
+              ]}
+              onPress={() => toggleFriendSelection(item)}
             >
               <Image source={{ uri: "memberId" in item ? item.profileUrl : item.imageUrl }} style={styles.friendImage} />
-              <Text style={styles.friendName}>{item.nickname || item.name}</Text>
+              <Text style={styles.friendName}>{'memberId' in item ? item.memberId : 'Unknown ID'}</Text> 
             </TouchableOpacity>
           )}
           contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
@@ -198,7 +226,6 @@ const styles = StyleSheet.create({
   friendName: {
     fontSize: 20,
     fontFamily: 'Medium',
-    marginBottom: 5,
   },
   customButton: {
     width: '100%',

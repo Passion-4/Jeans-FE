@@ -8,6 +8,7 @@ interface CustomButtonProps {
   color?: string;  // 배경색 (기본값 설정 가능)
   textColor?: string; // 텍스트 색상
   loading?: boolean; // ✅ 로딩 상태 추가
+  disabled?: boolean; // ✅ disabled 속성 추가
 }
 
 // 재사용 가능한 버튼 컴포넌트

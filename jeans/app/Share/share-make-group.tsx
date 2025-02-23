@@ -1,18 +1,75 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
+import useSelectedFriends from '../../hooks/useSelectedFriends';
 
 export default function ShareMakeGroupScreen() {
   const router = useRouter();
+  const { selectedFriends } = useSelectedFriends(); // ✅ 선택된 친구 목록 가져오기
   const [groupName, setGroupName] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // 그룹 생성 버튼 클릭 핸들러
-  const handleCreateGroup = () => {
-    if (groupName.trim()) {
-      // 이후 그룹 데이터를 저장하는 로직 추가 가능
-      router.push('/Share/share-make-group-complete'); 
+  // 🔹 그룹 생성 API 호출
+  const handleCreateGroup = async () => {
+    if (!groupName.trim()) {
+      Alert.alert('오류', '그룹 이름을 입력해주세요.');
+      return;
+    }
+
+    if (selectedFriends.length === 0) {
+      Alert.alert('오류', '그룹 멤버를 선택해주세요.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      if (!token) {
+        Alert.alert('로그인이 필요합니다.');
+        setLoading(false);
+        return;
+      }
+
+      // ✅ 선택된 친구들의 `memberId` 리스트 추출
+      const memberList = selectedFriends
+        .filter((friend) => 'memberId' in friend)
+        .map((friend) => friend.memberId);
+
+      const requestBody = JSON.stringify({
+        name: groupName,
+        memberList: memberList,
+      });
+
+      console.log('🚀 그룹 생성 API 요청:', requestBody);
+
+      const response = await fetch('https://api.passion4-jeans.store/team', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      console.log('🔹 그룹 생성 응답 상태 코드:', response.status);
+
+      if (response.status === 201) {
+        console.log('✅ 그룹 생성 성공!');
+        Alert.alert('성공', '그룹이 성공적으로 생성되었습니다.');
+
+        // ✅ 그룹 생성 완료 후 완료 페이지로 이동
+        router.push('/Share/share-make-group-complete');
+      } else {
+        throw new Error(`그룹 생성 실패 (${response.status})`);
+      }
+    } catch (error) {
+      console.error('❌ 그룹 생성 실패:', error);
+      Alert.alert('오류', error instanceof Error ? error.message : '그룹 생성 중 문제가 발생했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,13 +90,17 @@ export default function ShareMakeGroupScreen() {
       />
 
       {/* 만들기 버튼 */}
-      <TouchableOpacity
-        style={[styles.createButton, !groupName.trim() && styles.disabledButton]}
-        onPress={handleCreateGroup}
-        disabled={!groupName.trim()}
-      >
-        <Text style={styles.createText} >만들기</Text>
-      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator size="large" color="#008DBF" style={{ marginTop: 20 }} />
+      ) : (
+        <TouchableOpacity
+          style={[styles.createButton, !groupName.trim() && styles.disabledButton]}
+          onPress={handleCreateGroup}
+          disabled={!groupName.trim()}
+        >
+          <Text style={styles.createText}>만들기</Text>
+        </TouchableOpacity>
+      )}
 
       <BottomNavBar />
     </View>
@@ -58,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     marginBottom: 60,
-    fontFamily:'Bold'
+    fontFamily: 'Bold',
   },
   input: {
     width: '100%',
