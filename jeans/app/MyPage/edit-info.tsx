@@ -12,12 +12,13 @@ import HalfButton from '@/components/HalfButton';
 export default function GroupEditScreen() {
   const router = useRouter();
   const [userName, setUserName] = useState('');
-  const [groupImage, setGroupImage] = useState(require('../../assets/images/bg.png'));
+  const [profileImage, setProfileImage] = useState(require('../../assets/images/bg.png')); // 기본 이미지
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false); // 프로필 업로드 중 상태 추가
   const inputRef = useRef<TextInput | null>(null);
 
-  // ✅ 백엔드에서 프로필 정보 가져오기
+  // ✅ 프로필 정보 가져오기 (백엔드 연결)
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -39,10 +40,10 @@ export default function GroupEditScreen() {
 
         setUserName(data.name || '');
         if (data.profileUrl) {
-          setGroupImage({ uri: data.profileUrl });
+          setProfileImage({ uri: data.profileUrl });
         }
       } catch (error) {
-        console.error('프로필 불러오기 실패:', error);
+        console.error('❌ 프로필 불러오기 실패:', error);
       } finally {
         setLoading(false);
       }
@@ -51,7 +52,7 @@ export default function GroupEditScreen() {
     fetchProfile();
   }, []);
 
-  // 키보드 상태 감지
+  // ✅ 키보드 상태 감지
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
@@ -62,48 +63,72 @@ export default function GroupEditScreen() {
     };
   }, []);
 
-  // ✅ 이름 변경 요청
-  const handleChangeName = async () => {
-    if (!userName.trim()) {
-      Alert.alert('입력 오류', '변경할 이름을 입력하세요.');
+  // ✅ 프로필 사진 변경 (갤러리에서 선택)
+  const handlePickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      Alert.alert('권한 필요', '갤러리 접근 권한이 필요합니다.');
       return;
     }
 
-    setLoading(true);
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setProfileImage({ uri: result.assets[0].uri });
+      handleUploadImage(result.assets[0].uri);
+    }
+  };
+
+  // ✅ 프로필 사진 업로드
+  const handleUploadImage = async (imageUri: string) => {
+    setUploading(true);
+    const formData = new FormData();
+
     try {
+      const fileName = imageUri.split('/').pop() || 'profile.jpg';
+      formData.append('image', {
+        uri: imageUri,
+        name: fileName,
+        type: 'image/jpeg',
+      } as any);
+
       const accessToken = await AsyncStorage.getItem('accessToken');
       if (!accessToken) {
-        Alert.alert('오류', '로그인이 필요합니다.');
+        Alert.alert('로그인이 필요합니다.');
+        setUploading(false);
         return;
       }
 
-      const response = await fetch('https://api.passion4-jeans.store/my/name', {
+      const response = await fetch('https://api.passion4-jeans.store/my/profile', {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
-        body: JSON.stringify({ newName: userName }),
+        body: formData,
       });
 
-      if (!response.ok) throw new Error('이름 변경에 실패했습니다.');
+      const responseText = await response.text();
+      console.log('🔹 응답 상태 코드:', response.status);
+      console.log('🔹 응답 본문:', responseText);
 
-      Alert.alert('성공', '이름이 변경되었습니다.');
+      if (!response.ok) {
+        throw new Error('프로필 사진 변경에 실패했습니다.');
+      }
 
-      // ✅ 변경된 정보를 다시 불러오기
-      const profileResponse = await fetch('https://api.passion4-jeans.store/my/profile', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-      });
-
-      if (!profileResponse.ok) throw new Error('프로필 정보를 다시 가져올 수 없습니다.');
-
-      const updatedData = await profileResponse.json();
-      setUserName(updatedData.name || '');
+      const data = JSON.parse(responseText);
+      setProfileImage({ uri: data.profileUrl });
+      Alert.alert('성공', '프로필 사진이 변경되었습니다.');
     } catch (error) {
-      Alert.alert('오류', error instanceof Error ? error.message : '이름 변경 중 문제가 발생했습니다.');
+      console.error('❌ 프로필 사진 업로드 실패:', error);
+      Alert.alert('오류', '프로필 사진 변경 중 문제가 발생했습니다.');
     } finally {
-      setLoading(false);
+      setUploading(false);
     }
   };
 
@@ -111,22 +136,22 @@ export default function GroupEditScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 타이틀 */}
       <Text style={styles.title}>내 계정</Text>
 
-      {/* 로딩 중이면 인디케이터 표시 */}
       {loading ? (
         <ActivityIndicator size="large" color="#3DB2FF" />
       ) : (
         <>
-          {/* 프로필 이미지 */}
-          <TouchableOpacity style={styles.imageContainer} onPress={handleChangeName}>
-            <Image source={groupImage} style={styles.image} />
+          {/* 프로필 사진 */}
+          <TouchableOpacity style={styles.imageContainer} onPress={handlePickImage}>
+            <Image source={profileImage} style={styles.image} />
           </TouchableOpacity>
 
           {/* 프로필 사진 수정 버튼 */}
-          <TouchableOpacity style={styles.imageEditButton} onPress={handleChangeName}>
-            <Text style={styles.imageEditText}>프로필 사진 변경</Text>
+          <TouchableOpacity style={styles.imageEditButton} onPress={handlePickImage}>
+            <Text style={styles.imageEditText}>
+              {uploading ? '업로드 중...' : '프로필 사진 변경'}
+            </Text>
           </TouchableOpacity>
 
           {/* 이름 입력 필드 */}
@@ -156,7 +181,7 @@ export default function GroupEditScreen() {
             <HalfButton title="기본 보정값 변경" onPress={() => router.push('/Set/photo-selection0')} color="#3DB2FF" />
           </View>
 
-          <FullButton title="정보 저장" onPress={handleChangeName} />
+          <FullButton title="정보 저장" onPress={() => Alert.alert('저장 완료')} />
         </>
       )}
 
