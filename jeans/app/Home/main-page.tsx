@@ -172,6 +172,19 @@ export default function HomeUILayout() {
         )}
       </View>
 
+      {/* 🔹 그룹 프로필 수정 버튼 (그룹 선택 시 표시) */}
+      {selectedFriend?.teamId && (
+        <TouchableOpacity 
+          style={styles.groupEditButton} 
+          onPress={() => router.push({
+            pathname: '/Home/group-img-edit', 
+            params: { teamId: selectedFriend.teamId, teamName: selectedFriend.name, imageUrl: selectedFriend.imageUrl }
+          })}
+        >
+          <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
+        </TouchableOpacity>
+      )}
+
       {/* 🔹 공유된 사진 */}
       <View style={styles.photosContainer}>
         {photoLoading ? (
@@ -291,4 +304,19 @@ const styles = StyleSheet.create({
   photosContainer: { flex: 1, marginTop: 10 },
   photoGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   sharedPhoto: { width: 160, height: 160, marginBottom: 5, borderRadius: 10 },
+  groupEditButton: {
+    backgroundColor: '#008DBF',
+    paddingVertical: 10,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    width: '80%',
+    alignSelf: 'center',
+  },
+  groupEditText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontFamily: 'Medium',
+  },
 });
