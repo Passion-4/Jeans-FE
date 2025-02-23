@@ -31,55 +31,40 @@ export default function PhotoSelectionScreen() {
   return (
     <View style={styles.container}>
       <TopNavBar />
+      {/* 타이틀 */}
+      <Text style={styles.title}>글귀를 담고 싶은 {'\n'} 사진을 선택해주세요.</Text>
 
-      <View style={styles.centerContainer}>
-        <Text style={styles.title}>글귀를 담고 싶은 {'\n'} 사진을 선택해주세요.</Text>
-
-        {/* 갤러리 선택 버튼 */}
-        <TouchableOpacity style={styles.optionButton} onPress={pickImages}>
-          <Text style={styles.buttonText}>갤러리에서 사진 선택</Text>
-        </TouchableOpacity>
-
-        {/* 기본 사진 선택 버튼 */}
-        <FullButton
-          title="기본 사진 선택"
-          onPress={() => router.push('/Quote/quote-select-basic-img')}
-        />
+      {/* 버튼 컨테이너 */}
+      <View style={styles.buttonContainer}>
+        <FullButton title='갤러리에서 사진 선택' onPress={pickImages}></FullButton>
+        <FullButton title='기본 사진 선택'  onPress={() => router.push('/Quote/quote-select-basic-img')}></FullButton>
       </View>
+
+      {/* 빈 공간 추가 (하단 네비게이션을 아래로 밀기 위함) */}
+      <View style={{ flex: 1 }} />
 
       <BottomNavBar />
     </View>
   );
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  centerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 20,
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 50,
+    marginTop: 250,
   },
-  optionButton: {
-    width: '100%',
-    paddingVertical: 16,
-    borderRadius: 10,
+  buttonContainer: {
     alignItems: 'center',
-    backgroundColor: '#3DB2FF',
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: 'Medium',
-    color: 'white',
+    width: '100%',
   },
 });
