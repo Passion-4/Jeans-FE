@@ -65,14 +65,15 @@ export default function LoginScreen() {
 
       <Text style={styles.label}>비밀번호</Text>
       <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="비밀번호를 입력하세요."
-          placeholderTextColor="#5E6365"
-          secureTextEntry={!passwordVisible}
-          value={password}
-          onChangeText={setPassword}
-        />
+      <TextInput
+  style={styles.input}
+  placeholder="비밀번호를 입력하세요."
+  placeholderTextColor="#5E6365"
+  secureTextEntry={false}  // ✅ false로 설정하면 입력값이 보임
+  value={password}
+  onChangeText={setPassword}
+/>
+
       </View>
 
       {loading ? (
