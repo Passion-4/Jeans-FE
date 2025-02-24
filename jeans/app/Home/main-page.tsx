@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import { Ionicons } from '@expo/vector-icons';
+import useSelectedFriends from '../../hooks/useSelectedFriends';
 
 // ✅ 친구/팀 데이터 타입 정의
 type Friend = {
@@ -22,6 +23,7 @@ type Photo = {
 
 export default function HomeUILayout() {
   const router = useRouter();
+  const { addTeam } = useSelectedFriends(); // ✅ 훅 가져오기
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
@@ -83,12 +85,12 @@ export default function HomeUILayout() {
       }
 
       let url = "";
-      if (friend.nickname == '나') { // 회원가입시 본인의 닉네임은 무조건 '나'로 만들고 바꿀 수 없게 해야 함.
-        url = "https://api.passion4-jeans.store/feed"; // ✅ "나" 선택 시
+      if (friend.nickname === '나') { // ✅ "나" 선택 시
+        url = "https://api.passion4-jeans.store/feed";
       } else if (friend.memberId) {
-        url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`; // ✅ 친구 선택 시
+        url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`;
       } else if (friend.teamId) {
-        url = `https://api.passion4-jeans.store/team-photos/${friend.teamId}`; // ✅ 그룹 선택 시
+        url = `https://api.passion4-jeans.store/team-photos/${friend.teamId}`;
       }
 
       console.log(`🚀 API 요청 시작: ${url}`);
@@ -143,11 +145,11 @@ export default function HomeUILayout() {
         </View>
       </View>
 
-      {/* 🔹 공유 버튼 */}
-      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
-        <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
-        <Text style={styles.shareText}>공유</Text>
-      </TouchableOpacity>
+            {/* 🔹 공유 버튼 */}
+            <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
+              <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
+              <Text style={styles.shareText}>공유</Text>
+            </TouchableOpacity>
 
       {/* 🔹 친구 목록 */}
       <View style={styles.friendsContainer}>
@@ -176,10 +178,14 @@ export default function HomeUILayout() {
       {selectedFriend?.teamId && (
         <TouchableOpacity 
           style={styles.groupEditButton} 
-          onPress={() => router.push({
-            pathname: '/Home/group-img-edit', 
-            params: { teamId: selectedFriend.teamId, teamName: selectedFriend.name, imageUrl: selectedFriend.imageUrl }
-          })}
+          onPress={() => {
+            addTeam({
+              teamId: selectedFriend.teamId ?? 0,
+              name: selectedFriend.name,
+              imageUrl: selectedFriend.imageUrl
+            });
+            router.push('/Home/group-img-edit');
+          }}
         >
           <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
         </TouchableOpacity>
@@ -202,6 +208,7 @@ export default function HomeUILayout() {
     </View>
   );
 }
+
 
 
 const styles = StyleSheet.create({

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
@@ -7,188 +8,206 @@ import {
   TouchableOpacity,
   Image,
   Keyboard,
+  Alert
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import TopNavBar from '../../components/TopNavBar';
-import BottomNavBar from '../../components/BottomNavBar';
+import useSelectedFriends from '../../hooks/useSelectedFriends';
+
+// ✅ Team 타입 추가
+type Team = {
+  teamId: number;
+  name: string;
+  imageUrl?: string;
+};
 
 export default function GroupEditScreen() {
   const router = useRouter();
-  const [groupName, setGroupName] = useState('가족 그룹'); // 기존 그룹 이름
-  const [groupImage, setGroupImage] = useState(require('../../assets/images/friend1.jpg')); // 기본 이미지
-  const [keyboardVisible, setKeyboardVisible] = useState(false); // 키보드 상태 감지
-  const inputRef = useRef<TextInput | null>(null); // 입력 필드 참조
+  const { selectedFriends, clearSelectedFriends } = useSelectedFriends();
 
-  // ✅ 키보드 상태 감지 이벤트 등록
+  // ✅ 현재 선택된 그룹 정보 가져오기
+  const selectedTeam: Team | undefined = selectedFriends.find(
+    (item): item is Team => 'teamId' in item
+  );
+
+  const [groupName, setGroupName] = useState<string>(selectedTeam?.name ?? "");
+  const [groupImage, setGroupImage] = useState<{ uri?: string; source?: any }>(() => {
+    if (selectedTeam?.imageUrl) {
+      return { uri: selectedTeam.imageUrl };
+    } else {
+      return { source: require('../../assets/images/icon.png') };
+    }
+  });
+  
+  // ✅ useEffect를 활용해 imageUrl이 바뀌면 상태 업데이트
   useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true);
-    });
+    if (selectedTeam?.imageUrl) {
+      setGroupImage({ uri: selectedTeam.imageUrl });
+    }
+  }, [selectedTeam?.imageUrl]);
 
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    });
+  // ✅ 공통 함수: 토큰 가져오기
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem("accessToken");
+    if (!token) {
+      Alert.alert("오류", "로그인이 필요합니다.");
+      return null;
+    }
+    return token;
+  };
 
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
+  // ✅ 그룹명 수정 API 호출
+  const updateGroupName = async () => {
+    try {
+      const token = await getToken();
+      if (!token) return;
 
-  // ✅ 갤러리에서 이미지 선택
+      let response = await fetch("https://api.passion4-jeans.store/team/name", {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ teamId: selectedTeam?.teamId, name: groupName })
+      });
+
+      if (!response.ok) {
+        throw new Error(`팀명 변경 실패 (${response.status})`);
+      }
+
+      Alert.alert("성공", "그룹명이 수정되었습니다.");
+    } catch (error) {
+      console.error("❌ 그룹명 수정 실패:", error);
+      Alert.alert("오류", "그룹명 수정에 실패했습니다.");
+    }
+  };
+
+  // ✅ 프로필 사진 변경 API 호출
+  const updateGroupImage = async (imageUri: string) => {
+    try {
+      console.log("📸 선택한 이미지 URI:", imageUri);
+  
+      const token = await getToken();
+      if (!token) {
+        Alert.alert("오류", "로그인이 필요합니다.");
+        return;
+      }
+      console.log("🔑 인증 토큰 가져옴:", token);
+  
+      let formData = new FormData();
+  
+      // ✅ Correctly append JSON data as a Blob (Text)
+      formData.append("dto", JSON.stringify({ teamId: selectedTeam?.teamId }));
+  
+      // ✅ Convert the image URI into a file format
+      const fileType = imageUri.split(".").pop(); // Extract file extension
+      const file = {
+        uri: imageUri,
+        name: `profile.${fileType}`, // Example: "profile.jpeg"
+        type: `image/${fileType}` // Example: "image/jpeg"
+      };
+  
+      // ✅ Append the image as a file
+      formData.append("image", file as any);
+  
+      console.log("🚀 FormData 구성 완료");
+  
+      // 🔥 Debugging: Log FormData
+      console.log("🔍 FormData 확인:");
+      for (let [key, value] of formData.entries()) {
+        console.log(`  🏷️ ${key}:`, value);
+      }
+  
+      // ✅ Send FormData to server
+      let uploadResponse = await fetch("https://api.passion4-jeans.store/team/profile", {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        }, // ❌ DO NOT set "Content-Type": "multipart/form-data", it will be set automatically
+        body: formData,
+      });
+  
+      console.log("🔄 서버 응답 상태 코드:", uploadResponse.status);
+  
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        console.error("❌ 서버 응답 오류 내용:", errorText);
+        throw new Error(`프로필 사진 변경 실패 (${uploadResponse.status})`);
+      }
+  
+      const responseData = await uploadResponse.json();
+      console.log("✅ 프로필 사진 변경 성공:", responseData);
+  
+      // ✅ UI 업데이트
+      setGroupImage({ uri: responseData.imageUrl });
+  
+      Alert.alert("성공", "프로필 사진이 변경되었습니다.");
+    } catch (error) {
+      console.error("❌ 프로필 사진 변경 실패:", error);
+      Alert.alert("오류", "프로필 사진 변경에 실패했습니다.");
+    }
+  };
+  
+  
+  
+
+  // ✅ 이미지 선택 후 업데이트
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, // 정방형 크롭 가능
+      allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      setGroupImage({ uri: result.assets[0].uri });
+      const newImageUri = result.assets[0].uri;
+      setGroupImage({ uri: newImageUri });
+      await updateGroupImage(newImageUri);
     }
   };
 
-  // ✅ 저장 버튼 클릭 시 홈 화면 이동
-  const handleSave = () => {
-    Keyboard.dismiss(); // 키보드 내리기
-    router.push('/Home/main-page'); // 홈 화면으로 이동
+  // ✅ 저장 버튼 클릭 시 useSelectedFriends 초기화 후 홈으로 이동
+  const handleSave = async () => {
+    await updateGroupName();
+    clearSelectedFriends(); // ✅ 선택된 그룹 데이터 초기화
+    router.push('/Home/main-page');
   };
 
   return (
     <View style={styles.container}>
-      <TopNavBar />
-
-      {/* 타이틀 */}
       <Text style={styles.title}>그룹 프로필 수정</Text>
 
-      {/* 프로필 이미지 */}
       <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
-        <Image source={groupImage} style={styles.image} />
+        <Image
+          key={groupImage.uri ?? "default"}
+          source={groupImage.uri ? { uri: groupImage.uri } : groupImage.source}
+          style={styles.image}
+        />
       </TouchableOpacity>
 
-      {/* 프로필 사진 수정 버튼 */}
-      <TouchableOpacity style={styles.imageEditButton} onPress={pickImage}>
-        <Text style={styles.imageEditText}>프로필 사진 수정</Text>
-      </TouchableOpacity>
-
-      {/* 그룹 이름 입력 필드 */}
       <View style={styles.inputContainer}>
-        {/* ✏️ 작은 연필 아이콘 (이름 수정) */}
-        <TouchableOpacity onPress={() => inputRef.current?.focus()} style={styles.editIcon}>
-          <Ionicons name="pencil-outline" size={24} color="#008DBF" />
-        </TouchableOpacity>
-
         <TextInput
-          ref={inputRef}
-          style={styles.input}
-          placeholder="그룹 이름"
-          placeholderTextColor="#999"
           value={groupName}
           onChangeText={setGroupName}
         />
-
-        {/* ✅ 키보드가 올라와 있을 때만 확인 버튼 표시 */}
-        {keyboardVisible && (
-          <TouchableOpacity style={styles.confirmButton} onPress={Keyboard.dismiss}>
-            <Text style={styles.confirmButtonText}>확인</Text>
-          </TouchableOpacity>
-        )}
       </View>
 
-      {/* 저장 버튼 */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveText}>저장하기</Text>
       </TouchableOpacity>
-
-      <BottomNavBar />
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 35,
-    fontFamily: 'Bold',
-    textAlign: 'center',
-    marginBottom: 30,
-  },
-  imageContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60, // 동그랗게
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: '#008DBF',
-    marginBottom: 10,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  imageEditButton: {
-    backgroundColor: '#E0E0E0',
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  imageEditText: {
-    fontSize: 16,
-    fontFamily: 'Medium',
-    color: '#333',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    width: '100%',
-    marginBottom: 30,
-    paddingVertical: 5,
-  },
-  editIcon: {
-    padding: 5,
-    marginRight: 5,
-  },
-  input: {
-    flex: 1,
-    height: 50,
-    fontSize: 20,
-    textAlign: 'left',
-    paddingHorizontal: 5,
-  },
-  confirmButton: {
-    backgroundColor: '#008DBF',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginLeft: 10,
-  },
-  confirmButtonText: {
-    color: 'white',
-    fontFamily: 'Medium',
-    fontSize: 16,
-  },
-  saveButton: {
-    width: '100%',
-    paddingVertical: 15,
-    backgroundColor: '#008DBF',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  saveText: {
-    fontSize: 20,
-    fontFamily: 'Medium',
-    color: 'white',
-  },
+  container: { flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 35, fontFamily: 'Bold', marginBottom: 30 },
+  imageContainer: { width: 120, height: 120, borderRadius: 60, overflow: 'hidden', borderWidth: 2, borderColor: '#008DBF', marginBottom: 10 },
+  image: { width: '100%', height: '100%' },
+  inputContainer: { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', width: '100%', marginBottom: 30, paddingVertical: 5 },
+  input: { height: 50, fontSize: 20, textAlign: 'left', paddingHorizontal: 5 },
+  saveButton: { width: '100%', paddingVertical: 15, backgroundColor: '#008DBF', borderRadius: 10, alignItems: 'center' },
+  saveText: { fontSize: 20, fontFamily: 'Medium', color: 'white' },
 });
