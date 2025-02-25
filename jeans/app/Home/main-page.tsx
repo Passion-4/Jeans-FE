@@ -6,10 +6,9 @@ import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import styles from './main-page-st';
 
-// ✅ 친구/팀 데이터 타입 정의
 type Friend = {
-  memberId?: number;  // 개별 친구일 경우
-  teamId?: number;    // 그룹일 경우
+  memberId?: number;
+  teamId?: number;
   name: string;
   imageUrl: string;
   nickname?: string;
@@ -28,7 +27,6 @@ export default function HomeUILayout() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [photoLoading, setPhotoLoading] = useState(false);
 
-  // 🔹 API 호출하여 친구 목록 가져오기
   useEffect(() => {
     const fetchFriends = async () => {
       setLoading(true);
@@ -43,22 +41,18 @@ export default function HomeUILayout() {
         console.log("🚀 API 요청 시작: /home-list");
         let response = await fetch("https://api.passion4-jeans.store/home-list", {
           method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
+          headers: { "Authorization": `Bearer ${token}` },
         });
 
-        if (!response.ok) {
-          throw new Error(`데이터 불러오기 실패 (${response.status})`);
-        }
+        if (!response.ok) throw new Error(`데이터 불러오기 실패 (${response.status})`);
 
         const data: Friend[] = await response.json();
         console.log("✅ 친구 및 팀 목록 가져오기 성공:", data);
 
         setFriends(data);
         if (data.length > 0) {
-          setSelectedFriend(data[0]); // ✅ 기본 선택 값 설정
-          fetchPhotos(data[0]); // ✅ 기본값 사진 가져오기
+          setSelectedFriend(data[0]);
+          fetchPhotos(data[0]);
         }
       } catch (error) {
         console.error("❌ API 요청 실패:", error);
@@ -71,7 +65,6 @@ export default function HomeUILayout() {
     fetchFriends();
   }, []);
 
-  // 🔹 선택한 친구/팀에 따라 사진 목록 가져오기
   const fetchPhotos = async (friend: Friend) => {
     setPhotoLoading(true);
     try {
@@ -83,7 +76,7 @@ export default function HomeUILayout() {
       }
 
       let url = "";
-      if (friend.nickname === '나') { // ✅ "나" 선택 시
+      if (friend.nickname === '나') {
         url = "https://api.passion4-jeans.store/feed";
       } else if (friend.memberId) {
         url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`;
@@ -92,17 +85,12 @@ export default function HomeUILayout() {
       }
 
       console.log(`🚀 API 요청 시작: ${url}`);
-
       let response = await fetch(url, {
         method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
+        headers: { "Authorization": `Bearer ${token}` },
       });
 
-      if (!response.ok) {
-        throw new Error(`사진 불러오기 실패 (${response.status})`);
-      }
+      if (!response.ok) throw new Error(`사진 불러오기 실패 (${response.status})`);
 
       const data: Photo[] = await response.json();
       console.log("✅ 사진 목록 가져오기 성공:", data);
@@ -120,13 +108,12 @@ export default function HomeUILayout() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 🔹 타이틀 & 공유 버튼 */}
       <View style={styles.fixedHeader}>
         <View>
           <Text style={styles.title}>친구들 소식 확인</Text>
           <Text style={styles.description}>
-            {selectedFriend && (
-              selectedFriend.teamId ? (
+            {selectedFriend &&
+              (selectedFriend.teamId ? (
                 <>
                   <Text style={styles.defaultText}>[</Text>
                   <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
@@ -137,69 +124,69 @@ export default function HomeUILayout() {
                   <Text style={styles.highlightedText}>{selectedFriend.name}</Text>
                   <Text style={styles.defaultText}>님의 추억을 둘러보세요.</Text>
                 </>
-              )
-            )}
+              ))}
           </Text>
         </View>
       </View>
 
-            {/* 🔹 공유 버튼 */}
-            <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
-              <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
-              <Text style={styles.shareText}>공유</Text>
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.shareButton} onPress={() => router.push('/Share/share-select-img')}>
+        <Image source={require('@/assets/images/share.png')} style={styles.shareIcon} />
+        <Text style={styles.shareText}>공유</Text>
+      </TouchableOpacity>
 
-      {/* 🔹 친구 목록 */}
       <View style={styles.friendsContainer}>
         {loading ? (
           <ActivityIndicator size="large" color="#008DBF" />
         ) : (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.friendsScrollWrapper}>
-              {friends.map((friend, index) => (
-                <TouchableOpacity
-                  key={friend.memberId ? `member-${friend.memberId}` : `team-${friend.teamId}` || `friend-${index}`}
-                  style={styles.friendItem}
-                  onPress={() => {
-                    setSelectedFriend(friend);
-                    fetchPhotos(friend);
-                  }}
-                >
-                  <Image source={{ uri: friend.imageUrl }} style={styles.profileImage} />
-                  <Text style={styles.friendName}>{friend.nickname || friend.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.friendsScrollWrapper}>
+            {friends.map((friend) => (
+              <TouchableOpacity
+                key={friend.memberId ? `member-${friend.memberId}` : `team-${friend.teamId}`}
+                style={styles.friendItem}
+                onPress={() => {
+                  setSelectedFriend(friend);
+                  fetchPhotos(friend);
+                }}
+              >
+                <Image
+                  source={{ uri: friend.imageUrl }}
+                  style={[
+                    styles.profileImage,
+                    selectedFriend && selectedFriend !== friend ? styles.blurred : null,
+                  ]}
+                />
+                <Text style={styles.friendName}>{friend.nickname || friend.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         )}
       </View>
 
-      {/* 🔹 그룹 프로필 수정 버튼 (그룹 선택 시 표시) */}
       {selectedFriend?.teamId && (
-      <TouchableOpacity 
-        style={styles.groupEditButton} 
-        onPress={() => router.push({
-          pathname: '/Home/group-img-edit', 
-          params: { teamId: selectedFriend.teamId, teamName: selectedFriend.name, imageUrl: selectedFriend.imageUrl }
-        })}
-      >
-        <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.groupEditButton}
+          onPress={() =>
+            router.push({
+              pathname: '/Home/group-img-edit',
+              params: { teamId: selectedFriend.teamId, teamName: selectedFriend.name, imageUrl: selectedFriend.imageUrl },
+            })
+          }
+        >
+          <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
+        </TouchableOpacity>
       )}
 
-      {/* 🔹 공유된 사진 */}
       <View style={styles.photosContainer}>
         {photoLoading ? (
           <ActivityIndicator size="large" color="#008DBF" />
-                ) : (
-        <ScrollView contentContainerStyle={styles.photoGrid}>
-          {photos.map((photo) => (
-            <TouchableOpacity
-              key={photo.photoId}
-              onPress={() => router.push(`/Home/photo-detail?photoId=${photo.photoId}`)} // ✅ photoId 전달
-            >
-              <Image source={{ uri: photo.photoUrl }} style={styles.sharedPhoto} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        ) : (
+          <ScrollView contentContainerStyle={styles.photoGrid}>
+            {photos.map((photo) => (
+              <TouchableOpacity key={photo.photoId} onPress={() => router.push(`/Home/photo-detail?photoId=${photo.photoId}`)}>
+                <Image source={{ uri: photo.photoUrl }} style={styles.sharedPhoto} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         )}
       </View>
 
@@ -207,7 +194,3 @@ export default function HomeUILayout() {
     </View>
   );
 }
-
-
-
-
