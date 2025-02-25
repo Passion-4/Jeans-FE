@@ -54,7 +54,7 @@ export default function QuoteSelectWordScreen() {
               style={styles.quoteItem}
               onPress={() =>
                 router.push({
-                  pathname: '/Quote/quote-complete-gallery',
+                  pathname: '/Quote/quote-complete-basic',
                   params: { selectedImage, selectedKeyword: item }, // ✅ 이미지 + 키워드 저장 후 이동
                 })
               }
