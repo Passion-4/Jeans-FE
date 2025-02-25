@@ -12,7 +12,8 @@ import { useRouter } from "expo-router";
 import FullButton from "@/components/FullButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useSignup } from "@/hooks/SignupContext";
-import { Audio } from "expo-av"; // 🔹 추가된 부분 (expo-av 사용)
+import { Audio } from "expo-av"; 
+import * as FileSystem from "expo-file-system";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -105,19 +106,18 @@ export default function SignupScreen() {
   };
 
   const uploadAudio = async (audioUri: string) => {
-    const formData = new FormData();
-    formData.append("file", {
-      uri: audioUri,
-      type: "audio/m4a",
-      name: "audio.m4a",
-    } as any); // React Native의 FormData 문제 해결
-
-    console.log("📤 FormData 확인:", formData);
-  
     try {
-      console.log("📤 서버로 오디오 파일 전송 중...");
+      const formData = new FormData();
+      formData.append("file", {
+        uri: audioUri,
+        type: "audio/m4a",
+        name: "recorded_audio.wav",
+      } as any);
   
-      const response = await fetch("http://api.passion4-jeans-ai.store/api/whisper", {
+      console.log("📤 FormData 확인:", formData);
+  
+      // 🔹 FastAPI로 오디오 파일 업로드
+      const response = await fetch("https://api.passion4-jeans-ai.store/api/text", {
         method: "POST",
         body: formData,
         headers: {
@@ -126,18 +126,22 @@ export default function SignupScreen() {
       });
   
       const result = await response.json();
-      console.log("📝 서버 응답 전체:", result); // ✅ 응답 전체 출력하여 문제 확인
+      console.log("📝 서버 응답 전체:", result);
   
-      if (result && result.transcription) {
-        console.log("📝 변환된 텍스트:", result.transcription);
-        setName(result.transcription);
+      // 🔹 변환된 텍스트를 입력 필드에 반영
+      if (result && result.result) {
+        console.log("📝 변환된 텍스트:", result.result);
+        setName(result.result);
       } else {
-        console.error("⚠️ 서버 응답에 transcription 값이 없습니다.");
+        console.error("⚠️ 서버 응답에 result 값이 없습니다.");
       }
     } catch (error) {
       console.error("❌ 오디오 전송 오류:", error);
     }
   };
+  
+  
+  
   
   
   
@@ -180,7 +184,7 @@ export default function SignupScreen() {
           <View style={styles.recordButton}>
             <Ionicons name="mic" size={25} color="white" />
             <Text style={styles.recordButtonText}>
-              {isRecording ? "녹음 중..." : "이름을 말해보세요"}
+              {isRecording ? "듣는 중..." : "이름을 말해보세요"}
             </Text>
           </View>
         </View>

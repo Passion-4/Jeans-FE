@@ -1,14 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-import { useLocalSearchParams,router } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import FullButton from '@/components/FullButton';
 import HalfButton from '@/components/HalfButton';
+
 export default function CompleteScreen() {
   const { imageUri, quote } = useLocalSearchParams();
-
-  // 📌 imageUri가 배열이면 첫 번째 요소를 가져오도록 변환
   const validImageUri = Array.isArray(imageUri) ? imageUri[0] : imageUri;
 
   return (
@@ -56,7 +54,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 15,
-    overflow: 'hidden', // 테두리 둥글게 유지
+    overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
   overlay: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // 반투명 효과
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 30,
-    width:'100%',
-    paddingTop:20
+    width: '100%',
+    paddingTop: 20,
   },
 });

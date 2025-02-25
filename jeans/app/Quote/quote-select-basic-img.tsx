@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   selectedFriend: {
     borderWidth: 5,
-    borderColor: 'rgba(255, 183, 6, 0.6)',
+    borderColor: '#FFE2E5',
   },
   friendImage: {
     width: 100,
