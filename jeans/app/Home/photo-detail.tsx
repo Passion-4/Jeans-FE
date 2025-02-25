@@ -1,9 +1,10 @@
-import React, { useState,useRef } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions,Alert} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions, Alert, ActivityIndicator } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import ListeningAnimation from '@/components/ListeningAnimation';
@@ -17,20 +18,117 @@ interface EmojiItem {
   animatedValue: Animated.Value;
 }
 
+interface VoiceMessage {
+  voiceId: number;
+  profileUrl: string;
+  name: string;
+  transcript: string;
+  voiceUrl: string;
+  isUser: boolean;
+}
+
+interface PhotoDetail {
+  photoId: number;
+  title: string;
+  imageUrl: string;
+  date: string;
+  emojiType: number | null;
+  voiceList: VoiceMessage[];
+}
+
+const emojiMap = {
+  1: "👍",
+  2: "😆",
+  3: "🔥",
+  4: "💖",
+};
+
 export default function PhotoDetailScreen() {
   const router = useRouter();
   const { photoId } = useLocalSearchParams();
-  const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [photoDetail, setPhotoDetail] = useState<PhotoDetail | null>(null);
+  const [loading, setLoading] = useState(true);
   const [fallingEmojis, setFallingEmojis] = useState<EmojiItem[]>([]);
   const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isCancelPopupVisible, setIsCancelPopupVisible] = useState<boolean>(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isTagModalVisible, setIsTagModalVisible] = useState(false);
 
-  // 태그 클릭 시 이동할 함수
-  const navigateToTagInfo = (tag: String) => {
-    Alert.alert(`"${tag}" 관련 정보 페이지로 이동합니다.`);
-    // 여기에서 실제 네비게이션 코드 추가 가능 (예: React Navigation 사용 시)
-    // navigation.navigate('TagInfoScreen', { tag });
+    const navigateToTagInfo = (tag: String) => {
+      Alert.alert("${tag}");
+      // 여기에서 실제 네비게이션 코드 추가 가능 (예: React Navigation 사용 시)
+      // navigation.navigate('TagInfoScreen', { tag });
+    };
+
+  // ✅ API 호출: 사진 상세 정보 가져오기
+    useEffect(() => {
+      const fetchPhotoDetail = async () => {
+        try {
+          let token = await AsyncStorage.getItem("accessToken");
+          if (!token) {
+            Alert.alert("오류", "로그인이 필요합니다.");
+            return;
+          }
+    
+          const response = await fetch(`https://api.passion4-jeans.store/friend-photos/${photoId}/detail`, {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          });
+    
+          if (!response.ok) {
+            throw new Error(`사진 상세 정보 불러오기 실패 (${response.status})`);
+          }
+    
+          const data = await response.json();
+          console.log("✅ 사진 상세 정보:", data); // 🔍 확인용 로그
+          console.log("📷 이미지 URL:", data.imageUrl); // 🔍 확인용 로그
+    
+          setPhotoDetail(data);
+        } catch (error) {
+          console.error("❌ 사진 상세 조회 실패:", error);
+          Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      if (photoId) fetchPhotoDetail();
+    }, [photoId]);
+
+    // 녹음 시작
+    const startRecording = () => {
+      setIsRecording(true);
+    };
+  
+    // 녹음 종료
+    const stopRecording = () => {
+      setIsRecording(false);
+    };
+
+  // ✅ 이모티콘 애니메이션 처리
+  const dropEmojis = (emoji: string) => {
+    const newEmojis: EmojiItem[] = Array.from({ length: 10 }, (_, index): EmojiItem => ({
+      id: Math.random().toString() + index,
+      emoji,
+      xPosition: Math.random() * (screenWidth - 50),
+      animatedValue: new Animated.Value(-50),
+    }));
+
+    setFallingEmojis((prev) => [...prev, ...newEmojis]);
+
+    newEmojis.forEach((item) => {
+      Animated.timing(item.animatedValue, {
+        toValue: 500,
+        duration: 1000 + Math.random() * 500,
+        useNativeDriver: true,
+      }).start(() => {
+        setFallingEmojis((prev) => prev.filter((e) => e.id !== item.id));
+      });
+    });
   };
 
   const handleReactionPress = (reaction: string) => {
@@ -44,67 +142,22 @@ export default function PhotoDetailScreen() {
     }
   };
 
-  // 임의 데이터
-  const photoData = {
-    title: '맛있는 칼국수',
-    imageUrl: require('../../assets/images/photo2.png'),
-    description: '사진 제목 : 맛있는 칼국수 \n일시 : 2025-02-14 \n장소 : 제주도',
-    messages: [
-      { id: 1, sender: '이순복', text: '너무 맛있어 보이네요!', profileImage: require('../../assets/images/ex.png') },
-      { id: 2, sender: '나', text: '맞아요! 정말 맛집이에요.', profileImage: null },
-    ],
-  };
-
-  // 녹음 시작
-  const startRecording = () => {
-    setIsRecording(true);
-  };
-
-  // 녹음 종료
-  const stopRecording = () => {
-    setIsRecording(false);
-  };
-  
-  const dropEmojis = (emoji: string) => {
-    const newEmojis: EmojiItem[] = Array.from({ length: 10 }, (_, index): EmojiItem => ({
-      id: Math.random().toString() + index, // 인덱스를 추가하여 고유 ID 보장
-      emoji,
-      xPosition: Math.random() * (screenWidth - 50),
-      animatedValue: new Animated.Value(-50),
-    }));
-  
-    setFallingEmojis((prev) => [...prev, ...newEmojis]);
-  
-    newEmojis.forEach((item) => {
-      Animated.timing(item.animatedValue, {
-        toValue: 500, // 떨어지는 최종 위치
-        duration: 1000 + Math.random() * 500, // 1초 ~ 1.5초 랜덤 지속시간
-        useNativeDriver: true,
-      }).start(() => {
-        setFallingEmojis((prev) => prev.filter((e) => e.id !== item.id));
-      });
-    });
-  };
-  const [isCancelPopupVisible, setIsCancelPopupVisible] = useState<boolean>(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
+  // ✅ 공유 취소 처리
   const showCancelPopup = () => {
     setIsCancelPopupVisible(true);
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 300, // 0.3초 동안 등장
+      duration: 300,
       useNativeDriver: true,
     }).start();
 
-    // ✅ 2초 후에 팝업 사라지고 자동으로 메인 페이지 이동
     setTimeout(() => {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 300, // 0.3초 동안 사라짐
+        duration: 300,
         useNativeDriver: true,
       }).start(() => {
-      
-        router.push('/Home/main-page'); // ✅ 메인 페이지로 이동
+        router.push('/Home/main-page');
       });
     }, 2000);
   };
@@ -113,15 +166,19 @@ export default function PhotoDetailScreen() {
     <View style={styles.container}>
       <TopNavBar />
 
-      {/* 사진 & 설명 */}
-      <View style={styles.photoInfoContainer}>
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Image source={photoData.imageUrl} style={styles.photo} />
-        </TouchableOpacity>
-        <View style={styles.descriptionBox}>
-          <Text style={styles.descriptionText}>{photoData.description}</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#008DBF" />
+      ) : (
+        <View style={styles.photoInfoContainer}>
+          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+            <Image source={{ uri: photoDetail?.imageUrl }} style={styles.photo} />
+          </TouchableOpacity>
+          <View style={styles.descriptionBox}>
+            <Text style={styles.descriptionText}>사진 제목: {photoDetail?.title}</Text>
+            <Text style={styles.descriptionText}>일시: {photoDetail?.date}</Text>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* 📌 버튼 영역 */}
       <View style={styles.reactionButtons}>
@@ -154,19 +211,20 @@ export default function PhotoDetailScreen() {
           {item.emoji}
         </Animated.Text>
       ))}
+
       {/* 대화 내역 */}
       <ScrollView style={styles.chatContainer}>
-        {photoData.messages.map((message) =>
-          message.sender === '나' ? (
-            <View key={message.id} style={styles.chatBubbleRight}>
-              <Text style={styles.chatTextRight}>{message.text}</Text>
+        {photoDetail?.voiceList.map((voice) =>
+          voice.isUser ? (
+            <View key={voice.voiceId} style={styles.chatBubbleRight}>
+              <Text style={styles.chatTextRight}>{voice.transcript}</Text>
             </View>
           ) : (
-            <View key={message.id} style={styles.chatBubbleLeft}>
-              <Image source={message.profileImage} style={styles.profileImage} />
+            <View key={voice.voiceId} style={styles.chatBubbleLeft}>
+              <Image source={{ uri: voice.profileUrl }} style={styles.profileImage} />
               <View style={styles.chatTextContainer}>
-                <Text style={styles.friendName}>{message.sender}</Text>
-                <Text style={styles.chatText}>{message.text}</Text>
+                <Text style={styles.friendName}>{voice.name}</Text>
+                <Text style={styles.chatText}>{voice.transcript}</Text>
               </View>
             </View>
           )
@@ -215,38 +273,27 @@ export default function PhotoDetailScreen() {
         </View>
       </Modal>
 
+      {/* 공유 취소 버튼 */}
+      <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
+        <Text style={styles.cancelButtonText}>공유 취소</Text>
+      </TouchableOpacity>
+
       <BottomNavBar />
 
       {/* 사진 확대 모달 */}
       <Modal visible={isModalVisible} transparent animationType="fade">
         <BlurView intensity={30} style={styles.modalBackground}>
           <TouchableOpacity style={styles.modalCloseArea} onPress={() => setIsModalVisible(false)} />
-          <View style={styles.modalContent}>
-            <Image source={photoData.imageUrl} style={styles.modalImage} />
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
-              <Ionicons name="close-circle" size={40} color="black" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
-              <Text style={styles.cancelButtonText}>공유 취소</Text>
-            </TouchableOpacity>
-
-          </View>
-        </BlurView>
-      </Modal>
-
-      {/* 녹음 중 모달 */}
-      <Modal visible={isRecording} transparent animationType="fade">
-        <View style={styles.modalContainer}>
-          <ListeningAnimation></ListeningAnimation>
-          <TouchableOpacity style={styles.stopButton} onPress={stopRecording}>
-            <Text style={styles.stopButtonText}>완료</Text>
+          <Image source={{ uri: photoDetail?.imageUrl }} style={styles.modalImage} />
+          <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
+            <Ionicons name="close-circle" size={40} color="black" />
           </TouchableOpacity>
-        </View>
+        </BlurView>
       </Modal>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -351,7 +398,7 @@ const styles = StyleSheet.create({
   bottomButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 120,
+    marginBottom: 50,
   },
   recordButton: {
     flex: 2,
@@ -521,6 +568,3 @@ const styles = StyleSheet.create({
       fontFamily: 'Medium',
     },
 });
-
-
-
