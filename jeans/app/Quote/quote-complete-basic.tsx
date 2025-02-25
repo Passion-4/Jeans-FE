@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
@@ -9,7 +8,7 @@ import HalfButton from '@/components/HalfButton';
 // ✅ quotesDictionary 추가
 const quotesDictionary = {
   건강: ['건강은 최고의 재산이다.', '몸이 건강해야 마음도 건강하다.', '오늘도 건강한 하루 되세요!'],
-  응원: ['당신의 꿈을 응원합니다!', '포기하지 마세요, \n 당신은 해낼 수 있어요!', '앞으로 나아가는 당신이 멋져요.'],
+  응원: ['당신의 꿈을 응원합니다!', '포기하지 마세요, 당신은 해낼 수 있어요!', '앞으로 나아가는 당신이 멋져요.'],
   안부: ['잘 지내시죠? 항상 응원합니다.', '따뜻한 하루 보내세요!', '오늘도 행복하세요!'],
   위로: ['괜찮아요, 당신은 충분히 잘하고 있어요.', '힘든 날도 지나가요.', '여기서 잠시 쉬어가요.'],
   축하: ['축하합니다! 행복한 날 되세요.', '당신의 성취를 축하해요!', '오늘은 당신을 위한 날이에요!'],
@@ -43,7 +42,7 @@ export default function QuoteSelectImg1() {
 
       <View style={styles.buttonContainer}>
         <HalfButton title="사진 받기" color="#3DB2FF" onPress={() => router.push('/MakeUp/makeup-download')} />
-        <HalfButton title="공유 하기" onPress={() => router.push('/Share/share-select-friend')} />
+        <HalfButton title="공유하기" onPress={() => router.push('/Share/share-select-friend')} />
       </View>
 
       <BottomNavBar />
@@ -57,10 +56,10 @@ const styles = StyleSheet.create({
     paddingTop: 70, paddingBottom: 80,
   },
   title: {
-    fontSize: 30, fontFamily: 'Bold', textAlign: 'center', marginBottom: 20,
+    fontSize: 30, fontFamily: 'Bold', textAlign: 'center', marginBottom: 20, marginTop:30,
   },
   imageBackground: {
-    width: 300, height: 350, justifyContent: 'center', alignItems: 'center',
+    width: 250, height: 300, justifyContent: 'center', alignItems: 'center',
     borderRadius: 15, overflow: 'hidden',
   },
   overlay: {
