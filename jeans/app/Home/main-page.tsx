@@ -4,11 +4,9 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import { Ionicons } from '@expo/vector-icons';
-import useSelectedFriends from '../../hooks/useSelectedFriends';
 import styles from './main-page-st';
 
-// 친구/팀 데이터 타입 정의
+// ✅ 친구/팀 데이터 타입 정의
 type Friend = {
   memberId?: number;  // 개별 친구일 경우
   teamId?: number;    // 그룹일 경우
@@ -24,7 +22,6 @@ type Photo = {
 
 export default function HomeUILayout() {
   const router = useRouter();
-  const { addTeam } = useSelectedFriends(); // from hooks
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
@@ -86,7 +83,7 @@ export default function HomeUILayout() {
       }
 
       let url = "";
-      if (friend.nickname === '나') { // "나" 선택 시
+      if (friend.nickname === '나') { // ✅ "나" 선택 시
         url = "https://api.passion4-jeans.store/feed";
       } else if (friend.memberId) {
         url = `https://api.passion4-jeans.store/friend-photos/${friend.memberId}`;
@@ -177,31 +174,32 @@ export default function HomeUILayout() {
 
       {/* 🔹 그룹 프로필 수정 버튼 (그룹 선택 시 표시) */}
       {selectedFriend?.teamId && (
-        <TouchableOpacity 
-          style={styles.groupEditButton} 
-          onPress={() => {
-            addTeam({
-              teamId: selectedFriend.teamId ?? 0,
-              name: selectedFriend.name,
-              imageUrl: selectedFriend.imageUrl
-            });
-            router.push('/Home/group-img-edit');
-          }}
-        >
-          <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
-        </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.groupEditButton} 
+        onPress={() => router.push({
+          pathname: '/Home/group-img-edit', 
+          params: { teamId: selectedFriend.teamId, teamName: selectedFriend.name, imageUrl: selectedFriend.imageUrl }
+        })}
+      >
+        <Text style={styles.groupEditText}>그룹 프로필 수정</Text>
+      </TouchableOpacity>
       )}
 
       {/* 🔹 공유된 사진 */}
       <View style={styles.photosContainer}>
         {photoLoading ? (
           <ActivityIndicator size="large" color="#008DBF" />
-        ) : (
-          <ScrollView contentContainerStyle={styles.photoGrid}>
-            {photos.map((photo) => (
-              <Image key={photo.photoId} source={{ uri: photo.photoUrl }} style={styles.sharedPhoto} />
-            ))}
-          </ScrollView>
+                ) : (
+        <ScrollView contentContainerStyle={styles.photoGrid}>
+          {photos.map((photo) => (
+            <TouchableOpacity
+              key={photo.photoId}
+              onPress={() => router.push(`/Home/photo-detail?photoId=${photo.photoId}`)} // ✅ photoId 전달
+            >
+              <Image source={{ uri: photo.photoUrl }} style={styles.sharedPhoto} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
         )}
       </View>
 
@@ -209,3 +207,7 @@ export default function HomeUILayout() {
     </View>
   );
 }
+
+
+
+
