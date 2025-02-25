@@ -5,6 +5,7 @@ import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import FullButton from '@/components/FullButton';
+import CheckAnimation from '@/components/CheckAnimation';
 
 export default function FriendNicknameCompleteScreen() {
   const router = useRouter();
@@ -17,15 +18,7 @@ export default function FriendNicknameCompleteScreen() {
       <View style={styles.content}>
         <Text style={styles.title}>별명이 생성되었습니다!</Text>
 
-        {/* ✅ Lottie 애니메이션 고정 */}
-        <View style={styles.lottieContainer}>
-          <LottieView 
-            source={require('../../assets/animations/Animation - 1739343498719.json')} 
-            autoPlay
-            loop={false} 
-            style={styles.lottie}
-          />
-        </View>
+        <CheckAnimation></CheckAnimation>
 
         {/* ✅ 완료 버튼 */}
         <FullButton title="확 인" onPress={() => router.push('/Friend/list')} />

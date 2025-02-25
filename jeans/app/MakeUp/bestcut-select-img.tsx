@@ -39,7 +39,7 @@ export default function PhotoSelectionScreen() {
       <TopNavBar />
 
       {/* 타이틀 */}
-      <Text style={styles.title}>단체 사진 여러 개를 {'\n'}선택해주세요.</Text>
+      <Text style={styles.title}>단체 사진 여러 장을 {'\n'}선택해주세요.</Text>
 
       {/* 로컬 이미지 추가 */}
       <Image 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
     marginBottom: 20, // 이미지와 간격 추가
