@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
@@ -19,26 +19,26 @@ const dummyFriends = [
 ];
 
 export default function HomeUILayout() {
-  const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
+  const [selectedFriend, setSelectedFriend] = useState<number | null>(null);
   const router = useRouter();
 
   const toggleFriendSelection = (friendId: number) => {
-    setSelectedFriends((prev: number[]) =>
-      prev.includes(friendId)
-        ? prev.filter((id: number) => id !== friendId)
-        : [...prev, friendId]
-    );
+    if (selectedFriend === friendId) {
+      setSelectedFriend(null);
+    } else if (selectedFriend !== null) {
+      Alert.alert('경고', '하나의 사진만 선택할 수 있습니다.');
+    } else {
+      setSelectedFriend(friendId);
+    }
   };
 
   const handleConfirm = () => {
-    if (selectedFriends.length === 1) {
-      const selectedFriend = dummyFriends.find(friend => friend.id === selectedFriends[0]);
-  
+    if (selectedFriend !== null) {
+      const selectedFriendData = dummyFriends.find(friend => friend.id === selectedFriend);
+
       router.push({
         pathname: '/Quote/quote-select-word-basic',
-        params: {
-          friendImage: JSON.stringify(selectedFriend?.Image),
-        },
+        params: { selectedImage: JSON.stringify(selectedFriendData?.Image) }, // ✅ 선택한 배경 이미지 저장 후 이동
       });
     }
   };
@@ -55,21 +55,24 @@ export default function HomeUILayout() {
         data={dummyFriends}
         numColumns={3}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.friendCard, selectedFriends.includes(item.id) && styles.selectedFriend]}
-            onPress={() => toggleFriendSelection(item.id)}
-          >
-            <Image source={item.Image} style={styles.friendImage} />
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => {
+          const isSelected = selectedFriend === item.id;
+          return (
+            <TouchableOpacity
+              style={[styles.friendCard, isSelected && styles.selectedFriend]}
+              onPress={() => toggleFriendSelection(item.id)}
+            >
+              <Image source={item.Image} style={[styles.friendImage, isSelected && styles.selectedFriendImage]} />
+            </TouchableOpacity>
+          );
+        }}
         contentContainerStyle={[styles.friendsContainer, { paddingBottom: 100 }]}
       />
 
       <TouchableOpacity
-        style={[styles.customButton, selectedFriends.length === 0 && styles.disabledButton]}
+        style={[styles.customButton, selectedFriend === null && styles.disabledButton]}
         onPress={handleConfirm}
-        disabled={selectedFriends.length === 0}
+        disabled={selectedFriend === null}
       >
         <Text style={styles.customButtonText}>다 음</Text>
       </TouchableOpacity>
@@ -79,63 +82,18 @@ export default function HomeUILayout() {
   );
 }
 
+
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingTop: 20,
-    paddingHorizontal: 15,
-  },
-  titleContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    marginTop: 150,
-  },
-  title: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-  },
-  friendsContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
-  friendCard: {
-    width: 100,
-    height: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#FFFFFF',
-    elevation: 3,
-    padding: 10,
-  },
-  selectedFriend: {
-    borderWidth: 5,
-    borderColor: '#FFE2E5',
-  },
-  friendImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginBottom: 7,
-  },
-  customButton: {
-    width: '100%',
-    paddingVertical: 16,
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: '#008DBF',
-    marginBottom: 150,
-  },
-  customButtonText: {
-    fontSize: 20,
-    fontFamily: 'Medium',
-    color: 'white',
-  },
-  disabledButton: {
-    backgroundColor: '#B0BEC5',
-  },
+  container: { flex: 1, backgroundColor: '#FFFFFF', paddingTop: 20, paddingHorizontal: 15 },
+  titleContainer: { alignItems: 'center', marginBottom: 20, paddingHorizontal: 15, marginTop: 150 },
+  title: { fontSize: 30, fontFamily: 'Bold' },
+  friendsContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 10 },
+  friendCard: { width: 100, height: 100, alignItems: 'center', justifyContent: 'center', margin: 5, borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 3, overflow: 'hidden' },
+  selectedFriend: { borderWidth: 4, borderColor: '#FFE2E5' },
+  friendImage: { width: '100%', height: '100%', borderRadius: 10 },
+  selectedFriendImage: { width: '92%', height: '92%' },
+  customButton: { width: '100%', paddingVertical: 16, borderRadius: 10, alignItems: 'center', backgroundColor: '#008DBF', marginBottom: 150 },
+  customButtonText: { fontSize: 20, fontFamily: 'Medium', color: 'white' },
+  disabledButton: { backgroundColor: '#B0BEC5' },
 });
