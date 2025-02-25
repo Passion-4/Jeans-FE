@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,46 +7,32 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Keyboard,
   Alert
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
-import useSelectedFriends from '../../hooks/useSelectedFriends';
-
-// ✅ Team 타입 추가
-type Team = {
-  teamId: number;
-  name: string;
-  imageUrl?: string;
-};
 
 export default function GroupEditScreen() {
   const router = useRouter();
-  const { selectedFriends, clearSelectedFriends } = useSelectedFriends();
+  const { teamId, teamName, imageUrl } = useLocalSearchParams();  // ✅ params에서 데이터 직접 가져오기
 
-  // ✅ 현재 선택된 그룹 정보 가져오기
-  const selectedTeam: Team | undefined = selectedFriends.find(
-    (item): item is Team => 'teamId' in item
+  const [groupName, setGroupName] = useState<string>(
+    Array.isArray(teamName) ? teamName[0] : teamName ?? ""
   );
-
-  const [groupName, setGroupName] = useState<string>(selectedTeam?.name ?? "");
-  const [groupImage, setGroupImage] = useState<{ uri?: string; source?: any }>(() => {
-    if (selectedTeam?.imageUrl) {
-      return { uri: selectedTeam.imageUrl };
-    } else {
-      return { source: require('../../assets/images/icon.png') };
-    }
-  });
   
-  // ✅ useEffect를 활용해 imageUrl이 바뀌면 상태 업데이트
-  useEffect(() => {
-    if (selectedTeam?.imageUrl) {
-      setGroupImage({ uri: selectedTeam.imageUrl });
-    }
-  }, [selectedTeam?.imageUrl]);
+  const [groupImage, setGroupImage] = useState<{ uri?: string; source?: any }>(() => {
+    return imageUrl 
+      ? { uri: Array.isArray(imageUrl) ? imageUrl[0] : imageUrl }
+      : { source: require('../../assets/images/icon.png') };
+  });
 
-  // ✅ 공통 함수: 토큰 가져오기
+  useEffect(() => {
+    if (imageUrl) {
+      setGroupImage({ uri: Array.isArray(imageUrl) ? imageUrl[0] : imageUrl });
+    }
+  }, [imageUrl]);
+
+  // ✅ 토큰 가져오는 함수
   const getToken = async () => {
     const token = await AsyncStorage.getItem("accessToken");
     if (!token) {
@@ -68,7 +54,7 @@ export default function GroupEditScreen() {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ teamId: selectedTeam?.teamId, name: groupName })
+        body: JSON.stringify({ teamId, name: groupName })  // ✅ params에서 받은 teamId 사용
       });
 
       if (!response.ok) {
@@ -86,20 +72,18 @@ export default function GroupEditScreen() {
   const updateGroupImage = async (imageUri: string) => {
     try {
       console.log("📸 선택한 이미지 URI:", imageUri);
-  
+
       const token = await getToken();
       if (!token) {
         Alert.alert("오류", "로그인이 필요합니다.");
         return;
       }
-      console.log("🔑 인증 토큰 가져옴:", token);
-  
+
       let formData = new FormData();
   
-      // ✅ Correctly append JSON data as a Blob (Text)
-      formData.append("dto", JSON.stringify({ teamId: selectedTeam?.teamId }));
-  
-      // ✅ Convert the image URI into a file format
+      // ✅ 팀 ID를 JSON 데이터로 추가 (Text 형태)
+      formData.append("dto", JSON.stringify({ teamId }));
+      
       const fileType = imageUri.split(".").pop(); // Extract file extension
       const file = {
         uri: imageUri,
@@ -109,47 +93,38 @@ export default function GroupEditScreen() {
   
       // ✅ Append the image as a file
       formData.append("image", file as any);
-  
+
       console.log("🚀 FormData 구성 완료");
-  
-      // 🔥 Debugging: Log FormData
-      console.log("🔍 FormData 확인:");
-      for (let [key, value] of formData.entries()) {
-        console.log(`  🏷️ ${key}:`, value);
-      }
-  
-      // ✅ Send FormData to server
+
+      // ✅ 서버에 요청 보내기
       let uploadResponse = await fetch("https://api.passion4-jeans.store/team/profile", {
         method: "PATCH",
         headers: {
           "Authorization": `Bearer ${token}`,
-        }, // ❌ DO NOT set "Content-Type": "multipart/form-data", it will be set automatically
+        }, // ❌ "Content-Type": "multipart/form-data" 자동 설정됨
         body: formData,
       });
-  
+
       console.log("🔄 서버 응답 상태 코드:", uploadResponse.status);
-  
+
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
         console.error("❌ 서버 응답 오류 내용:", errorText);
         throw new Error(`프로필 사진 변경 실패 (${uploadResponse.status})`);
       }
-  
+
       const responseData = await uploadResponse.json();
       console.log("✅ 프로필 사진 변경 성공:", responseData);
-  
+
       // ✅ UI 업데이트
       setGroupImage({ uri: responseData.imageUrl });
-  
+
       Alert.alert("성공", "프로필 사진이 변경되었습니다.");
     } catch (error) {
       console.error("❌ 프로필 사진 변경 실패:", error);
       Alert.alert("오류", "프로필 사진 변경에 실패했습니다.");
     }
   };
-  
-  
-  
 
   // ✅ 이미지 선택 후 업데이트
   const pickImage = async () => {
@@ -167,10 +142,9 @@ export default function GroupEditScreen() {
     }
   };
 
-  // ✅ 저장 버튼 클릭 시 useSelectedFriends 초기화 후 홈으로 이동
+  // ✅ 저장 버튼 클릭 시 API 호출 후 홈으로 이동
   const handleSave = async () => {
     await updateGroupName();
-    clearSelectedFriends(); // ✅ 선택된 그룹 데이터 초기화
     router.push('/Home/main-page');
   };
 
