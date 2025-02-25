@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons'; // ✅ 아이콘 추가
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MaterialIcons } from '@expo/vector-icons';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 
@@ -14,17 +15,17 @@ const quotesDictionary = {
   명언: ['"성공은 준비된 자에게 온다." - 파스퇴르', '"노력은 배신하지 않는다." - 손흥민', '"꿈을 꾸는 사람이 세상을 바꾼다." - 앨런 케이']
 } as const;
 
-// ✅ 키워드별 아이콘 매핑
+// 키워드별 아이콘 매핑
 const iconDictionary = {
-  건강: 'favorite', // ❤️ 심장 (MaterialIcons)
-  응원: 'thumb-up', // 👍 응원
-  안부: 'message', // 💬 메시지
-  위로: 'sentiment-satisfied', // 😊 위로
-  축하: 'celebration', // 🎉 축하
-  명언: 'lightbulb', // 💡 명언 (아이디어)
+  건강: 'favorite', 
+  응원: 'thumb-up', 
+  안부: 'message', 
+  위로: 'sentiment-satisfied', 
+  축하: 'celebration', 
+  명언: 'lightbulb', 
 } as const;
 
-// ✅ 키워드별 아이콘 색상 매핑
+// 키워드별 아이콘 색상 매핑
 const iconColorDictionary = {
   건강: '#E74C3C', // 빨강
   응원: '#3498DB', // 파랑
@@ -35,36 +36,45 @@ const iconColorDictionary = {
 } as const;
 
 export default function QuoteSelectWordScreen() {
-  const { imageUri } = useLocalSearchParams();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const router = useRouter();
   const keywords = Object.keys(quotesDictionary) as (keyof typeof quotesDictionary)[];
+
+  // 저장된 이미지 불러오기
+  useEffect(() => {
+    const loadImage = async () => {
+      const storedImage = await AsyncStorage.getItem('selectedImage');
+      setSelectedImage(storedImage);
+    };
+    loadImage();
+  }, []);
 
   return (
     <View style={styles.container}>
       <TopNavBar />
       <Text style={styles.title}>원하는 글귀 키워드를 선택하세요.</Text>
 
-      {/* 한 줄에 2개씩 배치 */}
       <FlatList
         data={keywords}
         keyExtractor={(item) => item}
         numColumns={2}
         contentContainerStyle={styles.quoteList}
         renderItem={({ item }) => {
-          const randomQuote = quotesDictionary[item][
-            Math.floor(Math.random() * quotesDictionary[item].length)
-          ];
-
           return (
             <TouchableOpacity
               style={styles.quoteItem}
-              onPress={() => router.push({ pathname: '/Quote/quote-complete-gallery', params: { imageUri, quote: randomQuote } })}
+              onPress={() =>
+                router.push({
+                  pathname: '/Quote/quote-complete-gallery',
+                  params: { selectedKeyword: item }, // ✅ 키워드만 전달
+                })
+              }
             >
-              {/* ✅ 아이콘과 키워드를 가로 정렬 */}
               <View style={styles.quoteContent}>
-                <MaterialIcons name={iconDictionary[item]} size={24} color={iconColorDictionary[item]} style={styles.icon} />
-                <Text style={styles.quoteText}>{item}</Text>
-              </View>
+                              <MaterialIcons name={iconDictionary[item]} size={24} color={iconColorDictionary[item]} style={styles.icon} />
+                              <Text style={styles.quoteText}>{item}</Text>
+                            </View>
+              
             </TouchableOpacity>
           );
         }}
@@ -74,6 +84,8 @@ export default function QuoteSelectWordScreen() {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF', alignItems: 'center', paddingTop: 200 },

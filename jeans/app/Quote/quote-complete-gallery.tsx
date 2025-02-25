@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '@/components/HalfButton';
 
-// ✅ quotesDictionary 추가
 const quotesDictionary = {
   건강: ['건강은 최고의 재산이다.', '몸이 건강해야 마음도 건강하다.', '오늘도 건강한 하루 되세요!'],
   응원: ['당신의 꿈을 응원합니다!', '포기하지 마세요, 당신은 해낼 수 있어요!', '앞으로 나아가는 당신이 멋져요.'],
@@ -16,39 +16,45 @@ const quotesDictionary = {
 } as const;
 
 export default function QuoteSelectImg1() {
-  const { selectedImage, selectedKeyword } = useLocalSearchParams(); // ✅ 이전 화면에서 전달된 이미지 + 키워드 가져오기
-  const parsedFriendImage = typeof selectedImage === "string" ? JSON.parse(selectedImage) : selectedImage;
+  const { selectedKeyword } = useLocalSearchParams();
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
-  // ✅ selectedKeyword가 배열이면 첫 번째 값 사용
-  const keyword = Array.isArray(selectedKeyword) ? selectedKeyword[0] : selectedKeyword;
+  // ✅ 저장된 이미지 불러오기
+  useEffect(() => {
+    const loadImage = async () => {
+      const storedImage = await AsyncStorage.getItem('selectedImage');
+      setImageUri(storedImage);
+    };
+    loadImage();
+  }, []);
 
-  // ✅ 선택한 키워드가 quotesDictionary에 있는지 확인 후 랜덤 글귀 선택
-  const randomQuote = keyword in quotesDictionary
-    ? quotesDictionary[keyword as keyof typeof quotesDictionary][
-        Math.floor(Math.random() * quotesDictionary[keyword as keyof typeof quotesDictionary].length)
-      ]
-    : "선택한 키워드에 해당하는 글귀가 없습니다.";
+  const randomQuote = quotesDictionary[selectedKeyword as keyof typeof quotesDictionary]?.[
+    Math.floor(Math.random() * quotesDictionary[selectedKeyword as keyof typeof quotesDictionary].length)
+  ] || "선택한 키워드에 해당하는 글귀가 없습니다.";
 
   return (
     <View style={styles.container}>
       <TopNavBar />
       <Text style={styles.title}>글귀 이미지가 생성되었습니다!</Text>
 
-      <ImageBackground source={parsedFriendImage} style={styles.imageBackground}>
-        <View style={styles.overlay}>
-          <Text style={styles.quoteText}>{randomQuote}</Text> 
-        </View>
-      </ImageBackground>
+      {imageUri && (
+        <ImageBackground source={{ uri: imageUri }} style={styles.imageBackground}>
+          <View style={styles.overlay}>
+            <Text style={styles.quoteText}>{randomQuote}</Text>
+          </View>
+        </ImageBackground>
+      )}
 
-      <View style={styles.buttonContainer}>
+<View style={styles.buttonContainer}>
         <HalfButton title="사진 받기" color="#3DB2FF" onPress={() => router.push('/MakeUp/makeup-download')} />
         <HalfButton title="공유하기" onPress={() => router.push('/Share/share-select-friend')} />
       </View>
-
       <BottomNavBar />
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -56,10 +62,10 @@ const styles = StyleSheet.create({
     paddingTop: 70, paddingBottom: 80,
   },
   title: {
-    fontSize: 24, fontFamily: 'Bold', textAlign: 'center', marginBottom: 20,
+    fontSize: 30, fontFamily: 'Bold', textAlign: 'center', marginBottom: 20, marginTop:30,
   },
   imageBackground: {
-    width: 300, height: 350, justifyContent: 'center', alignItems: 'center',
+    width: 250, height: 300, justifyContent: 'center', alignItems: 'center',
     borderRadius: 15, overflow: 'hidden',
   },
   overlay: {
@@ -67,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   quoteText: {
-    fontSize: 22, fontFamily: 'Bold', color: '#FFFFFF', textAlign: 'center', paddingHorizontal: 20,
+    fontSize: 30, fontFamily: 'Quote', color: '#FFFFFF', textAlign: 'center', paddingHorizontal: 20,
   },
   buttonContainer: {
     flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 30,

@@ -5,29 +5,28 @@ import * as ImagePicker from 'expo-image-picker';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import FullButton from '@/components/FullButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
 
-  // 갤러리에서 사진 선택 -> 선택 즉시 다음 페이지로 이동
   const pickImages = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // 이미지 선택
-      allowsMultipleSelection: false, // 한 장만 선택 가능하도록 변경
-      quality: 1, // 원본 화질 유지
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: false,
+      quality: 1,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      const selectedImageUri = result.assets[0].uri; // 첫 번째 선택 이미지
+      const selectedImageUri = result.assets[0].uri; // ✅ 선택한 사진의 URI
 
-      // 선택된 이미지를 다음 화면으로 전달하면서 자동 이동
-      router.push({
-        pathname: '/Quote/quote-select-word-gallery',
-        params: { imageUri: selectedImageUri },
-      });
+      // ✅ AsyncStorage에 저장
+      await AsyncStorage.setItem('selectedImage', selectedImageUri);
+
+      // ✅ 글귀 선택 화면으로 이동
+      router.push('/Quote/quote-select-word-gallery');
     }
   };
-
   return (
     <View style={styles.container}>
       <TopNavBar />

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   quoteText: {
-    fontSize: 22, fontFamily: 'Bold', color: '#FFFFFF', textAlign: 'center', paddingHorizontal: 20,
+    fontSize: 30, fontFamily: 'Quote', color: '#FFFFFF', textAlign: 'center', paddingHorizontal: 20,
   },
   buttonContainer: {
     flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 30,

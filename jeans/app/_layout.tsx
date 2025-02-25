@@ -19,7 +19,8 @@ export default function RootLayout() {
     ExtraLight: require('../assets/fonts/Pretendard-ExtraLight.ttf'),
     ExtraBold: require('../assets/fonts/Pretendard-ExtraBold.ttf'),
     Light: require('../assets/fonts/Pretendard-Light.ttf'),
-    Medium: require('../assets/fonts/Pretendard-Medium.ttf')
+    Medium: require('../assets/fonts/Pretendard-Medium.ttf'),
+    Quote: require('../assets/fonts/quote.ttf')
   });
 
   useEffect(() => {

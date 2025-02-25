@@ -139,12 +139,6 @@ export default function SignupScreen() {
       console.error("❌ 오디오 전송 오류:", error);
     }
   };
-  
-  
-  
-  
-  
-  
 
   // 🔹 다음 버튼 눌렀을 때 실행
   const handleNext = () => {
