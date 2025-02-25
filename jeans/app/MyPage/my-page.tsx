@@ -109,7 +109,7 @@ export default function MyPageScreen() {
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/quit')}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => router.push('/MyPage/Quit')}>
           <Text style={styles.settingText}>탈퇴하기</Text>
           <Ionicons name="chevron-forward" size={18} color="#777" />
         </TouchableOpacity>
@@ -139,7 +139,13 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginRight: 30,
-    marginLeft:10
+    marginLeft:10,
+    backgroundColor: '#F5F5F5',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5, // 안드로이드용 그림자
   },
   profileInfo: {
     justifyContent: 'center',
