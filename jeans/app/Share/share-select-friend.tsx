@@ -244,14 +244,17 @@ const styles = StyleSheet.create({
     borderColor: '#FF616D',
   },
   friendImage: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
     borderRadius: 40,
     marginBottom: 7,
   },
   friendName: {
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Bold',
+    width:"100%",
+    textAlign:"center",
+
   },
   friendName2: {
     fontSize: 16,
