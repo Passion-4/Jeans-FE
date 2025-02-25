@@ -99,7 +99,7 @@ export default function LoginScreen() {
         style={styles.input}
         placeholder="비밀번호를 입력하세요."
         placeholderTextColor="#5E6365"
-        secureTextEntry
+        secureTextEntry={false}
         value={password}
         onChangeText={setPassword}
       />

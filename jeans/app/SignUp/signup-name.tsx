@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import FullButton from '@/components/FullButton';
-import { Ionicons } from '@expo/vector-icons';
-import { useSignup } from '@/hooks/SignupContext';
+} from "react-native";
+import { useRouter } from "expo-router";
+import FullButton from "@/components/FullButton";
+import { Ionicons } from "@expo/vector-icons";
+import { useSignup } from "@/hooks/SignupContext";
+import { Audio } from "expo-av"; // 🔹 추가된 부분 (expo-av 사용)
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function SignupScreen() {
   const [isRecording, setIsRecording] = useState(false);
   const [name, setName] = useState(signupData.name || ""); // Context에서 초기값 로드
   const pulseAnimation = useRef(new Animated.Value(1)).current;
+  const recordingRef = useRef<Audio.Recording | null>(null); // 🔹 녹음 객체 저장용
 
   useEffect(() => {
     if (isRecording) {
@@ -49,17 +51,96 @@ export default function SignupScreen() {
     ).start();
   };
 
-  // 🔹 마이크 버튼 눌렀을 때 동작
-  const handleMicPress = () => {
+  // 🔹 마이크 버튼 눌렀을 때 녹음 시작 & 중지
+  const handleMicPress = async () => {
     if (isRecording) {
-      setIsRecording(false);
-      inputRef.current?.blur();
+      await stopRecording();
     } else {
-      setIsRecording(true);
-      inputRef.current?.focus();
-      startPulseAnimation();
+      await startRecording();
     }
   };
+
+  // 🔹 음성 녹음 시작
+  const startRecording = async () => {
+    try {
+      console.log("🔹 마이크 권한 요청 중...");
+      const { granted } = await Audio.requestPermissionsAsync();
+      if (!granted) {
+        alert("마이크 권한이 필요합니다.");
+        return;
+      }
+
+      console.log("🎙️ 녹음 시작");
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      const recording = new Audio.Recording();
+      await recording.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
+      await recording.startAsync();
+      recordingRef.current = recording;
+
+      setIsRecording(true);
+      inputRef.current?.focus();
+    } catch (err) {
+      console.error("녹음 시작 실패:", err);
+    }
+  };
+
+  // 🔹 녹음 중지 및 Whisper API로 전송
+  const stopRecording = async () => {
+    if (!recordingRef.current) return;
+
+    console.log("🛑 녹음 중지");
+    setIsRecording(false);
+    await recordingRef.current.stopAndUnloadAsync();
+    const uri = recordingRef.current.getURI();
+    recordingRef.current = null;
+
+    if (uri) {
+      console.log("📤 오디오 전송 중...", uri);
+      await uploadAudio(uri);
+    }
+  };
+
+  const uploadAudio = async (audioUri: string) => {
+    const formData = new FormData();
+    formData.append("file", {
+      uri: audioUri,
+      type: "audio/m4a",
+      name: "audio.m4a",
+    } as any); // React Native의 FormData 문제 해결
+
+    console.log("📤 FormData 확인:", formData);
+  
+    try {
+      console.log("📤 서버로 오디오 파일 전송 중...");
+  
+      const response = await fetch("http://api.passion4-jeans-ai.store/api/whisper", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      const result = await response.json();
+      console.log("📝 서버 응답 전체:", result); // ✅ 응답 전체 출력하여 문제 확인
+  
+      if (result && result.transcription) {
+        console.log("📝 변환된 텍스트:", result.transcription);
+        setName(result.transcription);
+      } else {
+        console.error("⚠️ 서버 응답에 transcription 값이 없습니다.");
+      }
+    } catch (error) {
+      console.error("❌ 오디오 전송 오류:", error);
+    }
+  };
+  
+  
+  
 
   // 🔹 다음 버튼 눌렀을 때 실행
   const handleNext = () => {
@@ -86,7 +167,7 @@ export default function SignupScreen() {
       />
 
       {/* 🔹 음성 버튼 */}
-      <TouchableOpacity style={{ width: '100%' }} onPress={handleMicPress} activeOpacity={0.8}>
+      <TouchableOpacity style={{ width: "100%" }} onPress={handleMicPress} activeOpacity={0.8}>
         <View style={styles.micContainer}>
           {isRecording && (
             <Animated.View
@@ -98,7 +179,9 @@ export default function SignupScreen() {
           )}
           <View style={styles.recordButton}>
             <Ionicons name="mic" size={25} color="white" />
-            <Text style={styles.recordButtonText}>이름을 말해보세요</Text>
+            <Text style={styles.recordButtonText}>
+              {isRecording ? "녹음 중..." : "이름을 말해보세요"}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -114,6 +197,7 @@ export default function SignupScreen() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -157,15 +241,15 @@ const styles = StyleSheet.create({
   },
   pulseCircle: {
     position: 'absolute',
-    width: '102%',
+    width: '84%',
     height: 85,
     borderRadius: 100,
-    backgroundColor: 'rgba(61, 178, 255, 0.3)',
+    backgroundColor: '#FFE2E5',
   },
   recordButton: {
-    width: '100%',
-    height: 70,
-    backgroundColor: '#3DB2FF',
+    width: '80%',
+    height: 60,
+    backgroundColor: '#FF616D',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 100,
@@ -181,7 +265,7 @@ const styles = StyleSheet.create({
   },
   recordingNotice: {
     fontSize: 20,
-    color: '#3DB2FF',
+    color: 'black',
     fontFamily: 'Medium',
     marginBottom: 30,
   },
