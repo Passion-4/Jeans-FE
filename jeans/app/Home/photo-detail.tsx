@@ -2,12 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Animated, Dimensions, Alert, ActivityIndicator } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
-import ListeningAnimation from '@/components/ListeningAnimation';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -30,13 +28,13 @@ interface VoiceMessage {
 interface PhotoDetail {
   photoId: number;
   title: string;
-  imageUrl: string;
+  photoUrl: string;
   date: string;
   emojiType: number | null;
   voiceList: VoiceMessage[];
 }
 
-const emojiMap = {
+const emojiMap: Record<number, string> = {
   1: "👍",
   2: "😆",
   3: "🔥",
@@ -55,6 +53,35 @@ export default function PhotoDetailScreen() {
   const [isCancelPopupVisible, setIsCancelPopupVisible] = useState<boolean>(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isTagModalVisible, setIsTagModalVisible] = useState(false);
+  const [emoticonList, setEmoticonList] = useState<{ emojiType: number; name: string; profileUrl: string }[]>([]);
+
+  const fetchEmoticonList = async () => {
+    try {
+      let token = await AsyncStorage.getItem("accessToken");
+      if (!token) {
+        Alert.alert("오류", "로그인이 필요합니다.");
+        return;
+      }
+
+      const response = await fetch(`https://api.passion4-jeans.store/team-photos/${photoId}/emoticons`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`이모티콘 목록 조회 실패 (${response.status})`);
+      }
+
+      const data = await response.json();
+      console.log("✅ 이모티콘 목록:", data);
+      setEmoticonList(data);
+    } catch (error) {
+      console.error("❌ 이모티콘 목록 불러오기 실패:", error);
+      Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+    }
+  };
 
     const navigateToTagInfo = (tag: String) => {
       Alert.alert("${tag}");
@@ -82,10 +109,12 @@ export default function PhotoDetailScreen() {
           if (!response.ok) {
             throw new Error(`사진 상세 정보 불러오기 실패 (${response.status})`);
           }
+
+          if (photoId) fetchEmoticonList();
     
           const data = await response.json();
           console.log("✅ 사진 상세 정보:", data); // 🔍 확인용 로그
-          console.log("📷 이미지 URL:", data.imageUrl); // 🔍 확인용 로그
+          console.log("📷 이미지 URL:", data.photoUrl); // 🔍 확인용 로그
     
           setPhotoDetail(data);
         } catch (error) {
@@ -107,6 +136,32 @@ export default function PhotoDetailScreen() {
     // 녹음 종료
     const stopRecording = () => {
       setIsRecording(false);
+    };
+
+    const sendEmoticon = async (emojiType: number) => {
+      try {
+        let token = await AsyncStorage.getItem("accessToken");
+        if (!token) {
+          Alert.alert("오류", "로그인이 필요합니다.");
+          return;
+        }
+    
+        const response = await fetch(`https://api.passion4-jeans.store/photos/${photoId}/emoticon/${emojiType}`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`이모티콘 전송 실패 (${response.status})`);
+        }
+    
+        Alert.alert("성공", "이모티콘이 전송되었습니다.");
+      } catch (error) {
+        console.error("❌ 이모티콘 전송 실패:", error);
+        Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+      }
     };
 
   // ✅ 이모티콘 애니메이션 처리
@@ -131,14 +186,13 @@ export default function PhotoDetailScreen() {
     });
   };
 
-  const handleReactionPress = (reaction: string) => {
+  const handleReactionPress = (reaction: string, emojiType: number) => {
     if (selectedReaction === reaction) {
-      // 같은 버튼을 다시 눌러 취소하는 경우, 이모티콘을 쏟지 않음
       setSelectedReaction(null);
     } else {
-      // 새로운 반응을 누르면, 상태 변경 후 이모티콘을 떨어뜨림
       setSelectedReaction(reaction);
       dropEmojis(reaction);
+      sendEmoticon(emojiType); // ✅ API 호출 추가
     }
   };
 
@@ -171,10 +225,10 @@ export default function PhotoDetailScreen() {
       ) : (
         <View style={styles.photoInfoContainer}>
           <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-            <Image source={{ uri: photoDetail?.imageUrl }} style={styles.photo} />
+            <Image source={{ uri: photoDetail?.photoUrl }} style={styles.photo} />
           </TouchableOpacity>
           <View style={styles.descriptionBox}>
-            <Text style={styles.descriptionText}>사진 제목: {photoDetail?.title}</Text>
+            <Text style={styles.descriptionText}>{photoDetail?.title}</Text>
             <Text style={styles.descriptionText}>일시: {photoDetail?.date}</Text>
           </View>
         </View>
@@ -182,19 +236,34 @@ export default function PhotoDetailScreen() {
 
       {/* 📌 버튼 영역 */}
       <View style={styles.reactionButtons}>
-        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "👍" && styles.selectedReaction]} onPress={() => handleReactionPress("👍")}>
-          <Text style={styles.reactionText}>👍 좋아요</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "😆" && styles.selectedReaction]} onPress={() => handleReactionPress("😆")}>
-          <Text style={styles.reactionText}>😆 기뻐요</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "🔥" && styles.selectedReaction]} onPress={() => handleReactionPress("🔥")}>
-          <Text style={styles.reactionText}>🔥 멋져요</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.reactionButton, selectedReaction === "💖" && styles.selectedReaction]} onPress={() => handleReactionPress("💖")}>
-          <Text style={styles.reactionText}>💖 최고예요</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity 
+        style={[styles.reactionButton, selectedReaction === "👍" && styles.selectedReaction]} 
+        onPress={() => handleReactionPress("👍", 1)}
+      >
+        <Text style={styles.reactionText}>👍 좋아요</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={[styles.reactionButton, selectedReaction === "😆" && styles.selectedReaction]} 
+        onPress={() => handleReactionPress("😆", 2)}
+      >
+        <Text style={styles.reactionText}>😆 기뻐요</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={[styles.reactionButton, selectedReaction === "🔥" && styles.selectedReaction]} 
+        onPress={() => handleReactionPress("🔥", 3)}
+      >
+        <Text style={styles.reactionText}>🔥 멋져요</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={[styles.reactionButton, selectedReaction === "💖" && styles.selectedReaction]} 
+        onPress={() => handleReactionPress("💖", 4)}
+      >
+        <Text style={styles.reactionText}>💖 최고예요</Text>
+      </TouchableOpacity>
+    </View>
 
       {/* 📌 떨어지는 이모티콘 */}
       {fallingEmojis.map((item) => (
@@ -284,12 +353,31 @@ export default function PhotoDetailScreen() {
       <Modal visible={isModalVisible} transparent animationType="fade">
         <BlurView intensity={30} style={styles.modalBackground}>
           <TouchableOpacity style={styles.modalCloseArea} onPress={() => setIsModalVisible(false)} />
-          <Image source={{ uri: photoDetail?.imageUrl }} style={styles.modalImage} />
+          
+          {/* 확대된 사진 */}
+          <Image source={{ uri: photoDetail?.photoUrl }} style={styles.modalImage} />
+          
+          {/* ✅ 확대된 사진 아래에 이모티콘 목록 추가 */}
+          {emoticonList.length > 0 && (
+            <View style={styles.modalEmoticonContainer}>
+              {emoticonList.map((item, index) => (
+                <View key={index} style={styles.emoticonItem}>
+                  <Image source={{ uri: item.profileUrl }} style={styles.profileImage} />
+                  <Text style={styles.emoticonText}>
+                    {item.name}님이 {emojiMap[item.emojiType]}를 보냈어요!
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* 닫기 버튼 */}
           <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
             <Ionicons name="close-circle" size={40} color="black" />
           </TouchableOpacity>
         </BlurView>
       </Modal>
+
     </View>
   );
 }
@@ -306,11 +394,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
-    marginTop: 30,
+    marginTop: 40,
   },
   photo: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -323,7 +411,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 18,
     color: '#555',
-    fontFamily: 'Medium'
+    fontFamily: 'Bold'
   },
   emoji: {
     position: 'absolute',
@@ -450,6 +538,34 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
     color: 'white',
     textAlign: 'center',
+  },
+  emoticonContainer: {
+    backgroundColor: "#F8F8F8",
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  emoticonItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 5,
+  },
+  emoticonText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  modalEmoticonContainer: {
+    position: "absolute",
+    bottom: 60, // ✅ 하단에 고정 (적절한 값 조정 가능)
+    left: 20,
+    right: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // ✅ 반투명 배경 추가
+    padding: 10,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   
   
