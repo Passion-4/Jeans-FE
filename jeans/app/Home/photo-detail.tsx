@@ -240,28 +240,6 @@ export default function PhotoDetailScreen() {
     }
   };
   
-
-  // ✅ 공유 취소 처리
-  const showCancelPopup = () => {
-    setIsCancelPopupVisible(true);
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    setTimeout(async () => {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-
-      await deleteSharedPhoto();  // ✅ 사진 삭제 API 호출 추가
-
-    }, 2000);
-  };
-
   return (
     <View style={styles.container}>
       <TopNavBar />
@@ -415,7 +393,7 @@ export default function PhotoDetailScreen() {
           <TouchableOpacity style={styles.modalCloseArea} onPress={() => setIsModalVisible(false)} />
 
           {/* 공유 취소 버튼 */}
-          <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
+          <TouchableOpacity style={styles.cancelButton} onPress={deleteSharedPhoto}>
             <Text style={styles.cancelButtonText}>공유 취소</Text>
           </TouchableOpacity>
           
