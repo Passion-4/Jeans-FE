@@ -54,6 +54,7 @@ export default function PhotoDetailScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isTagModalVisible, setIsTagModalVisible] = useState(false);
   const [emoticonList, setEmoticonList] = useState<{ emojiType: number; name: string; profileUrl: string }[]>([]);
+  const [selectedTranscript, setSelectedTranscript] = useState<string | null>(null);
 
   const fetchEmoticonList = async () => {
     try {
@@ -207,6 +208,39 @@ export default function PhotoDetailScreen() {
     }
   };
 
+  const deleteSharedPhoto = async () => {
+    try {
+      let token = await AsyncStorage.getItem("accessToken");
+      console.log("🔑 Token 확인:", token); // 🔍 콘솔에서 토큰 확인
+  
+      if (!token) {
+        Alert.alert("오류", "로그인이 필요합니다.");
+        return;
+      }
+  
+      const response = await fetch(`https://api.passion4-jeans.store/photos/${photoId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text(); // 서버에서 제공하는 에러 메시지 확인
+        console.error(`❌ 사진 삭제 실패 (${response.status}):`, errorText);
+        throw new Error(`사진 삭제 실패 (${response.status}): ${errorText}`);
+      }
+  
+      Alert.alert("삭제 완료", "사진이 삭제되었습니다.");
+      router.push("/Home/main-page");
+  
+    } catch (error) {
+      console.error("❌ 사진 삭제 중 오류 발생:", error);
+      Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
+    }
+  };
+  
+
   // ✅ 공유 취소 처리
   const showCancelPopup = () => {
     setIsCancelPopupVisible(true);
@@ -216,14 +250,15 @@ export default function PhotoDetailScreen() {
       useNativeDriver: true,
     }).start();
 
-    setTimeout(() => {
+    setTimeout(async () => {
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
-      }).start(() => {
-        router.push('/Home/main-page');
-      });
+      }).start();
+
+      await deleteSharedPhoto();  // ✅ 사진 삭제 API 호출 추가
+
     }, 2000);
   };
 
@@ -292,24 +327,42 @@ export default function PhotoDetailScreen() {
         </Animated.Text>
       ))}
 
-      {/* 대화 내역 */}
+      {/* 대화 내역  나중에는 setSelectedTranscript 함수가 녹음 틀어지면 보이고 끝나면 안 보이게*/}
       <ScrollView style={styles.chatContainer}>
         {photoDetail?.voiceList.map((voice) =>
           voice.isUser ? (
+            // ✅ 내가 보낸 메시지 (녹음 파일만 표시, 클릭 시 transcript 표시)
             <View key={voice.voiceId} style={styles.chatBubbleRight}>
-              <Text style={styles.chatTextRight}>{voice.transcript}</Text>
+              <TouchableOpacity onPress={() => setSelectedTranscript(voice.transcript)}>
+                <Ionicons name="mic-circle" size={30} color="blue" />
+              </TouchableOpacity>
             </View>
           ) : (
-            <View key={voice.voiceId} style={styles.chatBubbleLeft}>
-              <Image source={{ uri: voice.profileUrl }} style={styles.profileImage} />
-              <View style={styles.chatTextContainer}>
-                <Text style={styles.friendName}>{voice.name}</Text>
-                <Text style={styles.chatText}>{voice.transcript}</Text>
+            // ✅ 상대방이 보낸 메시지 (이름 + 프로필 사진 + 음성 버튼)
+            <View key={voice.voiceId} style={styles.chatBubbleLeftContainer}>
+              {/* 이름 표시 */}
+              <Text style={styles.friendName}>{voice.name}</Text>
+
+              <View style={styles.chatBubbleLeft}>
+                <Image source={{ uri: voice.profileUrl }} style={styles.profileImage} />
+                <View style={styles.chatTextContainer}>
+                  <TouchableOpacity onPress={() => setSelectedTranscript(voice.transcript)}>
+                    <Ionicons name="mic-circle" size={30} color="blue" />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           )
         )}
       </ScrollView>
+
+
+        {/* ✅ 클릭된 transcript 표시 영역 */}
+        {selectedTranscript && (
+          <View style={styles.transcriptContainer}>
+            <Text style={styles.transcriptText}>{selectedTranscript}</Text>
+          </View>
+        )}
 
       {/* 하단 (녹음, 태그) */}
       <View style={styles.bottomButtons}>
@@ -353,10 +406,6 @@ export default function PhotoDetailScreen() {
         </View>
       </Modal>
 
-      {/* 공유 취소 버튼 */}
-      <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
-        <Text style={styles.cancelButtonText}>공유 취소</Text>
-      </TouchableOpacity>
 
       <BottomNavBar />
 
@@ -364,6 +413,11 @@ export default function PhotoDetailScreen() {
       <Modal visible={isModalVisible} transparent animationType="fade">
         <BlurView intensity={30} style={styles.modalBackground}>
           <TouchableOpacity style={styles.modalCloseArea} onPress={() => setIsModalVisible(false)} />
+
+          {/* 공유 취소 버튼 */}
+          <TouchableOpacity style={styles.cancelButton} onPress={showCancelPopup}>
+            <Text style={styles.cancelButtonText}>공유 취소</Text>
+          </TouchableOpacity>
           
           {/* 확대된 사진 */}
           <Image source={{ uri: photoDetail?.photoUrl }} style={styles.modalImage} />
@@ -407,6 +461,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: 40,
   },
+  chatBubbleLeftContainer: {
+    marginBottom: 5, // ✅ 상대방 메시지 간격 조정
+  },
   photo: {
     width: 120,
     height: 120,
@@ -423,6 +480,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#555',
     fontFamily: 'Bold'
+  },
+  transcriptContainer: {
+    backgroundColor: "#F8F8F8",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  transcriptText: {
+    fontSize: 16,
+    color: "#333",
+    fontFamily: "Medium",
   },
   emoji: {
     position: 'absolute',
@@ -452,33 +522,34 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flex: 1,
-    marginBottom: 50,
+    marginBottom: 5,
+  },
+  friendName: {
+    fontSize: 14, // ✅ 이름 크기 줄이기
+    fontWeight: "bold",
+    color: "#555",
+    marginLeft: 50, // ✅ 프로필 사진과 정렬 맞추기
+    marginBottom: 2, // ✅ 이름과 채팅 버블 간격 조정
   },
   chatBubbleLeft: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 10,
+    paddingVertical: 5, // ✅ 높이 줄이기
   },
   profileImage: {
-    width: 40,
-    height: 40,
+    width: 38,
+    height: 38,
     borderRadius: 20,
     marginRight: 10,
   },
   chatTextContainer: {
     backgroundColor: '#F0F0F0',
-    padding: 10,
+    padding: 8,
     borderRadius: 10,
     maxWidth: '70%',
   },
   chatText: {
     fontSize: 16,
-    fontFamily: 'Medium'
-  },
-  friendName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
     fontFamily: 'Medium'
   },
   chatBubbleRight: {
@@ -487,7 +558,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     maxWidth: '70%',
-    marginBottom: 10,
+    marginBottom: 5,
+    paddingVertical: 5, // ✅ 높이 줄이기
   },
   chatTextRight: {
     fontSize: 16,
@@ -497,7 +569,7 @@ const styles = StyleSheet.create({
   bottomButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 50,
+    marginBottom: 110,
   },
   recordButton: {
     flex: 2,
@@ -583,9 +655,10 @@ const styles = StyleSheet.create({
     /** 사진 확대  */
     modalBackground: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: "flex-start",  // ✅ 사진을 위쪽으로 배치
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.9)', // ✅ 블러 효과와 함께 배경 어둡게 설정
+      paddingTop: 80, // ✅ 사진 위치 조정
     },
     modalCloseArea: {
       position: 'absolute',
@@ -604,11 +677,13 @@ const styles = StyleSheet.create({
       height:250,
       aspectRatio: 1, // 정방형 유지
       borderRadius: 10,
+      position: "absolute", // ✅ 사진을 독립적으로 배치
+      top: "30%", // ✅ 화면의 20% 위치에 배치
     },
     closeButton: {
       position: 'absolute',
-      top: -10,
-      right: -10,
+      top: 20,
+      right: 20,
     
     },
 
@@ -630,6 +705,7 @@ const styles = StyleSheet.create({
       borderRadius: 25,
       marginTop: 20,
       elevation: 5,
+      marginBottom: 30
     },
     cancelButtonText: {
       fontSize: 18,
