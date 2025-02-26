@@ -148,6 +148,7 @@ export default function SignupPhone() {
     <View style={styles.container}>
       <Text style={styles.title}>회원가입</Text>
       <Text style={styles.label}>전화번호</Text>
+      <Text style={styles.infoText}>* 입력하신 전화번호는 아이디로 사용됩니다.</Text>
       <TextInput
         ref={inputRef}
         style={styles.input}
@@ -157,7 +158,7 @@ export default function SignupPhone() {
         value={phone}
         onChangeText={setPhone}
       />
-      <Text style={styles.infoText}>* 입력하신 전화번호는 아이디로 사용됩니다.</Text>
+      
       <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPhone}>
         <Text style={styles.confirmButtonText}>확인</Text>
       </TouchableOpacity>
@@ -178,29 +179,6 @@ export default function SignupPhone() {
           </TouchableOpacity>
         </>
       )}
-
-      {/* 🔹 음성 버튼 */}
-      <TouchableOpacity style={styles.micWrapper} onPress={handleMicPress} activeOpacity={0.8}>
-        <View style={styles.micContainer}>
-          {isRecording && (
-            <Animated.View
-              style={[styles.pulseCircle, { transform: [{ scale: pulseAnimation }] }]}
-            />
-          )}
-          <View style={styles.recordButton}>
-            <Ionicons name="mic" size={25} color="white" />
-            <Text style={styles.recordButtonText}>전화번호를 말해보세요</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      {/* 음성 안내 문구 */}
-      <View style={{ minHeight: 25 }}>
-        <Text style={[styles.recordingNotice, { opacity: isRecording ? 1 : 0 }]}>
-          다시 누르면 음성이 멈춥니다.
-        </Text>
-      </View>
-
       <FullButton title="다 음" onPress={handleNext} disabled={!isVerified} />
     </View>
   );
@@ -216,7 +194,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    marginBottom: 40,
+    marginBottom: 30,
     fontFamily: 'Bold',
   },
   label: {
@@ -267,7 +245,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Medium',
   },
   infoText: {
-    fontSize: 15,
+    fontSize: 18,
     color: '#3DB2FF',
     fontFamily: 'Medium',
     alignSelf: 'flex-start',
