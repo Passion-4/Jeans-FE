@@ -28,36 +28,58 @@ export default function PhotoSelectionScreen() {
 
   // API 호출 및 사진 변경
   const fetchNextPhotos = async () => {
-    if (selectedBox === null) return;
-
+    if (selectedBox === null) {
+      console.log("⚠️ No selection made. Exiting function.");
+      return;
+    }
+  
     setLoading(true);
     try {
       let token = await AsyncStorage.getItem("accessToken");
+      
+      // ✅ 디버깅: 현재 단계(step) 확인
+      console.log("🔢 Current Step Before Fetch:", step);
+      console.log("🛠 Sending request to API:", apiEndpoints[step]);
+      console.log("🔑 Authorization Header:", `Bearer ${token}`);
+  
       const response = await fetch(apiEndpoints[step], {
         method: step === 1 ? "POST" : "PATCH",
         headers: {
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ edit: selectedBox === 1 }) // 아래 사진 선택 시 true, 위쪽 선택 시 false
+        body: JSON.stringify({ edit: selectedBox === 1 }),
       });
-
-      if (!response.ok) throw new Error("Failed to fetch images");
+  
+      // ✅ 디버깅: API 응답 상태 확인
+      console.log("📡 Response Status:", response.status);
+      console.log("📡 Response Headers:", response.headers);
+  
+      if (!response.ok) {
+        throw new Error(`❌ HTTP error! Status: ${response.status}`);
+      }
+  
       const data = await response.json();
-
+      console.log("📄 Response Data:", data);
+  
       if (step < 3) {
-        setPhotos([data.imageUrl1, data.imageUrl2]); // 다음 단계 사진 업데이트
-        setStep(step + 1); // 다음 단계로 이동
-        setSelectedBox(null); // 선택 초기화
+        setPhotos([data.imageUrl1, data.imageUrl2]);
+        setStep((prevStep) => {
+          console.log("✅ Next Step Set:", prevStep + 1);
+          return prevStep + 1;
+        });
+        setSelectedBox(null);
       } else {
-        router.push("/Set/photo-selection2"); // 모든 단계 완료 후 메인 페이지로 이동
+        console.log("🎉 All steps completed. Navigating to photo-selection2.");
+        router.push("/Set/photo-selection2");
       }
     } catch (error) {
-      console.error("Error fetching images:", error);
+      console.error("⚠️ Error fetching images:", error);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <View style={styles.container}>
