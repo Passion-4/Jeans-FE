@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,23 +7,25 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Keyboard,
   Alert
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function GroupEditScreen() {
   const router = useRouter();
-  const { teamId, teamName, imageUrl } = useLocalSearchParams();  // ✅ params에서 데이터 직접 가져오기
-
+  const { teamId, teamName, imageUrl } = useLocalSearchParams();
+  const inputRef = useRef<TextInput | null>(null);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [groupName, setGroupName] = useState<string>(
     Array.isArray(teamName) ? teamName[0] : teamName ?? ""
   );
-  
   const [groupImage, setGroupImage] = useState<{ uri?: string; source?: any }>(() => {
     return imageUrl 
       ? { uri: Array.isArray(imageUrl) ? imageUrl[0] : imageUrl }
-      : { source: require('../../assets/images/icon.png') };
+      : { source: require('@/assets/images/group-default.png') };
   });
 
   useEffect(() => {
@@ -31,6 +33,16 @@ export default function GroupEditScreen() {
       setGroupImage({ uri: Array.isArray(imageUrl) ? imageUrl[0] : imageUrl });
     }
   }, [imageUrl]);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   // ✅ 토큰 가져오는 함수
   const getToken = async () => {
@@ -54,7 +66,7 @@ export default function GroupEditScreen() {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ teamId, name: groupName })  // ✅ params에서 받은 teamId 사용
+        body: JSON.stringify({ teamId, name: groupName })  
       });
 
       if (!response.ok) {
@@ -74,38 +86,25 @@ export default function GroupEditScreen() {
       console.log("📸 선택한 이미지 URI:", imageUri);
 
       const token = await getToken();
-      if (!token) {
-        Alert.alert("오류", "로그인이 필요합니다.");
-        return;
-      }
+      if (!token) return;
 
       let formData = new FormData();
-  
-      // ✅ 팀 ID를 JSON 데이터로 추가 (Text 형태)
       formData.append("dto", JSON.stringify({ teamId }));
       
-      const fileType = imageUri.split(".").pop(); // Extract file extension
+      const fileType = imageUri.split(".").pop(); 
       const file = {
         uri: imageUri,
-        name: `profile.${fileType}`, // Example: "profile.jpeg"
-        type: `image/${fileType}` // Example: "image/jpeg"
+        name: `profile.${fileType}`,
+        type: `image/${fileType}`
       };
   
-      // ✅ Append the image as a file
       formData.append("image", file as any);
 
-      console.log("🚀 FormData 구성 완료");
-
-      // ✅ 서버에 요청 보내기
       let uploadResponse = await fetch("https://api.passion4-jeans.store/team/profile", {
         method: "PATCH",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }, // ❌ "Content-Type": "multipart/form-data" 자동 설정됨
+        headers: { "Authorization": `Bearer ${token}` },
         body: formData,
       });
-
-      console.log("🔄 서버 응답 상태 코드:", uploadResponse.status);
 
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
@@ -116,7 +115,6 @@ export default function GroupEditScreen() {
       const responseData = await uploadResponse.json();
       console.log("✅ 프로필 사진 변경 성공:", responseData);
 
-      // ✅ UI 업데이트
       setGroupImage({ uri: responseData.imageUrl });
 
       Alert.alert("성공", "프로필 사진이 변경되었습니다.");
@@ -152,6 +150,7 @@ export default function GroupEditScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>그룹 프로필 수정</Text>
 
+      {/* 프로필 사진 */}
       <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
         <Image
           key={groupImage.uri ?? "default"}
@@ -160,11 +159,31 @@ export default function GroupEditScreen() {
         />
       </TouchableOpacity>
 
+      {/* 프로필 사진 수정 버튼 */}
+      <TouchableOpacity style={styles.imageEditButton} onPress={pickImage}>
+        <Text style={styles.imageEditText}>프로필 사진 수정</Text>
+      </TouchableOpacity>
+
+      {/* 이름 입력 필드 */}
       <View style={styles.inputContainer}>
+        <TouchableOpacity onPress={() => inputRef.current?.focus()} style={styles.editIcon}>
+          <Ionicons name="pencil-outline" size={24} color="#008DBF" />
+        </TouchableOpacity>
+
         <TextInput
+          ref={inputRef}
+          style={styles.input}
+          placeholder="그룹 이름"
+          placeholderTextColor="#999"
           value={groupName}
           onChangeText={setGroupName}
         />
+
+        {keyboardVisible && (
+          <TouchableOpacity style={styles.confirmButton} onPress={Keyboard.dismiss}>
+            <Text style={styles.confirmButtonText}>확인</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -174,14 +193,32 @@ export default function GroupEditScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 35, fontFamily: 'Bold', marginBottom: 30 },
-  imageContainer: { width: 120, height: 120, borderRadius: 60, overflow: 'hidden', borderWidth: 2, borderColor: '#008DBF', marginBottom: 10 },
+  imageContainer: { 
+    width: 120, 
+    height: 120, 
+    borderRadius: 60, 
+    overflow: 'hidden', 
+    // 사진 border에 그림자 효과 추가
+    backgroundColor: '#F5F5F5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5, // 안드로이드용 그림자
+   },
   image: { width: '100%', height: '100%' },
-  inputContainer: { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', width: '100%', marginBottom: 30, paddingVertical: 5 },
-  input: { height: 50, fontSize: 20, textAlign: 'left', paddingHorizontal: 5 },
+  imageEditButton: { 
+    marginTop:30,
+    backgroundColor: '#E0E0E0', paddingVertical: 10, paddingHorizontal: 15, borderRadius: 10, marginBottom: 10 },
+  imageEditText: { fontSize: 16, fontFamily: 'Medium', color: '#333' },
+  inputContainer: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#CCCCCC', width: '100%', marginBottom: 20, paddingVertical: 5 },
+  editIcon: { padding: 5, marginRight: 5 },
+  input: { flex: 1, height: 60, fontSize: 20, textAlign: 'left', paddingHorizontal: 5, fontFamily: 'Medium' },
+  confirmButton: { backgroundColor: '#FF616D', paddingVertical: 10, paddingHorizontal: 15, borderRadius: 10, marginLeft: 10 },
+  confirmButtonText: { color: 'white', fontFamily: 'Medium', fontSize: 16 },
   saveButton: { width: '100%', paddingVertical: 15, backgroundColor: '#008DBF', borderRadius: 10, alignItems: 'center' },
   saveText: { fontSize: 20, fontFamily: 'Medium', color: 'white' },
 });

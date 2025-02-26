@@ -97,11 +97,9 @@ export default function SignupPassword() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>새로운 비밀번호 설정</Text>
-
       {/* 안내 문구 */}
-      <Text style={styles.QText}>Q. 당신의 끝 사랑은 누구인가요?</Text>
-      <Text style={styles.infoText}>* 이 질문에 대한 답이 당신의 비밀번호가 될 것입니다.</Text>
+      <Text style={styles.title}>Q. 당신의 끝 사랑은 누구인가요?</Text>
+      <Text style={styles.infoText}>* 이 질문에 대한 답이 새로운 비밀번호가 됩니다.</Text>
 
       <Text style={styles.label}>비밀번호</Text>
       <TextInput
@@ -162,9 +160,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     fontFamily: "Bold",
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 60,
+    textAlign: "center", // 텍스트를 중앙 정렬
+    alignSelf: "center",  // 뷰 내에서 가운데 정렬 유지
+    width: "100%",        // 전체 너비를 사용해 텍스트 중앙 정렬 적용
   },
   label: {
     alignSelf: "flex-start",
@@ -192,10 +194,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   infoText: {
-    fontSize: 14,
+    fontSize: 17,
     fontFamily: "Medium",
-    marginBottom: 30,
-    alignSelf: "flex-start",
+    marginBottom: 20,
+    textAlign: "center", // ✅ 텍스트를 중앙 정렬
+    alignSelf: "center",
+    width: "110%",
+    color:"#ED3241"
   },
   micContainer: {
     width: '100%',
@@ -206,15 +211,15 @@ const styles = StyleSheet.create({
   },
   pulseCircle: {
     position: 'absolute',
-    width: '102%',
+    width: '84%',
     height: 85,
     borderRadius: 100,
-    backgroundColor: 'rgba(61, 178, 255, 0.3)',
+    backgroundColor: '#FFE2E5',
   },
   recordButton: {
-    width: '100%',
-    height: 70,
-    backgroundColor: '#3DB2FF',
+    width: '80%',
+    height: 60,
+    backgroundColor: '#FF616D',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 100,

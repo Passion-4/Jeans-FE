@@ -149,7 +149,12 @@ export default function HomeUILayout() {
                 }}
               >
                 <Image
-                  source={{ uri: friend.imageUrl }}
+                  source={
+                    friend.imageUrl && friend.imageUrl.trim() !== "" 
+                      ? { uri: friend.imageUrl }
+                      : require('../../assets/images/group-default.png')  // ✅ 기본 이미지 적용
+                  }
+                 
                   style={[
                     styles.profileImage,
                     selectedFriend && selectedFriend !== friend ? styles.blurred : null,
