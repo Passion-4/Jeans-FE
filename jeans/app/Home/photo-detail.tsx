@@ -408,8 +408,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   photo: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     borderRadius: 10,
     marginRight: 10,
   },
