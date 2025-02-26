@@ -89,7 +89,7 @@ export default function PhotoDetailScreen() {
       // navigation.navigate('TagInfoScreen', { tag });
     };
 
-  // ✅ API 호출: 사진 상세 정보 가져오기
+    // ✅ 사진 상세 정보를 가져온 후, 이모티콘 애니메이션 실행
     useEffect(() => {
       const fetchPhotoDetail = async () => {
         try {
@@ -98,25 +98,35 @@ export default function PhotoDetailScreen() {
             Alert.alert("오류", "로그인이 필요합니다.");
             return;
           }
-    
-          const response = await fetch(`https://api.passion4-jeans.store/friend-photos/${photoId}/detail`, {
+
+          const response = await fetch(`https://api.passion4-jeans.store/photos/${photoId}/detail`, {
             method: "GET",
             headers: {
               "Authorization": `Bearer ${token}`,
             },
           });
-    
+
           if (!response.ok) {
             throw new Error(`사진 상세 정보 불러오기 실패 (${response.status})`);
           }
 
-          if (photoId) fetchEmoticonList();
-    
           const data = await response.json();
-          console.log("✅ 사진 상세 정보:", data); // 🔍 확인용 로그
-          console.log("📷 이미지 URL:", data.photoUrl); // 🔍 확인용 로그
-    
+          console.log("✅ 사진 상세 정보:", data);
+
           setPhotoDetail(data);
+
+          if (photoId) fetchEmoticonList();
+
+          // ✅ 이모티콘이 존재하면 입장 시 애니메이션 실행
+          if (data.emojiTypeList && data.emojiTypeList.length > 0) {
+            console.log("🎉 입장 시 이모티콘 애니메이션 실행!", data.emojiTypeList);
+            data.emojiTypeList.forEach((emojiType: number) => {
+              if (emojiMap[emojiType]) {
+                dropEmojis(emojiMap[emojiType]);
+              }
+            });
+          }
+
         } catch (error) {
           console.error("❌ 사진 상세 조회 실패:", error);
           Alert.alert("오류", error instanceof Error ? error.message : "알 수 없는 오류 발생");
@@ -124,9 +134,10 @@ export default function PhotoDetailScreen() {
           setLoading(false);
         }
       };
-    
+
       if (photoId) fetchPhotoDetail();
     }, [photoId]);
+
 
     // 녹음 시작
     const startRecording = () => {
