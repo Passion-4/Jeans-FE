@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSignup } from '@/hooks/SignupContext';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
+import styles from './signup-st';
 
 export default function SignupBirth() {
   const router = useRouter();
@@ -104,7 +105,7 @@ export default function SignupBirth() {
     ).start();
   };
 
-  // 🔹 마이크 버튼 눌렀을 때 녹음 시작 & 중지
+  // 마이크 버튼 눌렀을 때 녹음 시작 & 중지
   const handleMicPress = async () => {
     if (isRecording) {
       await stopRecording();
@@ -113,7 +114,7 @@ export default function SignupBirth() {
     }
   };
 
-  // 🔹 음성 녹음 시작
+  // 음성 녹음 시작
   const startRecording = async () => {
     try {
       console.log('🔹 마이크 권한 요청 중...');
@@ -141,7 +142,7 @@ export default function SignupBirth() {
     }
   };
 
-  // 🔹 녹음 중지 및 WebSocket으로 전송
+  // 녹음 중지 및 WebSocket으로 전송
   const stopRecording = async () => {
     if (!recordingRef.current) return;
 
@@ -230,75 +231,3 @@ export default function SignupBirth() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 35,
-    marginBottom: 40,
-    fontFamily: 'Bold',
-  },
-  label: {
-    alignSelf: 'flex-start',
-    marginLeft: 5,
-    fontSize: 20,
-    marginTop: 10,
-    marginBottom: 15,
-    fontFamily: 'Medium',
-  },
-  input: {
-    width: '100%',
-    height: 55,
-    borderColor: '#CCCCCC',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    backgroundColor: '#F8F8F8',
-    marginBottom: 15,
-    fontFamily: 'Medium',
-    fontSize: 18,
-  },
-  micContainer: {
-    width: '100%', 
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop:15,
-    marginBottom:20
-  },
-  pulseCircle: {
-    position: 'absolute',
-    width: '84%',
-    height: 85,
-    borderRadius: 100,
-    backgroundColor: '#FFE2E5',
-  },
-  recordButton: {
-    width: '80%',
-    height: 60,
-    backgroundColor: '#FF616D',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-    flexDirection: 'row',
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  recordButtonText: {
-    color: 'white',
-    marginLeft: 10,
-    fontFamily: 'Medium',
-    fontSize: 21,
-  },
-  recordingNotice: {
-    fontSize: 20,
-    color: 'black',
-    fontFamily: 'Medium',
-    marginBottom: 30,
-  },
-});

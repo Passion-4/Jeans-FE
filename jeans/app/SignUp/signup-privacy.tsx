@@ -24,17 +24,33 @@ export default function PrivacySignupScreen() {
 
       <View style={styles.switchContainer}>
         <Text style={styles.context}>갤러리(사진, 미디어 접근 권한)</Text>
-        <Switch value={agreed1} onValueChange={setAgreed1} />
+        <Switch
+  value={agreed1}
+  onValueChange={setAgreed1}
+  trackColor={{ false: "#CCCCCC", true: "#ED3241" }} // 🔹 트랙 색상 변경
+  thumbColor={agreed1 ? "#FFE2E5" : "#777777"} // 🔹 thumb 색상 변경
+/>
+
       </View>
 
       <View style={styles.switchContainer}>
         <Text style={styles.context}>마이크(음성 녹음 권한)</Text>
-        <Switch value={agreed2} onValueChange={setAgreed2} />
+        <Switch
+  value={agreed2}
+  onValueChange={setAgreed2}
+  trackColor={{ false: "#CCCCCC", true: "#ED3241" }} // 🔹 트랙 색상 변경
+  thumbColor={agreed2 ? "#FFE2E5" : "#777777"} // 🔹 thumb 색상 변경
+/>
       </View>
 
       <View style={styles.switchContainer}>
         <Text style={styles.context}>위치 정보</Text>
-        <Switch value={agreed3} onValueChange={setAgreed3} />
+        <Switch
+  value={agreed3}
+  onValueChange={setAgreed3}
+  trackColor={{ false: "#CCCCCC", true: "#ED3241" }} // 🔹 트랙 색상 변경
+  thumbColor={agreed3 ? "#FFE2E5" : "#777777"} // 🔹 thumb 색상 변경
+/>
       </View>
 
       <FullButton title="다 음" onPress={handleNext} />
@@ -52,24 +68,26 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
-    marginBottom: 40,
+    marginBottom: 30,
     fontFamily: "Bold",
   },
   label: {
     alignSelf: "flex-start",
     marginLeft: 5,
     fontSize: 20,
-    marginBottom: 40,
+    marginBottom: 10,
     fontFamily: "Medium",
+    fontWeight:"bold"
   },
   switchContainer: {
     flexDirection: "row",
+    alignItems: "center", // 🔹 수직 정렬 추가
     justifyContent: "space-between",
     width: "100%",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#DDDDDD",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   context: {
     fontSize: 18,

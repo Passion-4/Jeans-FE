@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
 import { useImageContext } from '../Context/ImageContext';
+import MakeUpAnimation from "@/components/MakeUpAnimation";
 
 export default function BestShotScreen() {
   const router = useRouter();
+  const { originalUrl, editedUrl } = useLocalSearchParams(); // API 응답에서 받은 원본/보정 URL
   const [isProcessing, setIsProcessing] = useState(true);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
-  const { selectedImages } = useImageContext(); 
-  
+  const [showOriginal, setShowOriginal] = useState(false); // 원본/보정 결과 전환 상태
+  const { selectedImages } = useImageContext();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsProcessing(false);
@@ -23,15 +26,7 @@ export default function BestShotScreen() {
   if (isProcessing) {
     return (
       <View style={styles.processingContainer}>
-        <Text style={styles.processingText}>기본 보정 중입니다...</Text>
-        <View style={styles.fixedAnimationContainer}>
-          <LottieView
-            source={require('../../assets/animations/Animation - 1739445445148.json')}
-            autoPlay
-            loop
-            style={styles.animation}
-          />
-        </View>
+        <MakeUpAnimation />
       </View>
     );
   }
@@ -51,14 +46,30 @@ export default function BestShotScreen() {
         </TouchableOpacity>
       </View>
 
-        {/* 일단 임의로 첫 번째 사진 표시 */}
-        <View style={styles.imageContainer}>
-              {selectedImages && selectedImages.length > 0 ? (
-                <Image source={{ uri: selectedImages[0] }} style={styles.image} />
-              ) : (
-                <Text style={styles.emptySpaceText}>사진 없음</Text>
-              )}
-            </View>
+      {/* 원본/결과물 버튼 */}
+      <View style={styles.imageToggleContainer}>
+        <TouchableOpacity 
+          style={[styles.toggleButton, !showOriginal && styles.activeButton]} 
+          onPress={() => setShowOriginal(false)}
+        >
+          <Text style={styles.toggleButtonText}>보정 결과</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.toggleButton, showOriginal && styles.activeButton]} 
+          onPress={() => setShowOriginal(true)}
+        >
+          <Text style={styles.toggleButtonText}>원본</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* 원본 또는 보정 결과 이미지 표시 */}
+      <View style={styles.imageContainer}>
+  <Image 
+    source={{ uri: String(showOriginal ? originalUrl : editedUrl) }} 
+    style={styles.image} 
+    onError={() => console.log("이미지 로드 오류")} 
+  />
+</View>
 
       <View style={styles.buttonContainer}>
         <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/MakeUp/makeup-finish')} />
@@ -131,6 +142,26 @@ const styles = StyleSheet.create({
     color: '#008DBF',
     textDecorationLine: 'underline',
   },
+  imageToggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  toggleButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginHorizontal: 5,
+    backgroundColor: '#ccc',
+  },
+  activeButton: {
+    backgroundColor: '#008DBF',
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
   imageContainer: {
     borderRadius: 10,
     overflow: 'hidden',
@@ -147,7 +178,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 40,
   },
-  /** 모달 스타일 */
   modalBackground: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -184,30 +214,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Medium',
   },
-  emptySpaceText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-
   processingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  processingText: {
-    fontSize: 30,
-    fontFamily: 'Bold',
-    marginBottom: 20,
-  },
-  fixedAnimationContainer: {
-    width: 150,
-    height: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  animation: {
-    width: '100%',
-    height: '100%',
-  },
 });
+

@@ -14,16 +14,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSignup } from "@/hooks/SignupContext";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
+import styles from './signup-st';
 
-export default function SignupScreen() {
+export default function SignupName() {
   const router = useRouter();
   const { signupData, updateSignupData } = useSignup();
   const inputRef = useRef<TextInput>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [name, setName] = useState(signupData.name || ""); // Context에서 초기값 로드
+  const [name, setName] = useState(signupData.name || ""); // 🔹 Context에서 이름 유지
   const pulseAnimation = useRef(new Animated.Value(1)).current;
-  const recordingRef = useRef<Audio.Recording | null>(null); // 녹음 객체 저장
-  const wsRef = useRef<WebSocket | null>(null); // WebSocket 연결 저장
+  const recordingRef = useRef<Audio.Recording | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     if (isRecording) {
@@ -34,15 +35,13 @@ export default function SignupScreen() {
   }, [isRecording]);
 
   useEffect(() => {
-    // 🔹 WebSocket 연결
     connectWebSocket();
-
     return () => {
-      disconnectWebSocket(); // 🔹 컴포넌트 언마운트 시 WebSocket 연결 해제
+      disconnectWebSocket();
     };
   }, []);
 
-  // 🔹 WebSocket 연결 함수
+  // 🔹 WebSocket 연결
   const connectWebSocket = () => {
     wsRef.current = new WebSocket("wss://api.passion4-jeans-ai.store/api/ws-text");
 
@@ -64,7 +63,7 @@ export default function SignupScreen() {
     };
   };
 
-  // 🔹 WebSocket 연결 해제
+  // 🔹 WebSocket 해제
   const disconnectWebSocket = () => {
     if (wsRef.current) {
       wsRef.current.close();
@@ -72,7 +71,7 @@ export default function SignupScreen() {
     }
   };
 
-  // 🔹 원이 반복적으로 커졌다 작아지는 애니메이션
+  // 🔹 애니메이션 효과
   const startPulseAnimation = () => {
     Animated.loop(
       Animated.sequence([
@@ -92,7 +91,7 @@ export default function SignupScreen() {
     ).start();
   };
 
-  // 🔹 마이크 버튼 눌렀을 때 녹음 시작 & 중지
+  // 🔹 마이크 버튼 클릭 시 녹음 시작 & 중지
   const handleMicPress = async () => {
     if (isRecording) {
       await stopRecording();
@@ -129,7 +128,7 @@ export default function SignupScreen() {
     }
   };
 
-  // 🔹 녹음 중지 및 WebSocket으로 전송
+  // 🔹 녹음 중지 후 WebSocket으로 전송
   const stopRecording = async () => {
     if (!recordingRef.current) return;
 
@@ -152,24 +151,21 @@ export default function SignupScreen() {
         console.error("❌ WebSocket이 열려있지 않음.");
         return;
       }
-  
+
       // 🔹 바이너리 데이터로 파일 읽기
       const fileData = await FileSystem.readAsStringAsync(audioUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-  
+
       if (!fileData) {
         console.error("❌ 오디오 파일을 읽을 수 없음.");
         return;
       }
-  
-      // 🔹 Base64를 Uint8Array로 변환 (바이너리로 복원)
+
+      // 🔹 Base64를 Uint8Array로 변환 후 전송
       const binaryData = Uint8Array.from(atob(fileData), (c) => c.charCodeAt(0));
-  
-      // 🔹 WebSocket을 통해 바이너리 데이터 전송
       wsRef.current.send(binaryData);
-      console.log("🚀 WebSocket으로 바이너리 오디오 데이터 전송 완료!");
-  
+      console.log("🚀 WebSocket으로 오디오 데이터 전송 완료!");
     } catch (error) {
       console.error("❌ WebSocket 오디오 전송 오류:", error);
     }
@@ -181,8 +177,10 @@ export default function SignupScreen() {
       alert("이름을 입력해주세요.");
       return;
     }
+
+    // 🔹 입력된 이름을 Context API에 저장
     updateSignupData("name", name);
-    router.push("/SignUp/signup-birth");
+    router.push("/SignUp/signup-birth"); // 다음 단계(생년월일 입력)로 이동
   };
 
   return (
@@ -220,80 +218,3 @@ export default function SignupScreen() {
     </View>
   );
 }
-
-
-
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 35,
-    marginBottom: 40,
-    fontFamily: 'Bold',
-  },
-  label: {
-    alignSelf: 'flex-start',
-    marginLeft: 5,
-    fontSize: 20,
-    marginTop: 10,
-    marginBottom: 15,
-    fontFamily: 'Medium',
-  },
-  input: {
-    width: '100%',
-    height: 55,
-    borderColor: '#CCCCCC',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    backgroundColor: '#F8F8F8',
-    marginBottom: 15,
-    fontFamily: 'Medium',
-    fontSize: 18,
-  },
-  micContainer: {
-    width: '100%', 
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop:15,
-    marginBottom:20
-  },
-  pulseCircle: {
-    position: 'absolute',
-    width: '84%',
-    height: 85,
-    borderRadius: 100,
-    backgroundColor: '#FFE2E5',
-  },
-  recordButton: {
-    width: '80%',
-    height: 60,
-    backgroundColor: '#FF616D',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-    flexDirection: 'row',
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  recordButtonText: {
-    color: 'white',
-    marginLeft: 10,
-    fontFamily: 'Medium',
-    fontSize: 21,
-  },
-  recordingNotice: {
-    fontSize: 20,
-    color: 'black',
-    fontFamily: 'Medium',
-    marginBottom: 30,
-  },
-});

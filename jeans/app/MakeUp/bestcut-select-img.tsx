@@ -68,20 +68,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Bold',
     textAlign: 'center',
-    marginBottom: 20, // 이미지와 간격 추가
+    marginBottom: 10, // 이미지와 간격 추가
     marginTop: 50,
   },
   image: {
-    width: 300, // 이미지 크기 조정
-    height: 200,
-    marginBottom: 30, // 버튼과의 간격 추가
-    backgroundColor: '#F5F5F5',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5, // 안드로이드용 그림자
-      borderRadius:10
+    width: 350 ,
+    height: 250,
+    marginBottom: 30,
   },
 
 });
