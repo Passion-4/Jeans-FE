@@ -13,7 +13,7 @@ export default function PhotoDetailScreen() {
   const { selectedImages } = useImageContext();
   const { shareType, receiverList, teamId } = useLocalSearchParams();
 
-  // ✅ 여러 개의 팀 ID도 받을 수 있도록 변경
+  // ✅ teamId를 항상 배열로 변환
   const parsedReceiverList = typeof receiverList === "string" ? JSON.parse(receiverList) : receiverList || [];
   const parsedTeamList = typeof teamId === "string" ? JSON.parse(teamId) : teamId ? [teamId] : [];
 
@@ -24,92 +24,52 @@ export default function PhotoDetailScreen() {
       Alert.alert("사진을 선택해주세요.");
       return;
     }
-  
     setIsUploading(true);
-  
     try {
       const token = await AsyncStorage.getItem("accessToken");
-      console.log("🔑 저장된 토큰:", token);
-  
       if (!token) {
         Alert.alert("로그인이 필요합니다.");
         setIsUploading(false);
         return;
       }
-  
+
       const createFormData = () => {
         const formData = new FormData();
         selectedImages.forEach((imageUri, index) => {
           const fileName = imageUri.split('/').pop() || `photo_${index}.jpg`;
-          formData.append("image", {
-            uri: imageUri,
-            name: fileName,
-            type: "image/jpeg",
-          } as any);
+          formData.append("image", { uri: imageUri, name: fileName, type: "image/jpeg" } as any);
         });
         return formData;
       };
-  
+
       const requests = [];
-  
-      // 📌 친구 공유 API 요청
       if (parsedReceiverList.length > 0) {
         const formData = createFormData();
         formData.append("dto", JSON.stringify({ receiverList: parsedReceiverList }));
-  
-        console.log("🚀 친구 공유 API 호출:", "https://api.passion4-jeans.store/photo/friend-share");
-        console.log("📌 친구 리스트 (receiverList):", parsedReceiverList);
-  
         requests.push(
           fetch("https://api.passion4-jeans.store/photo/friend-share", {
             method: "POST",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "multipart/form-data" },
             body: formData,
           })
         );
       }
-  
-      // 📌 팀 공유 API 요청 (팀 ID 개별로 보내기)
+
       if (parsedTeamList.length > 0) {
         for (const teamId of parsedTeamList) {
           const formData = createFormData();
           formData.append("dto", JSON.stringify({ teamId }));
-  
-          console.log("🚀 팀 공유 API 호출:", "https://api.passion4-jeans.store/photo/team-share");
-          console.log("📌 단일 팀 ID 전송:", teamId);
-  
           requests.push(
             fetch("https://api.passion4-jeans.store/photo/team-share", {
               method: "POST",
-              headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
-              },
+              headers: { "Authorization": `Bearer ${token}`, "Content-Type": "multipart/form-data" },
               body: formData,
             })
           );
         }
       }
-  
-      // API 요청 실행
-      const responses = await Promise.all(requests);
-  
-      for (const res of responses) {
-        console.log("🔹 응답 상태 코드:", res.status);
-        const responseText = await res.text();
-        console.log("🔹 응답 본문:", responseText);
-  
-        if (!res.ok) {
-          console.error("❌ 오류 발생:", responseText);
-          Alert.alert("공유 실패", "사진 공유 중 오류가 발생했습니다.");
-          setIsUploading(false);
-          return;
-        }
-      }
-  
+
+      await Promise.all(requests);
       Alert.alert("사진 공유 완료", "사진이 성공적으로 공유되었습니다.");
       router.push("/Share/share-complete");
     } catch (error) {
