@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 24,
     color: '#1A3A5E',
     marginBottom: 5,
     fontFamily: 'Bold',
   },
   title: {
-    fontSize: 35,
+    fontSize: 40,
     color: '#1A3A5E',
     fontFamily: 'Bold',
   },

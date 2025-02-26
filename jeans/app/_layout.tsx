@@ -103,7 +103,7 @@ export default function RootLayout() {
           <Stack.Screen name="MyPage/connect" options={{ title: '친구 추가', headerShown: false}} />
           <Stack.Screen name="MyPage/word-size" options={{ title: '글자 크기기', headerShown: false}} />
           <Stack.Screen name="MyPage/manual" options={{ title: '사용법', headerShown: false}} />
-          <Stack.Screen name="MyPage/quit" options={{ title: '탈퇴하기', headerShown: false}} />    
+          <Stack.Screen name="MyPage/Quit" options={{ title: '탈퇴하기', headerShown: false}} />    
 
           {/* 친구 */}
           <Stack.Screen name="Friend/list" options={{ title: '친구 목록', headerShown: false}} />

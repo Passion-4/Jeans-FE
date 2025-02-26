@@ -169,7 +169,7 @@ export default function FriendDeleteScreen() {
         onPress={confirmDelete}
         disabled={selectedFriends.length === 0}
       >
-        <Text style={styles.confirmText}>삭제 하기</Text>
+        <Text style={styles.confirmText}>삭제</Text>
       </TouchableOpacity>
 
       <BottomNavBar />
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 20,
-    marginTop: 120,
+    marginTop: 150,
   },
   title: {
     fontSize: 35,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     borderColor: 'white'
   },
   selectedFriend: {
-    borderColor: 'rgba(255, 183, 6, 0.8)',
+    borderColor: '#FF616D',
     borderWidth: 5,
   },
   friendImage: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   },
   confirmText: {
     fontSize: 20,
-    fontFamily: 'Bold',
+    fontFamily: 'Medium',
     color: '#FFFFFF',
   },
 });

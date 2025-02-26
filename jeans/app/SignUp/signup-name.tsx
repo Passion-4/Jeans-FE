@@ -12,7 +12,7 @@ import { useRouter } from "expo-router";
 import FullButton from "@/components/FullButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useSignup } from "@/hooks/SignupContext";
-import { Audio } from "expo-av"; 
+import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 
 export default function SignupScreen() {
@@ -22,7 +22,8 @@ export default function SignupScreen() {
   const [isRecording, setIsRecording] = useState(false);
   const [name, setName] = useState(signupData.name || ""); // Context에서 초기값 로드
   const pulseAnimation = useRef(new Animated.Value(1)).current;
-  const recordingRef = useRef<Audio.Recording | null>(null); // 🔹 녹음 객체 저장용
+  const recordingRef = useRef<Audio.Recording | null>(null); // 녹음 객체 저장
+  const wsRef = useRef<WebSocket | null>(null); // WebSocket 연결 저장
 
   useEffect(() => {
     if (isRecording) {
@@ -31,6 +32,45 @@ export default function SignupScreen() {
       pulseAnimation.setValue(1);
     }
   }, [isRecording]);
+
+  useEffect(() => {
+    // 🔹 WebSocket 연결
+    connectWebSocket();
+
+    return () => {
+      disconnectWebSocket(); // 🔹 컴포넌트 언마운트 시 WebSocket 연결 해제
+    };
+  }, []);
+
+  // 🔹 WebSocket 연결 함수
+  const connectWebSocket = () => {
+    wsRef.current = new WebSocket("wss://api.passion4-jeans-ai.store/api/ws-text");
+
+    wsRef.current.onopen = () => {
+      console.log("✅ WebSocket 연결 완료");
+    };
+
+    wsRef.current.onmessage = (event) => {
+      console.log("📩 WebSocket 메시지 수신:", event.data);
+      setName(event.data);
+    };
+
+    wsRef.current.onerror = (error) => {
+      console.error("❌ WebSocket 오류:", error);
+    };
+
+    wsRef.current.onclose = () => {
+      console.log("🔌 WebSocket 연결 종료됨");
+    };
+  };
+
+  // 🔹 WebSocket 연결 해제
+  const disconnectWebSocket = () => {
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
+  };
 
   // 🔹 원이 반복적으로 커졌다 작아지는 애니메이션
   const startPulseAnimation = () => {
@@ -89,7 +129,7 @@ export default function SignupScreen() {
     }
   };
 
-  // 🔹 녹음 중지 및 Whisper API로 전송
+  // 🔹 녹음 중지 및 WebSocket으로 전송
   const stopRecording = async () => {
     if (!recordingRef.current) return;
 
@@ -100,43 +140,38 @@ export default function SignupScreen() {
     recordingRef.current = null;
 
     if (uri) {
-      console.log("📤 오디오 전송 중...", uri);
-      await uploadAudio(uri);
+      console.log("📤 WebSocket으로 오디오 전송 중...", uri);
+      await sendAudioToWebSocket(uri);
     }
   };
 
-  const uploadAudio = async (audioUri: string) => {
+  // 🔹 WebSocket을 통해 음성 파일 전송
+  const sendAudioToWebSocket = async (audioUri: string) => {
     try {
-      const formData = new FormData();
-      formData.append("file", {
-        uri: audioUri,
-        type: "audio/m4a",
-        name: "recorded_audio.wav",
-      } as any);
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        console.error("❌ WebSocket이 열려있지 않음.");
+        return;
+      }
   
-      console.log("📤 FormData 확인:", formData);
-  
-      // 🔹 FastAPI로 오디오 파일 업로드
-      const response = await fetch("https://api.passion4-jeans-ai.store/api/text", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      // 🔹 바이너리 데이터로 파일 읽기
+      const fileData = await FileSystem.readAsStringAsync(audioUri, {
+        encoding: FileSystem.EncodingType.Base64,
       });
   
-      const result = await response.json();
-      console.log("📝 서버 응답 전체:", result);
-  
-      // 🔹 변환된 텍스트를 입력 필드에 반영
-      if (result && result.result) {
-        console.log("📝 변환된 텍스트:", result.result);
-        setName(result.result);
-      } else {
-        console.error("⚠️ 서버 응답에 result 값이 없습니다.");
+      if (!fileData) {
+        console.error("❌ 오디오 파일을 읽을 수 없음.");
+        return;
       }
+  
+      // 🔹 Base64를 Uint8Array로 변환 (바이너리로 복원)
+      const binaryData = Uint8Array.from(atob(fileData), (c) => c.charCodeAt(0));
+  
+      // 🔹 WebSocket을 통해 바이너리 데이터 전송
+      wsRef.current.send(binaryData);
+      console.log("🚀 WebSocket으로 바이너리 오디오 데이터 전송 완료!");
+  
     } catch (error) {
-      console.error("❌ 오디오 전송 오류:", error);
+      console.error("❌ WebSocket 오디오 전송 오류:", error);
     }
   };
 
@@ -146,7 +181,7 @@ export default function SignupScreen() {
       alert("이름을 입력해주세요.");
       return;
     }
-    updateSignupData("name", name); // Context에 저장
+    updateSignupData("name", name);
     router.push("/SignUp/signup-birth");
   };
 
@@ -169,10 +204,7 @@ export default function SignupScreen() {
         <View style={styles.micContainer}>
           {isRecording && (
             <Animated.View
-              style={[
-                styles.pulseCircle,
-                { transform: [{ scale: pulseAnimation }] },
-              ]}
+              style={[styles.pulseCircle, { transform: [{ scale: pulseAnimation }] }]}
             />
           )}
           <View style={styles.recordButton}>
@@ -184,17 +216,14 @@ export default function SignupScreen() {
         </View>
       </TouchableOpacity>
 
-      {/* 음성 안내 문구 */}
-      <View style={{ minHeight: 25 }}>
-        <Text style={[styles.recordingNotice, { opacity: isRecording ? 1 : 0 }]}>
-          다시 누르면 음성이 멈춥니다.
-        </Text>
-      </View>
-
       <FullButton title="다 음" onPress={handleNext} />
     </View>
   );
 }
+
+
+
+
 
 
 const styles = StyleSheet.create({

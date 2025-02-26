@@ -43,7 +43,7 @@ export default function PhotoSelectionScreen() {
 
       {/* 로컬 이미지 추가 */}
       <Image 
-        source={require('../../assets/images/people.png')} // assets 폴더의 이미지
+        source={require('../../assets/images/단체.png')} // assets 폴더의 이미지
         style={styles.image}
         resizeMode="contain"
       />
@@ -72,9 +72,16 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   image: {
-    width: 200, // 이미지 크기 조정
+    width: 300, // 이미지 크기 조정
     height: 200,
     marginBottom: 30, // 버튼과의 간격 추가
+    backgroundColor: '#F5F5F5',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5, // 안드로이드용 그림자
+      borderRadius:10
   },
 
 });
