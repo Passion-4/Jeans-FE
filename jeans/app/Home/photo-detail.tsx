@@ -99,10 +99,34 @@ export default function PhotoDetailScreen() {
           "   - 여행 중 친구와 특별한 추억을 남길 수 있는 사진관!\n" +
           "   - 블로그: [삶에 나중이라는 계절은 없다](http://blog.naver.com/yoonbitgaram)\n\n"
       );
+    } else if (tag === "#행복") {
+      Alert.alert(
+        "행복한 순간을 남기는 방법",
+        "😊 행복한 순간을 공유하는 3가지 방법\n\n" +
+          "1️⃣ 일기 쓰기 ✍\n" +
+          "   - 하루를 돌아보며 긍정적인 순간을 적어보세요.\n\n" +
+          "2️⃣ 사진으로 기록하기 📸\n" +
+          "   - 작은 순간들도 소중한 추억이 될 수 있어요.\n\n" +
+          "3️⃣ 감사 표현하기 🙌\n" +
+          "   - 고마운 사람들에게 작은 메시지를 보내보세요!\n\n"
+      );
+    } else if (tag === "#MZ 포즈") {
+      Alert.alert(
+        "MZ 세대 인기 포즈",
+        "📸 2024년 인기 MZ 포즈!\n\n" +
+          "1️⃣ 하트 입술 포즈 ❤️\n" +
+          "   - 손가락으로 작은 하트를 만들어 입 근처에 가져가기!\n\n" +
+          "2️⃣ 힙한 V 포즈 ✌\n" +
+          "   - 얼굴 옆에서 V를 그리며 개성 있는 표정 짓기!\n\n" +
+          "3️⃣ 손 위에 얼굴 올리기 🌟\n" +
+          "   - 한쪽 손바닥을 얼굴 밑에 살짝 받쳐 귀여운 느낌 연출!\n\n"
+      );
     } else {
       Alert.alert("준비 중", "해당 태그에 대한 정보를 준비 중입니다.");
     }
   };
+  
+  
   
 
     // ✅ 사진 상세 정보를 가져온 후, 이모티콘 애니메이션 실행
@@ -381,19 +405,24 @@ export default function PhotoDetailScreen() {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>태그 안내</Text>
+            <Text style={styles.modalTitle}>태그</Text>
             <Text style={styles.modalDescription}>
-              사진과 관련된 태그를 자동으로 생성하고 태그를 클릭하면 관련된 정보를 볼 수 있습니다.
+              자동으로 생성된 사진 관련 태그입니다. {'\n'} 태그를 누르면 유용한 정보들을 {'\n'}확인할 수 있어요!
             </Text>
 
             {/* 태그 리스트 */}
             <View style={styles.tagContainer}>
-              {["#행복", "#우정 사진", "#MZ 포즈"].map((tag, index) => (
-                <TouchableOpacity key={index} style={styles.tagButton} onPress={() => navigateToTagInfo(tag)}>
-                  <Text style={styles.tagText}>{tag}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+  {[
+    { tag: "#행복", color: "#008DBF" }, // 오렌지
+    { tag: "#우정 사진", color: "#008DBF" }, // 파랑
+    { tag: "#MZ 포즈", color: "#008DBF" }, // 노랑
+  ].map(({ tag, color }, index) => (
+    <TouchableOpacity key={index} style={styles.tagButton} onPress={() => navigateToTagInfo(tag)}>
+      <Text style={[styles.tagText, { color }]}>{tag}</Text>
+    </TouchableOpacity>
+  ))}
+</View>
+
 
             <TouchableOpacity style={styles.modalCloseButton} onPress={() => setIsTagModalVisible(false)}>
               <Text style={styles.modalCloseText}>확인</Text>
@@ -583,14 +612,18 @@ const styles = StyleSheet.create({
     fontSize:18
   },
   tagButton: {
-    flex: 1,
-    backgroundColor: '#F1F1F1',
+    backgroundColor: "#E1F5FE", // ✅ 태그 버튼 배경색 (연한 파랑)
     paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginLeft: 10,
+    paddingHorizontal: 25, // ✅ 가로로 더 길게 조정
+    borderRadius: 25, // ✅ 더 둥글게
+    minWidth: 120, // ✅ 태그의 최소 가로 길이 설정
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000", // ✅ 그림자 효과 추가
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   tagButtonText: {
     color: '#333',
@@ -684,14 +717,16 @@ const styles = StyleSheet.create({
     },
 
     tagContainer: {
-      flexDirection: 'row',
+      flexDirection: 'column',
       justifyContent: 'center',
-      gap: 20,
+      gap: 15,
       marginBottom: 20,
     },
     tagText: {
-      color: 'black',
+      fontSize: 20,
       fontFamily: 'Medium',
+      color: "#333", // 기본 색상, 필요 시 변경 가능
+      
     },
 
     cancelButton: {

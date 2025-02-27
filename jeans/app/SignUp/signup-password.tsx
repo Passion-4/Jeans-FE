@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import styles from './signup-st';
+import * as Speech from "expo-speech"; 
 
 export default function SignupPassword() {
   const router = useRouter();
@@ -46,6 +47,23 @@ export default function SignupPassword() {
     };
   }, []);
 
+   useEffect(() => {
+          const voiceType = signupData.voiceType;
+          if (voiceType === 1) {
+            Speech.speak("비밀번호를 입력해주세요. 당신의 첫사랑은 누구인가요?", {
+              language: "ko-KR",
+              pitch: 0.4, // 남성 목소리
+              rate: 1.0,
+            });
+          } else if (voiceType === 2) {
+            Speech.speak("비밀번호를 입력해주세요. 당신의 첫사랑은 누구인가요?", {
+              language: "ko-KR",
+              pitch: 1.3, // 여성 목소리
+              rate: 1.0,
+            });
+          }
+        }, []);
+        
   // 🔹 WebSocket 연결 함수
   const connectWebSocket = () => {
     wsRef.current = new WebSocket("wss://api.passion4-jeans-ai.store/api/ws-text");

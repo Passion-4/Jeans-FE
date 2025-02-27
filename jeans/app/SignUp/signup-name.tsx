@@ -15,6 +15,7 @@ import { useSignup } from "@/hooks/SignupContext";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import styles from './signup-st';
+import * as Speech from "expo-speech";
 
 export default function SignupName() {
   const router = useRouter();
@@ -39,6 +40,23 @@ export default function SignupName() {
     return () => {
       disconnectWebSocket();
     };
+  }, []);
+
+  useEffect(() => {
+    const voiceType = signupData.voiceType;
+    if (voiceType === 1) {
+      Speech.speak("회원가입을 시작합니다. 핑크색 버튼을 누르고 이름을 말한 후 녹음이 완료됐으면 다시 버튼을 누르세요.", {
+        language: "ko-KR",
+        pitch: 0.4, // 남성 목소리
+        rate: 1.0
+      });
+    } else if (voiceType === 2) {
+      Speech.speak("회원가입을 시작합니다. 핑크색 버튼을 누르고 이름을 말한 후 녹음이 완료됐으면 다시 버튼을 누르세요.", {
+        language: "ko-KR",
+        pitch: 1.3, // 여성 목소리
+        rate: 1.0,
+      });
+    }
   }, []);
 
   // 🔹 WebSocket 연결

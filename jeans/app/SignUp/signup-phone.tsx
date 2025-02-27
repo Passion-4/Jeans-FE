@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import FullButton from '@/components/FullButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useSignup } from '@/hooks/SignupContext';
+import * as Speech from "expo-speech"; 
 
 export default function SignupPhone() {
   const router = useRouter();
@@ -21,6 +22,24 @@ export default function SignupPhone() {
   const [verificationCode, setVerificationCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+
+    useEffect(() => {
+        const voiceType = signupData.voiceType;
+        if (voiceType === 1) {
+          Speech.speak("전화번호를 입력하고 문자로 전송된 인증번호를 입력해주세요.", {
+            language: "ko-KR",
+            pitch: 0.4, // 남성 목소리
+            rate: 1.0,
+          });
+        } else if (voiceType === 2) {
+          Speech.speak("전화번호를 입력하고 문자로 전송된 인증번호를 입력해주세요.", {
+            language: "ko-KR",
+            pitch: 1.3, // 여성 목소리
+            rate: 1.0,
+          });
+        }
+      }, []);
+      
   
   // 🔹 전화번호 확인 버튼 눌렀을 때 실행되는 함수
   const handleConfirmPhone = async () => {

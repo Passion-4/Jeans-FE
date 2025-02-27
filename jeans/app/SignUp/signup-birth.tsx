@@ -15,6 +15,7 @@ import { useSignup } from '@/hooks/SignupContext';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import styles from './signup-st';
+import * as Speech from "expo-speech"; 
 
 export default function SignupBirth() {
   const router = useRouter();
@@ -42,6 +43,24 @@ export default function SignupBirth() {
       disconnectWebSocket();
     };
   }, []);
+
+  useEffect(() => {
+      const voiceType = signupData.voiceType;
+      if (voiceType === 1) {
+        Speech.speak("생년월일을 숫자로 말해주세요.", {
+          language: "ko-KR",
+          pitch: 0.4, // 남성 목소리
+          rate: 1.0,
+        });
+      } else if (voiceType === 2) {
+        Speech.speak("생년월일을 숫자로 말해주세요.", {
+          language: "ko-KR",
+          pitch: 1.3, // 여성 목소리
+          rate: 1.0,
+        });
+      }
+    }, []);
+    
 
   // 🔹 WebSocket 연결
   const connectWebSocket = () => {

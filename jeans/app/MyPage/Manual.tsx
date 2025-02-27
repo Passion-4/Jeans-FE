@@ -29,15 +29,9 @@ export default function UserGuideScreen() {
 
       <ScrollView contentContainerStyle={styles.content}>
         {/* 보정 기능 사용법 */}
-        <Text style={styles.sectionTitle}>보정 기능 사용법</Text>
+        <Text style={styles.sectionTitle}>앱 사용 가이드</Text>
         <View style={styles.videoContainer}>
-          {renderVideo('https://www.youtube.com/embed/6Wb3eAeO4vw')}
-        </View>
-
-        {/* 공유 기능 사용법 */}
-        <Text style={styles.sectionTitle}>공유 기능 사용법</Text>
-        <View style={styles.videoContainer}>
-          {renderVideo('https://www.youtube.com/embed/akNQoGRV4w4')}
+          {renderVideo('https://youtube.com/embed/IJ0dVZY6dqA')}
         </View>
       </ScrollView>
 
@@ -54,7 +48,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingBottom: 20,
-    marginTop: 85
+    marginTop: 250
   },
   sectionTitle: {
     fontSize: 25,

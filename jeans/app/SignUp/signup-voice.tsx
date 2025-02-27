@@ -18,7 +18,7 @@ export default function VoiceSignupScreen() {
       alert("보이스 타입을 선택해주세요.");
       return;
     }
-    updateSignupData("voiceType", selectedVoice);
+    updateSignupData("voiceType", selectedVoice); // ✅ 선택한 보이스 타입 저장
     router.push("/SignUp/signup-name");
   };
 
@@ -27,7 +27,6 @@ export default function VoiceSignupScreen() {
       <Text style={styles.title}>회원가입</Text>
       <Text style={styles.label}>안내 음성 선택</Text>
       <View style={styles.voiceContainer}>
-        {/* 🔹 보이스 타입 1 */}
         <TouchableOpacity
           style={[styles.iconWrapper, selectedVoice === 1 && styles.selectedOption]}
           onPress={() => handleVoiceSelect(1)}
@@ -35,7 +34,6 @@ export default function VoiceSignupScreen() {
           <Image source={require("@/assets/images/boy.png")} style={styles.iconImage} />
         </TouchableOpacity>
 
-        {/* 🔹 보이스 타입 2 */}
         <TouchableOpacity
           style={[styles.iconWrapper, selectedVoice === 2 && styles.selectedOption]}
           onPress={() => handleVoiceSelect(2)}
@@ -48,6 +46,7 @@ export default function VoiceSignupScreen() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

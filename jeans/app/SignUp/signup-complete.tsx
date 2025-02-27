@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { StyleSheet, View, Text, ActivityIndicator, Alert } from "react-native";
 import { useSignup } from "@/hooks/SignupContext";
 import { useRouter } from "expo-router";
 import FullButton from "@/components/FullButton";
 import CheckAnimation from "@/components/CheckAnimation";
+import * as Speech from "expo-speech"; 
 
 export default function CompleteScreen() {
   const { signupData } = useSignup();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+              const voiceType = signupData.voiceType;
+              if (voiceType === 1) {
+                Speech.speak("회원가입이 완료되었습니다. 이제 청바지를 사용하러 가볼까요~?", {
+                  language: "ko-KR",
+                  pitch: 0.4, // 남성 목소리
+                  rate: 1.0,
+                });
+              } else if (voiceType === 2) {
+                Speech.speak("회원가입이 완료되었습니다. 이제 청바지를 사용하러 가볼까요~?", {
+                  language: "ko-KR",
+                  pitch: 1.3, // 여성 목소리
+                  rate: 1.0,
+                });
+              }
+            }, []);
 
   const handleSignup = async () => {
     setLoading(true);
