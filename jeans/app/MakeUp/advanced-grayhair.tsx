@@ -5,7 +5,7 @@ import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
 import { Image as RNImage } from 'react-native';
-import { useImageContext } from '../../app/Context/ImageContext';
+import { useImageContext } from '../Context/ImageContext';
 export default function BestShotScreen() {
   const router = useRouter();
   const [showOriginal, setShowOriginal] = useState(false);
@@ -50,7 +50,7 @@ export default function BestShotScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <HalfButton title="저장" color="#FF616D" onPress={() => router.push('/Makeup/advanced-option')} />
+        <HalfButton title="저장" color="#FF616D" onPress={() => router.push('/MakeUp/advanced-option')} />
         <HalfButton title="공유" onPress={handleShare} />
       </View>
 
