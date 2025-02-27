@@ -79,9 +79,9 @@ export default function RootLayout() {
           <Stack.Screen name="Makeup/bestcut-choose" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
           <Stack.Screen name="Makeup/basic-makeup" options={{ title: '보정 페이지 - 베스트 컷 완료', headerShown: false}} />
           <Stack.Screen name="Makeup/advanced-makeup" options={{ title: '보정 페이지 - 기본 보정 완료', headerShown: false}} />
-          <Stack.Screen name="MakeUp/advanced-option" options={{ title: '보정 페이지 - 추가 보정 선택', headerShown: false}} />
+          <Stack.Screen name="Makeup/advanced-option" options={{ title: '보정 페이지 - 추가 보정 선택', headerShown: false}} />
           <Stack.Screen name="Makeup/advanced-younger" options={{ title: '보정 페이지 - 동안', headerShown: false}} />
-          <Stack.Screen name="MakeUp/advanced-grayhair" options={{ title: '보정 페이지 - 새치', headerShown: false}} />
+          <Stack.Screen name="Makeup/advanced-grayhair" options={{ title: '보정 페이지 - 새치', headerShown: false}} />
           <Stack.Screen name="Makeup/advanced-body" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
           <Stack.Screen name="Makeup/edit-select-img" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
           <Stack.Screen name="Makeup/makeup-finish" options={{ title: '보정 페이지 - 사진 보정 완료', headerShown: false}} />
