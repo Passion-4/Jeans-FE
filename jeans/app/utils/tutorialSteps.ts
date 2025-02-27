@@ -20,12 +20,12 @@ const tutorialSteps: Record<
     { x: 10, y: 553, width: 225, height: 63, text: "각 친구와 공유한 사진을 확인할 수 있어요." },
     { x: 232, y: 553, width: 121, height: 63, text: "사진을 누르면 사진에 대한 정보와 친구와의 대화를 볼 수 있어요." },
   ],
-  "/MakeUp/select-function": [
+  "/Makeup/select-function": [
     { x: 15, y: 312, width: 330, height: 70, text: "단체 사진에서 내가 가장 잘 나온 \n사진을 찾을 수 있어요." },
     { x: 15, y: 393, width: 330, height: 70, text: "사진 기본보정과 추가 보정을 \n시작해요." },
     { x: 15, y: 472, width: 330, height: 70, text: "새해 인사, 명언과 같이 좋은 글귀를 \n예쁜 사진에 담을 수 있어요." },
   ],
-  "/MakeUp/advanced-option": [
+  "/Makeup/advanced-option": [
     { x: 15, y: 268, width: 330, height: 70, text: "나를 젊게 만들 수 있어요." },
     { x: 15, y: 348, width: 330, height: 70, text: "머리에 흰 머리를 지워요." },
     { x: 15, y: 428, width: 330, height: 70, text: "날씬한 모습으로 변신해요." },
