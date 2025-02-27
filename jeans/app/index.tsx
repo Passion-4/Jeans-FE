@@ -27,7 +27,7 @@ export default function SplashScreen() {
       resizeMode="cover"
     >
       <Animated.Image
-        source={require('@/assets/images/Jeans-logo2.png')}
+        source={require('@/assets/images/real-logo.png')}
         style={[styles.logo, { transform: [{ scale: scaleAnim }] }]}
       />
       <Text style={styles.subtitle}>청춘은 바로 지금</Text>
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 24,
-    color: '#1A3A5E',
+    color: 'black',
     marginBottom: 5,
-    fontFamily: 'Bold',
+    fontFamily: 'Landing',
   },
   title: {
     fontSize: 40,
-    color: '#1A3A5E',
-    fontFamily: 'Bold',
+    color: '#008DBF',
+    fontFamily: 'Landing',
   },
 });

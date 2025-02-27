@@ -20,7 +20,8 @@ export default function RootLayout() {
     ExtraBold: require('../assets/fonts/Pretendard-ExtraBold.ttf'),
     Light: require('../assets/fonts/Pretendard-Light.ttf'),
     Medium: require('../assets/fonts/Pretendard-Medium.ttf'),
-    Quote: require('../assets/fonts/quote.ttf')
+    Quote: require('../assets/fonts/quote.ttf'),
+    Landing: require('../assets/fonts/PartialSansKR-Regular.otf')
   });
 
   useEffect(() => {
