@@ -17,13 +17,13 @@ export default function PhotoSelectionScreen() {
 
       {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="동안" onPress={() => router.push('/MakeUp/advanced-younger')} />
-        <CustomButton title="새치" onPress={() => router.push('/MakeUp/advanced-grayhair')} />
-        <CustomButton title="몸매" onPress={() => router.push('/MakeUp/advanced-body')} />
+        <CustomButton title="동안" onPress={() => router.push('/Makeup/advanced-younger')} />
+        <CustomButton title="V라인" onPress={() => router.push('/Makeup/advanced-grayhair')} />
+        <CustomButton title="머리숱" onPress={() => router.push('/Makeup/advanced-body')} />
         <CustomButton 
           title="추가 보정 하지 않고 사진 저장" 
-          onPress={() => router.push('/MakeUp/makeup-finish')} 
-          color="#3DB2FF" 
+          onPress={() => router.push('/Makeup/makeup-finish')} 
+          color="#FF616D" 
         />
       </View>
 

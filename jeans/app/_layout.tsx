@@ -73,19 +73,19 @@ export default function RootLayout() {
           <Stack.Screen name="Home/Search" options={{ title: '메인 페이지 - 검색', headerShown: false}} />
 
           {/* 보정  */}
-          <Stack.Screen name="MakeUp/select-function" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
-          <Stack.Screen name="MakeUp/bestcut-select-img" options={{ title: '보정 페이지 - 베스트 컷', headerShown: false}} />
-          <Stack.Screen name="MakeUp/bestcut-check-img" options={{ title: '보정 페이지 - 베스트 컷 사진 선택', headerShown: false}} />
-          <Stack.Screen name="MakeUp/bestcut-choose" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
-          <Stack.Screen name="MakeUp/basic-makeup" options={{ title: '보정 페이지 - 베스트 컷 완료', headerShown: false}} />
-          <Stack.Screen name="MakeUp/advanced-makeup" options={{ title: '보정 페이지 - 기본 보정 완료', headerShown: false}} />
+          <Stack.Screen name="Makeup/select-function" options={{ title: '보정 페이지 - 첫 화면', headerShown: false}} />
+          <Stack.Screen name="Makeup/bestcut-select-img" options={{ title: '보정 페이지 - 베스트 컷', headerShown: false}} />
+          <Stack.Screen name="Makeup/bestcut-check-img" options={{ title: '보정 페이지 - 베스트 컷 사진 선택', headerShown: false}} />
+          <Stack.Screen name="Makeup/bestcut-choose" options={{ title: '보정 페이지 - 베스트 컷 개인 사진', headerShown: false}} />
+          <Stack.Screen name="Makeup/basic-makeup" options={{ title: '보정 페이지 - 베스트 컷 완료', headerShown: false}} />
+          <Stack.Screen name="Makeup/advanced-makeup" options={{ title: '보정 페이지 - 기본 보정 완료', headerShown: false}} />
           <Stack.Screen name="MakeUp/advanced-option" options={{ title: '보정 페이지 - 추가 보정 선택', headerShown: false}} />
-          <Stack.Screen name="MakeUp/advanced-younger" options={{ title: '보정 페이지 - 동안', headerShown: false}} />
+          <Stack.Screen name="Makeup/advanced-younger" options={{ title: '보정 페이지 - 동안', headerShown: false}} />
           <Stack.Screen name="MakeUp/advanced-grayhair" options={{ title: '보정 페이지 - 새치', headerShown: false}} />
-          <Stack.Screen name="MakeUp/advanced-body" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
-          <Stack.Screen name="MakeUp/edit-select-img" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
-          <Stack.Screen name="MakeUp/makeup-finish" options={{ title: '보정 페이지 - 사진 보정 완료', headerShown: false}} />
-          <Stack.Screen name="MakeUp/makeup-download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
+          <Stack.Screen name="Makeup/advanced-body" options={{ title: '보정 페이지 - 몸매', headerShown: false}} />
+          <Stack.Screen name="Makeup/edit-select-img" options={{ title: '보정 페이지 - 사진 선택', headerShown: false}} />
+          <Stack.Screen name="Makeup/makeup-finish" options={{ title: '보정 페이지 - 사진 보정 완료', headerShown: false}} />
+          <Stack.Screen name="Makeup/makeup-download" options={{ title: '보정 페이지 - 사진 저장', headerShown: false}} />
 
           {/* 공유 관련 페이지 */}
           <Stack.Screen name="Share/share-complete" options={{ title: '공유 완료', headerShown: false}} />

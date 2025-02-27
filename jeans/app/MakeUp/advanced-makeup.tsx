@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
-import { useImageContext } from '../Context/ImageContext';
 import MakeUpAnimation from "@/components/MakeUpAnimation";
 
 export default function BestShotScreen() {
   const router = useRouter();
-  const { originalUrl, editedUrl } = useLocalSearchParams(); // API 응답에서 받은 원본/보정 URL
   const [isProcessing, setIsProcessing] = useState(true);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
-  const [showOriginal, setShowOriginal] = useState(false); // 원본/보정 결과 전환 상태
-  const { selectedImages } = useImageContext();
+  const [showOriginal, setShowOriginal] = useState(false); // ✅ 원본/보정 결과 토글 상태
+
+  // ✅ 로컬 이미지 (원본 & 보정 결과)
+  const originalImage = require('@/assets/images/2.png'); 
+  const editedImage = require('@/assets/images/basic.jpg');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -46,34 +47,27 @@ export default function BestShotScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* 원본/결과물 버튼 */}
-      <View style={styles.imageToggleContainer}>
+      {/* ✅ 원본 또는 보정 결과 이미지 표시 */}
+      <View style={styles.imageContainer}>
+        <Image 
+          source={showOriginal ? originalImage : editedImage} 
+          style={styles.image} 
+        />
+        
+        {/* ✅ 사진 위에 배치된 원본/보정 토글 버튼 */}
         <TouchableOpacity 
-          style={[styles.toggleButton, !showOriginal && styles.activeButton]} 
-          onPress={() => setShowOriginal(false)}
+          style={styles.toggleButton} 
+          onPress={() => setShowOriginal(!showOriginal)}
         >
-          <Text style={styles.toggleButtonText}>보정 결과</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.toggleButton, showOriginal && styles.activeButton]} 
-          onPress={() => setShowOriginal(true)}
-        >
-          <Text style={styles.toggleButtonText}>원본</Text>
+          <Text style={styles.toggleButtonText}>
+            {showOriginal ? "보정된 사진 보기" : "원본 보기"}
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* 원본 또는 보정 결과 이미지 표시 */}
-      <View style={styles.imageContainer}>
-  <Image 
-    source={{ uri: String(showOriginal ? originalUrl : editedUrl) }} 
-    style={styles.image} 
-    onError={() => console.log("이미지 로드 오류")} 
-  />
-</View>
-
       <View style={styles.buttonContainer}>
-        <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/MakeUp/makeup-finish')} />
-        <HalfButton title="예" onPress={() => router.push('/MakeUp/advanced-option')} />
+        <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/Makeup/makeup-finish')} />
+        <HalfButton title="예" onPress={() => router.push('/Makeup/advanced-option')} />
       </View>
 
       <BottomNavBar />
@@ -142,27 +136,8 @@ const styles = StyleSheet.create({
     color: '#008DBF',
     textDecorationLine: 'underline',
   },
-  imageToggleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  toggleButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginHorizontal: 5,
-    backgroundColor: '#ccc',
-  },
-  activeButton: {
-    backgroundColor: '#008DBF',
-  },
-  toggleButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
   imageContainer: {
+    position: 'relative', // ✅ 버튼을 절대 위치 시키기 위한 설정
     borderRadius: 10,
     overflow: 'hidden',
     marginBottom: 30,
@@ -171,6 +146,22 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     borderRadius: 10,
+  },
+  /** ✅ 사진 위에 배치된 원본/보정 전환 버튼 */
+  toggleButton: {
+    position: 'absolute',
+    bottom: 10, // ✅ 사진 아래쪽에 배치
+    right: 10, // ✅ 사진 오른쪽 아래에 배치
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', // ✅ 반투명 배경 추가
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    fontFamily:'Medium',
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -220,4 +211,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

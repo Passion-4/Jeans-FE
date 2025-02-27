@@ -59,11 +59,11 @@ export default function BestShotScreen() {
         <HalfButton
           title="그만두기"
           color="#3DB2FF"
-          onPress={() => router.push('/MakeUp/advanced-option')}
+          onPress={() => router.push('/Makeup/advanced-option')}
         />
         <HalfButton
           title="완료"
-          onPress={() => router.push('/MakeUp/advanced-option')}
+          onPress={() => router.push('/Makeup/advanced-option')}
         />
       </View>
 

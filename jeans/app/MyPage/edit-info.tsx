@@ -63,6 +63,44 @@ export default function GroupEditScreen() {
     };
   }, []);
 
+  const handleSaveProfile = async () => {
+    if (!userName.trim()) {
+      Alert.alert('오류', '이름을 입력해주세요.');
+      return;
+    }
+  
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      if (!accessToken) {
+        Alert.alert('로그인이 필요합니다.');
+        return;
+      }
+  
+      const response = await fetch('https://api.passion4-jeans.store/my/name', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newName: userName }), // ✅ API 문서에 맞춰 수정
+      });
+  
+      const responseText = await response.text();
+      console.log('🔹 응답 상태 코드:', response.status);
+      console.log('🔹 응답 본문:', responseText);
+  
+      if (responseText.includes('이름이 변경되었습니다.')) {
+        Alert.alert('성공', '이름이 변경되었습니다.');
+      } else {
+        throw new Error('이름 변경에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('❌ 이름 저장 실패:', error);
+      Alert.alert('오류', '이름 저장 중 문제가 발생했습니다.');
+    }
+  };
+  
+
   // ✅ 프로필 사진 변경 (갤러리에서 선택)
   const handlePickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -181,7 +219,7 @@ export default function GroupEditScreen() {
             <HalfButton title="기본 보정값 변경" onPress={() => router.push('/Set/photo-selection0')} color="#3DB2FF" />
           </View>
 
-          <FullButton title="정보 저장" onPress={() => Alert.alert('저장 완료')} />
+          <FullButton title="정보 저장" onPress={handleSaveProfile} />
         </>
       )}
 

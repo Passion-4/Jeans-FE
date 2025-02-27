@@ -7,12 +7,16 @@ import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
 
 export default function BestCutScreen() {
-  const params = useLocalSearchParams();
   const router = useRouter();
-  
-  // ✅ 선택된 이미지 가져오기
-  const selectedImages: string[] = params.images ? JSON.parse(params.images as string) : [];
-  
+
+  // ✅ 로컬 이미지 리스트
+  const localImages = [
+    require('@/assets/images/1.png'),
+    require('@/assets/images/2.png'),
+    require('@/assets/images/3.jpg'),
+    require('@/assets/images/4.jpg'),
+  ];
+
   // ✅ 현재 보여지는 이미지 인덱스
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -25,7 +29,7 @@ export default function BestCutScreen() {
 
   // ✅ 다음 사진 보기
   const handleNextImage = () => {
-    if (selectedImageIndex < selectedImages.length - 1) {
+    if (selectedImageIndex < localImages.length - 1) {
       setSelectedImageIndex(selectedImageIndex + 1);
     }
   };
@@ -47,10 +51,10 @@ export default function BestCutScreen() {
         )}
 
         {/* 현재 선택된 이미지 */}
-        <Image source={{ uri: selectedImages[selectedImageIndex] }} style={styles.image} />
+        <Image source={localImages[selectedImageIndex]} style={styles.image} />
 
         {/* 오른쪽 화살표 (마지막 이미지가 아닐 때만 표시) */}
-        {selectedImageIndex < selectedImages.length - 1 && (
+        {selectedImageIndex < localImages.length - 1 && (
           <TouchableOpacity style={styles.arrowRight} onPress={handleNextImage}>
             <Ionicons name="chevron-forward-circle" size={40} color="#FFE2E5" />
           </TouchableOpacity>
@@ -59,14 +63,15 @@ export default function BestCutScreen() {
 
       {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="다시 선택하기" color="#FF616D" onPress={() => router.push('/MakeUp/bestcut-select-img')} />
-        <HalfButton title="사진 선택 완료" onPress={() => router.push('/MakeUp/bestcut-choose')} />
+        <HalfButton title="다시 선택하기" color="#FF616D" onPress={() => router.push('/Makeup/bestcut-select-img')} />
+        <HalfButton title="사진 선택 완료" onPress={() => router.push('/Makeup/bestcut-choose')} />
       </View>
 
       <BottomNavBar />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

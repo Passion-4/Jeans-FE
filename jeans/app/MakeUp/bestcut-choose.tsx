@@ -9,32 +9,33 @@ export default function PhotoSelectionIntroScreen() {
   const router = useRouter();
   const [selectedBox, setSelectedBox] = useState<number | null>(null);
 
-  // 사진 경로 배열
+  // ✅ 선택 가능한 사진 목록
   const photoSources = [
-    require('../../assets/images/image 16.png'),
-    require('../../assets/images/image 17.png'),
-    require('../../assets/images/image 18.png'),
-    require('../../assets/images/image 19.png'),
+    require('../../assets/images/1-1.png'),
+    require('../../assets/images/2-2.png'),
+    require('../../assets/images/3-3.png'),
+    require('../../assets/images/4-4.png'),
   ];
 
-  const handlePhotoSelect = (boxNumber: number) => {
-    setSelectedBox(boxNumber);
+  const handlePhotoSelect = (index: number) => {
+    setSelectedBox(index);
   };
 
   const handleConfirmSelection = () => {
     if (selectedBox !== null) {
-      router.push('/MakeUp/basic-makeup');
+      router.push({
+        pathname: '/Makeup/basic-makeup',
+        params: { selectedIndex: selectedBox.toString() }, // ✅ 선택한 인덱스를 쿼리 파라미터로 전달
+      });
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* 상단 네비게이션 바 */}
       <TopNavBar />
 
       <Text style={styles.title}>마음에 드는 얼굴을 {'\n'}하나만 선택해주세요.</Text>
 
-      {/* 2x2 사진 정렬 */}
       <View style={styles.photoGrid}>
         {photoSources.map((source, index) => (
           <TouchableOpacity key={index} onPress={() => handlePhotoSelect(index)}>
@@ -46,12 +47,8 @@ export default function PhotoSelectionIntroScreen() {
         ))}
       </View>
 
-      {/* 확인 버튼 - 사진 선택 시만 표시 */}
-      {selectedBox !== null && (
-        <FullButton title='확 인' onPress={handleConfirmSelection}></FullButton>
-      )}
+      {selectedBox !== null && <FullButton title="확 인" onPress={handleConfirmSelection} />}
 
-      {/* 하단 네비게이션 바 */}
       <BottomNavBar />
     </View>
   );
