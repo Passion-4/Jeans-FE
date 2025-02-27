@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 15,
-    paddingTop: 50,
+    paddingTop: 30,
   },
   titleContainer: {
     alignItems: 'center',
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 10,
-    marginBottom: 15,
+    marginBottom: 0,
   },
   emptySpaceText: {
     fontSize: 20,
@@ -343,9 +343,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   bubbleContainer: { flexDirection: "row", justifyContent: "flex-start", width: "80%", marginTop: 20 },
-  bubble: { backgroundColor: "#E0E0E0", padding: 10, borderRadius: 10, maxWidth: "80%" },
+  bubble: { backgroundColor: "#E0E0E0", padding: 10, borderRadius: 10, maxWidth: "80%",marginBottom:20 },
   bubbleText: { fontSize: 16 },
-  placeholderText: { fontSize: 16, color: "#888", textAlign: "center", marginTop: 20 },
+  placeholderText: { fontSize: 20,fontFamily:'Medium', color: "#888", textAlign: "center", marginTop: 0,marginBottom:10 },
   imageWrapper: { position: 'relative' },
   micButton: { position: 'absolute', bottom: 10, right: 10, backgroundColor: "#FF5733", padding: 10, borderRadius: 30 },
 });
