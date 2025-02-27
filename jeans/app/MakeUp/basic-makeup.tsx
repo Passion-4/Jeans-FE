@@ -44,8 +44,8 @@ export default function BestShotScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/Makeup/makeup-finish')} />
-        <HalfButton title="예" onPress={() => router.push('/Makeup/advanced-makeup')} />
+        <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/MakeUp/makeup-finish')} />
+        <HalfButton title="예" onPress={() => router.push('/MakeUp/advanced-makeup')} />
       </View>
 
       <BottomNavBar />

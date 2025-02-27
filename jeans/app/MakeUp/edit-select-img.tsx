@@ -67,7 +67,7 @@ export default function PhotoSelectionScreen() {
         if (data.originalUrl && data.editedUrl) {
           console.log('✅ 보정된 이미지 URL:', data.editedUrl);
           router.push({
-            pathname: '/Makeup/advanced-makeup',
+            pathname: '/MakeUp/advanced-makeup',
             params: {
               originalUrl: data.originalUrl,
               editedUrl: data.editedUrl,

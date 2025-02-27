@@ -24,7 +24,7 @@ export default function PhotoSelectionIntroScreen() {
   const handleConfirmSelection = () => {
     if (selectedBox !== null) {
       router.push({
-        pathname: '/Makeup/basic-makeup',
+        pathname: '/MakeUp/basic-makeup',
         params: { selectedIndex: selectedBox.toString() }, // ✅ 선택한 인덱스를 쿼리 파라미터로 전달
       });
     }

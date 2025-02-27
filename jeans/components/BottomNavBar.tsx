@@ -143,7 +143,7 @@ export default function BottomNavBar() {
           <Ionicons name="mic" size={50} color="white" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push("/Makeup/select-function")}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push("/MakeUp/select-function")}>
           <Text style={styles.navText}>사진 편집</Text>
         </TouchableOpacity>
       </View>

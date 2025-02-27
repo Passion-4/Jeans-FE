@@ -63,8 +63,8 @@ export default function BestCutScreen() {
 
       {/* ✅ 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton title="다시 선택하기" color="#FF616D" onPress={() => router.push('/Makeup/bestcut-select-img')} />
-        <HalfButton title="사진 선택 완료" onPress={() => router.push('/Makeup/bestcut-choose')} />
+        <HalfButton title="다시 선택하기" color="#FF616D" onPress={() => router.push('/MakeUp/bestcut-select-img')} />
+        <HalfButton title="사진 선택 완료" onPress={() => router.push('/MakeUp/bestcut-choose')} />
       </View>
 
       <BottomNavBar />
