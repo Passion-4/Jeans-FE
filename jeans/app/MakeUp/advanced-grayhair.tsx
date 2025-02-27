@@ -6,14 +6,34 @@ import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
 import { Image as RNImage } from 'react-native';
 import { useImageContext } from '../Context/ImageContext';
+import { useLocalSearchParams } from 'expo-router';
+
 export default function BestShotScreen() {
   const router = useRouter();
   const [showOriginal, setShowOriginal] = useState(false);
   const { setSelectedImages } = useImageContext();
 
-  // ✅ 로컬 이미지 (원본 & 보정 결과)
-  const originalImage = require('@/assets/images/basic.jpg'); 
-  const editedImage = require('@/assets/images/slim.jpg');
+  
+const params = useLocalSearchParams();
+const selectedIndex = params.selectedIndex ? Number(params.selectedIndex) : 0;
+
+const originalImages = [
+  require('@/assets/images/데모이미지/1-기본.png'),
+  require('@/assets/images/데모이미지/2-기본.png'),
+  require('@/assets/images/데모이미지/3-기본.jpg'),
+  require('@/assets/images/데모이미지/4-기본.jpg'),
+];
+
+
+const editedImages = [
+  require('@/assets/images/데모이미지/1-slim.png'), // 인덱스 0 - V라인 적용
+  require('@/assets/images/데모이미지/2-slim.png'), // 인덱스 1 - V라인 적용
+  require('@/assets/images/데모이미지/3-slim.png'), // 인덱스 2 - V라인 적용
+  require('@/assets/images/데모이미지/4-slim.png'), // 인덱스 3 - V라인 적용
+];
+
+const originalImage = originalImages[selectedIndex];
+const editedImage = editedImages[selectedIndex];
 
   // ✅ `uri` 형식으로 변환 (React Native에서 require()된 이미지 처리)
   const editedImageUri = RNImage.resolveAssetSource(editedImage).uri;
@@ -35,10 +55,11 @@ export default function BestShotScreen() {
       <Text style={styles.title}>V라인 보정 결과물입니다.</Text>
 
       <View style={styles.imageContainer}>
-        <Image 
-          source={showOriginal ? originalImage : editedImage} 
-          style={styles.image} 
-        />
+      <Image 
+  source={showOriginal ? originalImage : editedImage} 
+  style={styles.image} 
+/>
+
         <TouchableOpacity 
           style={styles.toggleButton} 
           onPress={() => setShowOriginal(!showOriginal)}

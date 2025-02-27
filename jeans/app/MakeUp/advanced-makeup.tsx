@@ -6,6 +6,7 @@ import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
 import MakeUpAnimation from "@/components/MakeUpAnimation";
+import { useLocalSearchParams } from 'expo-router';
 
 export default function BestShotScreen() {
   const router = useRouter();
@@ -13,9 +14,22 @@ export default function BestShotScreen() {
   const [isHelpVisible, setIsHelpVisible] = useState(false);
   const [showOriginal, setShowOriginal] = useState(false); // ✅ 원본/보정 결과 토글 상태
 
-  // ✅ 로컬 이미지 (원본 & 보정 결과)
-  const originalImage = require('@/assets/images/2.png'); 
-  const editedImage = require('@/assets/images/basic.jpg');
+  const params = useLocalSearchParams();
+  const selectedIndex = params.selectedIndex ? Number(params.selectedIndex) : 0;
+
+  const originalImages = [
+    require('@/assets/images/1.png'),
+    require('@/assets/images/2.png'),
+    require('@/assets/images/3.jpg'),
+    require('@/assets/images/4.jpg'),
+  ];
+
+  const editedImages = [
+    require('@/assets/images/데모이미지/1-기본.png'),
+    require('@/assets/images/데모이미지/2-기본.png'),
+    require('@/assets/images/데모이미지/3-기본.jpg'),
+    require('@/assets/images/데모이미지/4-기본.jpg'),
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -49,12 +63,9 @@ export default function BestShotScreen() {
 
       {/* ✅ 원본 또는 보정 결과 이미지 표시 */}
       <View style={styles.imageContainer}>
-        <Image 
-          source={showOriginal ? originalImage : editedImage} 
-          style={styles.image} 
-        />
-        
-        {/* ✅ 사진 위에 배치된 원본/보정 토글 버튼 */}
+        <Image source={showOriginal ? originalImages[selectedIndex] : editedImages[selectedIndex]} style={styles.image} />
+
+        {/* ✅ 사진 위에 배치된 원본/보정 토글 버튼 - 동일한 스타일 적용 */}
         <TouchableOpacity 
           style={styles.toggleButton} 
           onPress={() => setShowOriginal(!showOriginal)}
@@ -67,7 +78,7 @@ export default function BestShotScreen() {
 
       <View style={styles.buttonContainer}>
         <HalfButton title="아니오" color="#FF616D" onPress={() => router.push('/MakeUp/makeup-finish')} />
-        <HalfButton title="예" onPress={() => router.push('/MakeUp/advanced-option')} />
+        <HalfButton title="예" onPress={() => router.push(`/MakeUp/advanced-option?selectedIndex=${selectedIndex}`)} />
       </View>
 
       <BottomNavBar />
@@ -140,6 +151,7 @@ const styles = StyleSheet.create({
     position: 'relative', // ✅ 버튼을 절대 위치 시키기 위한 설정
     borderRadius: 10,
     overflow: 'hidden',
+    alignItems: 'center',
     marginBottom: 30,
   },
   image: {
@@ -147,19 +159,19 @@ const styles = StyleSheet.create({
     height: 250,
     borderRadius: 10,
   },
-  /** ✅ 사진 위에 배치된 원본/보정 전환 버튼 */
+  /** ✅ 사진 위에 배치된 원본/보정 전환 버튼 (통일된 스타일 적용) */
   toggleButton: {
     position: 'absolute',
-    bottom: 10, // ✅ 사진 아래쪽에 배치
-    right: 10, // ✅ 사진 오른쪽 아래에 배치
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // ✅ 반투명 배경 추가
+    bottom: 10,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 20,
   },
   toggleButtonText: {
     fontSize: 16,
-    fontFamily:'Medium',
+    fontFamily: 'Medium',
     color: '#FFFFFF',
     textAlign: 'center',
   },

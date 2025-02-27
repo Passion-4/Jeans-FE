@@ -1,70 +1,78 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import HalfButton from '../../components/HalfButton';
+import { Image as RNImage } from 'react-native';
+import { useImageContext } from '../Context/ImageContext';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function BestShotScreen() {
   const router = useRouter();
-  const [selectedFilter, setSelectedFilter] = useState<string>('원본');
-  const { images } = useLocalSearchParams(); // 전달된 이미지 가져오기
+  const [showOriginal, setShowOriginal] = useState(false);
+  const { setSelectedImages } = useImageContext();
 
-  // JSON으로 받은 이미지 데이터를 배열로 변환 (없을 경우 빈 배열)
-  const selectedImages = images ? JSON.parse(images as string) : [];
+  
+const params = useLocalSearchParams();
+const selectedIndex = params.selectedIndex ? Number(params.selectedIndex) : 0;
 
-  // 표시할 이미지 설정 (선택된 이미지가 없으면 기본 이미지)
-  const displayImage =
-    selectedImages.length > 0
-      ? { uri: selectedImages[0] }
-      : require('../../assets/images/friend3.jpg');
+const originalImages = [
+  require('@/assets/images/데모이미지/1-기본.png'),
+  require('@/assets/images/데모이미지/2-기본.png'),
+  require('@/assets/images/데모이미지/3-기본.jpg'),
+  require('@/assets/images/데모이미지/4-기본.jpg'),
+];
+
+
+const editedImages = [
+  require('@/assets/images/데모이미지/데모이지미1-동안.jpg'), // 인덱스 0 - V라인 적용
+  require('@/assets/images/데모이미지/데모이지미2-동안.jpg'), // 인덱스 1 - V라인 적용
+  require('@/assets/images/데모이미지/데모이지미3-동안.jpg'), // 인덱스 2 - V라인 적용
+  require('@/assets/images/데모이미지/데모이지미4-동안.jpg'), // 인덱스 3 - V라인 적용
+];
+
+const originalImage = originalImages[selectedIndex];
+const editedImage = editedImages[selectedIndex];
+
+  // ✅ `uri` 형식으로 변환 (React Native에서 require()된 이미지 처리)
+  const editedImageUri = RNImage.resolveAssetSource(editedImage).uri;
+
+  // ✅ 보정된 사진을 공유 페이지로 전달하는 함수
+  const handleShare = () => {
+  setSelectedImages([editedImageUri]); // ✅ 보정된 이미지만 저장
+  router.push({
+    pathname: '/Share/share-select-friend',
+    params: { sharedImageUri: editedImageUri }, // ✅ 공유 화면으로 보정된 이미지 넘김
+  });
+};
+
+  
 
   return (
     <View style={styles.container}>
       <TopNavBar />
+      <Text style={styles.title}>동안 보정 결과물입니다.</Text>
 
-      {/* 텍스트 설명 */}
-      <Text style={styles.title}>동안 보정을 선택하세요.</Text>
-
-      {/* 이미지 표시 */}
       <View style={styles.imageContainer}>
-        <Image source={displayImage} style={styles.image} />
+      <Image 
+  source={showOriginal ? originalImage : editedImage} 
+  style={styles.image} 
+/>
+
+        <TouchableOpacity 
+          style={styles.toggleButton} 
+          onPress={() => setShowOriginal(!showOriginal)}
+        >
+          <Text style={styles.toggleButtonText}>
+            {showOriginal ? "보정된 사진 보기" : "원본 보기"}
+          </Text>
+        </TouchableOpacity>
       </View>
 
-      {/* 보정 옵션 버튼 */}
-      <View style={styles.filterContainer}>
-        {['원본', '조금', '많이'].map((label, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.filterButton,
-              selectedFilter === label && styles.selectedFilter,
-            ]}
-            onPress={() => setSelectedFilter(label)}
-          >
-            <Text
-              style={[
-                styles.filterText,
-                selectedFilter === label && styles.selectedFilterText,
-              ]}
-            >
-              {label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <HalfButton
-          title="그만두기"
-          color="#3DB2FF"
-          onPress={() => router.push('/MakeUp/advanced-option')}
-        />
-        <HalfButton
-          title="완료"
-          onPress={() => router.push('/MakeUp/advanced-option')}
-        />
+        <HalfButton title="저장" color="#FF616D" onPress={() => router.push('/MakeUp/advanced-option')} />
+        <HalfButton title="공유" onPress={handleShare} />
       </View>
 
       <BottomNavBar />
@@ -92,39 +100,27 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     alignItems: 'center',
+    marginBottom: 30,
   },
   image: {
     width: 250,
     height: 250,
     borderRadius: 10,
   },
-  filterContainer: {
+  toggleButton: {
     position: 'absolute',
     bottom: 10,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 10,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingVertical: 8,
     paddingHorizontal: 15,
-    paddingVertical: 5,
-    marginBottom: 250,
+    borderRadius: 20,
   },
-  filterButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginHorizontal: 5,
-  },
-  selectedFilter: {
-    backgroundColor: '#FFFFFF', // 선택된 버튼 배경을 흰색으로 변경
-  },
-  filterText: {
-    color: '#FFFFFF',
+  toggleButtonText: {
     fontSize: 16,
     fontFamily: 'Medium',
-  },
-  selectedFilterText: {
-    color: '#000', // 선택된 버튼의 텍스트를 검은색으로 변경
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -134,5 +130,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
 });
-
-``

@@ -4,9 +4,13 @@ import { useRouter } from 'expo-router';
 import TopNavBar from '../../components/TopNavBar';
 import BottomNavBar from '../../components/BottomNavBar';
 import CustomButton from '../../components/FullButton'; 
+import { useLocalSearchParams } from 'expo-router';
 
 export default function PhotoSelectionScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const selectedIndex = params.selectedIndex ? Number(params.selectedIndex) : 0;
+
 
   return (
     <View style={styles.container}>
@@ -17,9 +21,19 @@ export default function PhotoSelectionScreen() {
 
       {/* 편집 기능 3가지 */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="동안" onPress={() => router.push('/MakeUp/advanced-younger')} />
-        <CustomButton title="V라인" onPress={() => router.push('/MakeUp/advanced-grayhair')} />
-        <CustomButton title="머리숱" onPress={() => router.push('/MakeUp/advanced-body')} />
+      <CustomButton 
+  title="동안" 
+  onPress={() => router.push(`/MakeUp/advanced-younger?selectedIndex=${selectedIndex}`)} 
+/>
+<CustomButton 
+  title="슬림" 
+  onPress={() => router.push(`/MakeUp/advanced-grayhair?selectedIndex=${selectedIndex}`)} 
+/>
+<CustomButton 
+  title="머리숱" 
+  onPress={() => router.push(`/MakeUp/advanced-body?selectedIndex=${selectedIndex}`)} 
+/>
+
         <CustomButton 
           title="추가 보정 하지 않고 사진 저장" 
           onPress={() => router.push('/MakeUp/makeup-finish')} 
