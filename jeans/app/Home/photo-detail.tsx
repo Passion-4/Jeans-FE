@@ -84,11 +84,26 @@ export default function PhotoDetailScreen() {
     }
   };
 
-    const navigateToTagInfo = (tag: String) => {
-      Alert.alert("${tag}");
-      // 여기에서 실제 네비게이션 코드 추가 가능 (예: React Navigation 사용 시)
-      // navigation.navigate('TagInfoScreen', { tag });
-    };
+  const navigateToTagInfo = (tag: string) => {
+    if (tag === "#우정 사진") {
+      Alert.alert(
+        "우정 사진 정보",
+        "📷 추천 사진관 목록\n\n" +
+          "1️⃣ 망원동 사진관 스튜디오헤이지\n" +
+          "   - 친구와 함께 찍기 좋은 우정사진 추천!\n" +
+          "   - 블로그: [이불 밖도 재밌어](http://blog.naver.com/yoonbitgaram)\n\n" +
+          "2️⃣ 제주도 노형동 사진관\n" +
+          "   - 공항 근처에서 커플사진, 우정사진 촬영 가능!\n" +
+          "   - 블로그: [작은보물찾기](http://blog.naver.com/yoonbitgaram)\n\n" +
+          "3️⃣ 대전 명화사진관 둔산타임월드점\n" +
+          "   - 여행 중 친구와 특별한 추억을 남길 수 있는 사진관!\n" +
+          "   - 블로그: [삶에 나중이라는 계절은 없다](http://blog.naver.com/yoonbitgaram)\n\n"
+      );
+    } else {
+      Alert.alert("준비 중", "해당 태그에 대한 정보를 준비 중입니다.");
+    }
+  };
+  
 
     // ✅ 사진 상세 정보를 가져온 후, 이모티콘 애니메이션 실행
     useEffect(() => {
@@ -313,10 +328,10 @@ export default function PhotoDetailScreen() {
             // ✅ 내가 보낸 메시지 (녹음 파일만 표시, 클릭 시 transcript 표시)
             <View key={voice.voiceId} style={styles.chatBubbleRight}>
                <Ionicons name="mic-circle" size={25} color="blue" style={{ marginRight: 5 }} />
-  <View style={styles.bubble}>
-    <Text style={styles.bubbleText}>{voice.transcript}</Text>
-  </View>
-</View>
+              <View style={styles.bubble}>
+                <Text style={styles.bubbleText}>{voice.transcript}</Text>
+              </View>
+            </View>
 
           ) : (
             // ✅ 상대방이 보낸 메시지 (이름 + 프로필 사진 + 음성 버튼)
@@ -571,7 +586,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F1F1F1',
     paddingVertical: 10,
-    borderRadius: 30,
+    borderRadius: 10,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -673,7 +688,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       gap: 20,
       marginBottom: 20,
-      backgroundColor:'#FFE2E5'
     },
     tagText: {
       color: 'black',
