@@ -309,12 +309,15 @@ export default function PhotoDetailScreen() {
       <ScrollView style={styles.chatContainer}>
         {photoDetail?.voiceList.map((voice) =>
           voice.isUser ? (
+            
             // ✅ 내가 보낸 메시지 (녹음 파일만 표시, 클릭 시 transcript 표시)
             <View key={voice.voiceId} style={styles.chatBubbleRight}>
-              <TouchableOpacity onPress={() => setSelectedTranscript(voice.transcript)}>
-                <Ionicons name="mic-circle" size={30} color="blue" />
-              </TouchableOpacity>
-            </View>
+               <Ionicons name="mic-circle" size={25} color="blue" style={{ marginRight: 5 }} />
+  <View style={styles.bubble}>
+    <Text style={styles.bubbleText}>{voice.transcript}</Text>
+  </View>
+</View>
+
           ) : (
             // ✅ 상대방이 보낸 메시지 (이름 + 프로필 사진 + 음성 버튼)
             <View key={voice.voiceId} style={styles.chatBubbleLeftContainer}>
@@ -370,7 +373,7 @@ export default function PhotoDetailScreen() {
 
             {/* 태그 리스트 */}
             <View style={styles.tagContainer}>
-              {["#00", "#00", "#00"].map((tag, index) => (
+              {["#행복", "#우정 사진", "#MZ 포즈"].map((tag, index) => (
                 <TouchableOpacity key={index} style={styles.tagButton} onPress={() => navigateToTagInfo(tag)}>
                   <Text style={styles.tagText}>{tag}</Text>
                 </TouchableOpacity>
@@ -532,7 +535,7 @@ const styles = StyleSheet.create({
   },
   chatBubbleRight: {
     alignSelf: 'flex-end',
-    backgroundColor: '#FFE2E5',
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
     maxWidth: '70%',
@@ -670,6 +673,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       gap: 20,
       marginBottom: 20,
+      backgroundColor:'#FFE2E5'
     },
     tagText: {
       color: 'black',
@@ -748,4 +752,15 @@ const styles = StyleSheet.create({
       fontSize: 17,
       fontFamily: 'Medium',
     },
-});
+
+    bubble: {
+      backgroundColor: "#E1F5FE",  // ✅ 연한 파란색 말풍선 (카카오톡 느낌)
+      padding: 12,
+      borderRadius: 15,
+      maxWidth: "75%",  // ✅ 말풍선이 너무 길어지지 않게
+    },
+    bubbleText: {
+      fontSize: 16,
+      color: "#333",
+    },
+  });
